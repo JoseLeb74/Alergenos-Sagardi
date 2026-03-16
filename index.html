@@ -72,9 +72,10 @@
     .lang-button,
     .load-button,
     .view-button,
-    .allergen-button {
+    .allergen-button,
+    .ingredients-toggle {
       border: 1px solid var(--line);
-      border-radius: 999px;
+      border-radius: 20px;
       background: #fff;
       color: inherit;
       cursor: pointer;
@@ -105,6 +106,8 @@
     .load-button:focus-visible,
     .view-button:hover,
     .view-button:focus-visible,
+    .ingredients-toggle:hover,
+    .ingredients-toggle:focus-visible,
     .allergen-button:hover,
     .allergen-button:focus-visible {
       transform: translateY(-1px);
@@ -122,15 +125,23 @@
 
     h1 {
       margin-bottom: 10px;
-      font-size: clamp(2.1rem, 4vw, 3.4rem);
-      line-height: 0.95;
-      letter-spacing: -0.04em;
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
     }
 
     .lead,
     .status {
       color: var(--muted);
       line-height: 1.55;
+    }
+
+    .lead {
+      font-size: 14px;
+      color: #6b6b6b;
+      margin-bottom: 20px;
     }
 
     .controls-grid {
@@ -207,7 +218,7 @@
     }
 
     .allergen-button {
-      border-radius: 18px;
+      border-radius: 20px;
       padding: 14px;
       text-align: left;
       background: #fff;
@@ -230,7 +241,7 @@
       display: block;
       margin-top: 6px;
       font-size: 0.86rem;
-      opacity: 0.82;
+      opacity: 0.9;
     }
 
     .card {
@@ -248,9 +259,44 @@
       margin-bottom: 12px;
     }
 
-    .card h4 {
-      margin-bottom: 0;
-      font-size: 1.1rem;
+    .dish-name-block {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex: 1;
+    }
+
+    .language-line {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .language-code {
+      min-width: 2.5rem;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      text-transform: uppercase;
+      flex-shrink: 0;
+      padding-top: 0.2rem;
+      display: inline-block;
+      margin-right: 12px;
+      min-width: 40px;
+    }
+
+    .dish-name-line {
+      margin: 0;
+      line-height: 1.45;
+      font-size: 1.05rem;
+      flex: 1;
+      font-weight: 700;
+    }
+
+    .dish-name-line.primary {
+      font-weight: 700;
+      font-size: 1.16rem;
     }
 
     .dish-icons,
@@ -267,8 +313,9 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      border-radius: 999px;
-      font-size: 0.82rem;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 500;
     }
 
     .dish-icon {
@@ -277,6 +324,12 @@
       height: 1.9rem;
       background: #fff;
       border: 1px solid var(--line);
+    }
+
+    .dish-icon.trace {
+      background: #fff3cd;
+      color: #856404;
+      border-color: #f0d58a;
     }
 
     .pill {
@@ -288,14 +341,53 @@
 
     .allergen-pill {
       padding: 7px 11px;
-      background: #1f2a24;
-      color: #fff;
+      border: 1px solid transparent;
+    }
+
+    .allergen-pill.trace {
+      opacity: 0.65;
+    }
+
+    .allergen-button.trace {
+      opacity: 0.8;
     }
 
     .dish-detail {
+      margin-top: 6px;
+      color: #666;
+      line-height: 1.6;
+      font-size: 0.96rem;
+      flex: 1;
+    }
+
+    .ingredients-block {
       margin-top: 14px;
-      color: var(--muted);
-      line-height: 1.55;
+    }
+
+    .ingredients-label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 700;
+    }
+
+    .allergens-label {
+      display: block;
+      margin: 14px 0 8px;
+      font-weight: 700;
+    }
+
+    .ingredients-toggle {
+      margin-top: 14px;
+      padding: 6px 10px;
+      background: #f3f3f3;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 13px;
+      color: var(--text);
+    }
+
+    .ingredients-block[hidden] {
+      display: none;
     }
 
     .empty {
@@ -399,8 +491,8 @@
 
     const TRANSLATIONS = {
       es: {
-        heroTitle: "Buscador de alérgenos",
-        heroLead: "Selecciona un restaurante, busca platos por nombre o filtra por alérgenos dentro de la pestaña seleccionada.",
+        heroTitle: "Información de Alérgenos",
+        heroLead: "Consulta rápida de alérgenos e ingredientes de nuestros platos.",
         restaurantLabel: "Seleccionar restaurante",
         loadRestaurant: "Cargar restaurante",
         dishes: "Platos",
@@ -419,12 +511,17 @@
         chooseAllergen: "Selecciona un alérgeno para ver resultados.",
         noMatches: "No hay platos que coincidan con el filtro actual.",
         noMarkedAllergens: "Sin alérgenos marcados",
+        allergensLabel: "Alérgenos:",
+        ingredientsLabel: "Ingredientes:",
+        showIngredients: "Ver ingredientes ▼",
+        hideIngredients: "Ocultar ingredientes ▲",
+        traceLabel: "TRAZAS",
         code: "Código",
         dishCount: "{count} platos"
       },
       en: {
         heroTitle: "Allergen Finder",
-        heroLead: "Select a restaurant, search dishes by name, or filter by allergen within the selected worksheet only.",
+        heroLead: "Quick lookup of allergens and ingredients for our dishes.",
         restaurantLabel: "Select Restaurant",
         loadRestaurant: "Load Restaurant",
         dishes: "Dishes",
@@ -443,12 +540,17 @@
         chooseAllergen: "Select an allergen to view matching dishes.",
         noMatches: "No dishes matched the current filter.",
         noMarkedAllergens: "No marked allergens",
+        allergensLabel: "Allergens:",
+        ingredientsLabel: "Ingredients:",
+        showIngredients: "Show ingredients ▼",
+        hideIngredients: "Hide ingredients ▲",
+        traceLabel: "TRACE",
         code: "Code",
         dishCount: "{count} dishes"
       },
       cat: {
-        heroTitle: "Cercador d'al·lèrgens",
-        heroLead: "Selecciona un restaurant, busca plats pel nom o filtra per al·lèrgens dins la pestanya seleccionada.",
+        heroTitle: "Informació d'Al·lèrgens",
+        heroLead: "Consulta ràpida d'al·lèrgens i ingredients dels nostres plats.",
         restaurantLabel: "Seleccionar restaurant",
         loadRestaurant: "Carregar restaurant",
         dishes: "Plats",
@@ -467,6 +569,11 @@
         chooseAllergen: "Selecciona un al·lèrgen per veure els plats corresponents.",
         noMatches: "No hi ha plats que coincideixin amb el filtre actual.",
         noMarkedAllergens: "Sense al·lèrgens marcats",
+        allergensLabel: "Al·lèrgens:",
+        ingredientsLabel: "Ingredients:",
+        showIngredients: "Veure ingredients ▼",
+        hideIngredients: "Ocultar ingredients ▲",
+        traceLabel: "TRAÇES",
         code: "Codi",
         dishCount: "{count} plats"
       }
@@ -477,7 +584,7 @@
       CRUSTACEAN: { icon: "🦐", es: "Crustáceos", en: "Shellfish", cat: "Crustacis" },
       EGG: { icon: "🥚", es: "Huevo", en: "Egg", cat: "Ou" },
       FISH: { icon: "🐟", es: "Pescado", en: "Fish", cat: "Peix" },
-      "MILK AND DAIRY PRODUCTS": { icon: "🥛", es: "Lactosa", en: "Lactose", cat: "Lactosa" },
+      "MILK AND DAIRY PRODUCTS": { icon: "🥛", es: "Lácteos", en: "Dairy", cat: "Làctics" },
       NUTS: { icon: "🌰", es: "Frutos secos", en: "Nuts", cat: "Fruita seca" },
       SOYA: { icon: "🫘", es: "Soja", en: "Soy", cat: "Soja" },
       SOY: { icon: "🫘", es: "Soja", en: "Soy", cat: "Soja" },
@@ -488,6 +595,25 @@
       LUPINS: { icon: "🌱", es: "Altramuces", en: "Lupin", cat: "Tramussos" },
       MOLLUSCS: { icon: "🐚", es: "Moluscos", en: "Molluscs", cat: "Mol·luscs" },
       MOLUSCS: { icon: "🐚", es: "Moluscos", en: "Molluscs", cat: "Mol·luscs" }
+    };
+
+    const ALLERGEN_COLORS = {
+      GLUTEN: { bg: "#D96C63", text: "#ffffff", traceBg: "#F4DDDA", traceText: "#B8544C" },
+      CRUSTACEAN: { bg: "#F29C79", text: "#ffffff", traceBg: "#FAE2D8", traceText: "#C77957" },
+      EGG: { bg: "#C8A2D8", text: "#ffffff", traceBg: "#EFE3F4", traceText: "#8D6AA0" },
+      FISH: { bg: "#5E97C2", text: "#ffffff", traceBg: "#D9E8F3", traceText: "#44779D" },
+      PEANUTS: { bg: "#D35400", text: "#ffffff", traceBg: "#F6DDCC", traceText: "#A04000" },
+      SOYA: { bg: "#4EA86B", text: "#ffffff", traceBg: "#D9EEDF", traceText: "#3C8655" },
+      SOY: { bg: "#4EA86B", text: "#ffffff", traceBg: "#D9EEDF", traceText: "#3C8655" },
+      "MILK AND DAIRY PRODUCTS": { bg: "#B3D5D9", text: "#ffffff", traceBg: "#DFEDF7", traceText: "#4B7FA5" },
+      NUTS: { bg: "#8C6A4F", text: "#ffffff", traceBg: "#E7DED6", traceText: "#6E523D" },
+      CELERY: { bg: "#6F8F7A", text: "#ffffff", traceBg: "#DEE8E1", traceText: "#557061" },
+      MUSTARD: { bg: "#D4B937", text: "#ffffff", traceBg: "#F8F0D3", traceText: "#B89A34" },
+      SESAME: { bg: "#9DA3A6", text: "#ffffff", traceBg: "#E8EAEB", traceText: "#777D80" },
+      SULPHITE: { bg: "#434545", text: "#ffffff", traceBg: "#E5E7E8", traceText: "#6A7174" },
+      LUPINS: { bg: "#9B59B6", text: "#ffffff", traceBg: "#EBDEF0", traceText: "#7D3C98" },
+      MOLLUSCS: { bg: "#4FA08E", text: "#ffffff", traceBg: "#D9ECE7", traceText: "#3A7A6C" },
+      MOLUSCS: { bg: "#4FA08E", text: "#ffffff", traceBg: "#D9ECE7", traceText: "#3A7A6C" }
     };
 
     const FILTER_KEYS = [
@@ -514,6 +640,7 @@
       dishes: [],
       allergenNames: [],
       selectedAllergen: null,
+      expandedIngredients: {},
       view: "dishes",
       statusKey: "statusIdle",
       statusValues: {}
@@ -565,7 +692,14 @@
     }
 
     function cleanCell(value) {
-      return String(value || "").replace(/\s+/g, " ").trim();
+      return String(value || "")
+        .replace(/\r\n/g, "\n")
+        .replace(/\r/g, "\n")
+        .split("\n")
+        .map((line) => line.replace(/\s+/g, " ").trim())
+        .filter(Boolean)
+        .join("\n")
+        .trim();
     }
 
     function prettifyDishName(value) {
@@ -573,10 +707,16 @@
       return lines[0] || "";
     }
 
-    function isPositiveMark(value) {
+    function allergenMarkType(value) {
       const normalized = normalizeText(value).toUpperCase();
       if (!normalized) return false;
-      return normalized.includes("SI") || normalized.includes("YES") || normalized.includes("TRAZ") || normalized.includes("TRACE") || normalized.includes("VEST");
+      if (normalized.includes("TRAZ") || normalized.includes("TRACE") || normalized.includes("VEST")) {
+        return "trace";
+      }
+      if (normalized.includes("SI") || normalized.includes("YES")) {
+        return "positive";
+      }
+      return false;
     }
 
     function isLikelySectionRow(row) {
@@ -596,6 +736,88 @@
         icon: meta.icon,
         label: meta[state.lang]
       };
+    }
+
+    function allergenColors(key) {
+      return ALLERGEN_COLORS[key] || {
+        bg: "#eceae5",
+        text: "#4f4a42",
+        traceBg: "#f6f4f0"
+      };
+    }
+
+    function allergenStyle(key, type) {
+      const palette = allergenColors(key);
+      const bg = type === "trace" ? palette.traceBg : palette.bg;
+      const text = type === "trace" ? (palette.traceText || palette.text) : palette.text;
+      return `background:${bg};color:${text};border-color:${bg};`;
+    }
+
+    function restaurantLanguageOrder() {
+      if (!state.restaurant) return ["ES", "ENG"];
+
+      const catalanRestaurants = new Set([
+        "SAGARDI BCN",
+        "VIDRIOS Y CRISTALES",
+        "IKOYA",
+        "SAGÀS",
+        "CADAQUÉS BCN",
+        "GOLFO BORN",
+        "EEBCN",
+        "MUSEO"
+      ]);
+      const portugueseRestaurants = new Set(["VINUM", "SAGARDI OP"]);
+
+      if (catalanRestaurants.has(state.restaurant.name)) {
+        return ["CAT", "ES", "ENG"];
+      }
+      if (portugueseRestaurants.has(state.restaurant.name)) {
+        return ["PT", "ENG"];
+      }
+      return ["ES", "ENG"];
+    }
+
+    function buildLanguageLines(text) {
+      const lines = String(text || "")
+        .split("\n")
+        .map((line) => line.trim())
+        .filter(Boolean);
+
+      const codes = restaurantLanguageOrder();
+
+      if (codes.length === 3 && lines.length === 3) {
+        const mapped = [
+          { code: "CAT", text: lines[0] },
+          { code: "ES", text: lines[1] },
+          { code: "ENG", text: lines[2] }
+        ];
+        return mapped.filter((item) => item.text);
+      }
+
+      return lines.map((line, index) => ({
+        code: codes[index] || `L${index + 1}`,
+        text: line
+      }));
+    }
+
+    function detectIngredientLanguage(text) {
+      const normalized = normalizeText(text).toLowerCase();
+
+      const catalanKeywords = ["aigua", "farina", "llevat", "ceba", "oli", "vinagre", "pebre", " i "];
+      const spanishKeywords = ["agua", "harina", "levadura", "cebolla", "aceite", "vinagre", "pimienta", " y "];
+      const englishKeywords = ["water", "flour", "salt", "yeast", "olive oil", "spring onion", " and "];
+
+      const countMatches = (keywords) => keywords.reduce((count, keyword) => (
+        normalized.includes(keyword) ? count + 1 : count
+      ), 0);
+
+      const scores = [
+        { code: "CAT", score: countMatches(catalanKeywords) },
+        { code: "ES", score: countMatches(spanishKeywords) },
+        { code: "ENG", score: countMatches(englishKeywords) }
+      ].sort((a, b) => b.score - a.score);
+
+      return scores[0].score > 0 ? scores[0].code : "ES";
     }
 
     function sheetUrl(gid) {
@@ -637,13 +859,22 @@
         const dishText = cleanCell(row.c[1] && row.c[1].v);
 
         if (typeof code === "number" && dishText) {
+          const allergenEntries = allergenColumns
+            .filter((entry) => FILTER_KEYS.includes(entry.key))
+            .map((entry) => ({
+              key: entry.key,
+              type: allergenMarkType(row.c[entry.index] && row.c[entry.index].v)
+            }))
+            .filter((entry) => entry.type);
+
           currentDish = {
             code: row.c[0] && row.c[0].f ? row.c[0].f : String(code),
             title: prettifyDishName(dishText),
             rawTitle: dishText,
-            allergens: allergenColumns
-              .filter((entry) => FILTER_KEYS.includes(entry.key) && isPositiveMark(row.c[entry.index] && row.c[entry.index].v))
-              .map((entry) => entry.key),
+            allergenEntries,
+            allergens: allergenEntries.map((entry) => entry.key),
+            positiveAllergens: allergenEntries.filter((entry) => entry.type === "positive").map((entry) => entry.key),
+            traceAllergens: allergenEntries.filter((entry) => entry.type === "trace").map((entry) => entry.key),
             details: []
           };
           dishes.push(currentDish);
@@ -681,36 +912,81 @@
       const fragment = document.createDocumentFragment();
 
       items.forEach((dish) => {
-        const icons = dish.allergens.map((key) => {
-          const meta = allergenMeta(key);
-          return `<span class="dish-icon" title="${meta.label}">${meta.icon}</span>`;
+        const dishId = `${state.restaurant ? state.restaurant.gid : "global"}-${dish.code}`;
+        const icons = dish.allergenEntries.map((entry) => {
+          const meta = allergenMeta(entry.key);
+          const traceClass = entry.type === "trace" ? " trace" : "";
+          const traceText = entry.type === "trace" ? ` - ${t("traceLabel")}` : "";
+          return `<span class="dish-icon${traceClass}" title="${meta.label}${traceText}">${meta.icon}</span>`;
         }).join("");
 
-        const pills = dish.allergens.length
-          ? dish.allergens.map((key) => {
-              const meta = allergenMeta(key);
-              return `<span class="allergen-pill"><span>${meta.icon}</span><span>${meta.label}</span></span>`;
+        const pills = dish.allergenEntries.length
+          ? dish.allergenEntries.map((entry) => {
+              const meta = allergenMeta(entry.key);
+              if (entry.type === "trace") {
+                return `<span class="allergen-pill trace" style="${allergenStyle(entry.key, "trace")}"><span>⚠️</span><span>${meta.icon}</span><span>${meta.label} - ${t("traceLabel")}</span></span>`;
+              }
+              return `<span class="allergen-pill" style="${allergenStyle(entry.key, "positive")}"><span>${meta.icon}</span><span>${meta.label}</span></span>`;
             }).join("")
           : `<span class="allergen-pill"><span>✔️</span><span>${t("noMarkedAllergens")}</span></span>`;
 
-        const detail = dish.details.find((item) => item.includes(",")) || dish.details[0] || "";
+        const titleLines = buildLanguageLines(dish.rawTitle);
+        const titleMarkup = titleLines.map((item, index) => `
+          <div class="language-line">
+            <span class="language-code">${item.code}</span>
+            <p class="dish-name-line${index === 0 ? " primary" : ""}">${item.text}</p>
+          </div>
+        `).join("");
+
+        const ingredientLines = dish.details
+          .map((item) => ({
+            code: detectIngredientLanguage(item),
+            text: item.trim()
+          }))
+          .filter((item) => item.text);
+        const isExpanded = !!state.expandedIngredients[dishId];
+        const ingredientMarkup = ingredientLines.length
+          ? `
+            <button class="ingredients-toggle" type="button" data-dish-id="${dishId}">
+              ${isExpanded ? t("hideIngredients") : t("showIngredients")}
+            </button>
+            <div class="ingredients-block" ${isExpanded ? "" : "hidden"}>
+              <span class="ingredients-label">${t("ingredientsLabel")}</span>
+              ${ingredientLines.map((item) => `
+                <div class="language-line">
+                  <span class="language-code">${item.code}</span>
+                  <p class="dish-detail">${item.text}</p>
+                </div>
+              `).join("")}
+            </div>
+          `
+          : "";
         const article = document.createElement("article");
         article.className = "card";
         article.innerHTML = `
           <div class="card-title-row">
-            <h4>${dish.title}</h4>
+            <div class="dish-name-block">${titleMarkup}</div>
             <div class="dish-icons">${icons}</div>
           </div>
           <div class="meta">
             <span class="pill">${t("code")} ${dish.code}</span>
           </div>
+          <span class="allergens-label">${t("allergensLabel")}</span>
           <div class="allergen-list">${pills}</div>
-          ${detail ? `<p class="dish-detail">${detail}</p>` : ""}
+          ${ingredientMarkup}
         `;
         fragment.appendChild(article);
       });
 
       target.appendChild(fragment);
+
+      target.querySelectorAll(".ingredients-toggle").forEach((button) => {
+        button.addEventListener("click", () => {
+          const dishId = button.dataset.dishId;
+          state.expandedIngredients[dishId] = !state.expandedIngredients[dishId];
+          renderCurrentView();
+        });
+      });
     }
 
     function renderAllergenButtons() {
@@ -718,12 +994,18 @@
 
       state.allergenNames.forEach((key) => {
         const meta = allergenMeta(key);
+        const hasPositive = state.dishes.some((dish) => dish.positiveAllergens.includes(key));
+        const hasTraceOnly = !hasPositive && state.dishes.some((dish) => dish.traceAllergens.includes(key));
         const count = state.dishes.filter((dish) => dish.allergens.includes(key)).length;
         const button = document.createElement("button");
         button.type = "button";
         button.className = "allergen-button";
+        if (hasTraceOnly) {
+          button.classList.add("trace");
+        }
         button.dataset.key = key;
         button.classList.toggle("active", state.selectedAllergen === key);
+        button.setAttribute("style", allergenStyle(key, hasTraceOnly ? "trace" : "positive"));
         button.innerHTML = `
           <span class="allergen-name"><span>${meta.icon}</span><span>${meta.label}</span></span>
           <span class="allergen-count">${t("dishCount", { count })}</span>
@@ -817,6 +1099,7 @@
       state.selectedAllergen = null;
       state.dishes = [];
       state.allergenNames = [];
+      state.expandedIngredients = {};
       searchInput.value = "";
       setStatus("statusLoading", { restaurant: restaurant.name });
 
