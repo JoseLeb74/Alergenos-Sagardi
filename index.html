@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Allergen Finder</title>
+  <style>
+    :root {
+      --bg: #f7f1e6;
+      --panel: rgba(255, 252, 246, 0.94);
+      --line: #e6dcc9;
+      --text: #1e2b24;
+      --muted: #5d6a63;
+      --accent: #b14a2a;
+      --accent-soft: #f3ddd4;
+      --accent-dark: #24453f;
+      --shadow: 0 18px 42px rgba(30, 43, 36, 0.1);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      font-family: Georgia, "Times New Roman", serif;
+      background:
+        radial-gradient(circle at top left, rgba(177, 74, 42, 0.14), transparent 28%),
+        radial-gradient(circle at bottom right, rgba(36, 69, 63, 0.12), transparent 30%),
+        linear-gradient(180deg, #fcf8f0 0%, var(--bg) 100%);
+    }
+
+    .page {
+      width: min(1120px, calc(100% - 24px));
+      margin: 24px auto 40px;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+
+    .topbar,
+    .hero,
+    .toolbar,
+    .search-panel,
+    .content-panel,
+    .selector,
+    .status {
+      padding: 20px 24px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 16px;
+    }
+
+    .lang-switch {
+      display: inline-flex;
+      gap: 8px;
+      padding: 6px;
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+    }
+
+    .lang-button,
+    .selector-card,
+    .nav-button,
+    .back-button,
+    .allergen-button {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: #fff;
+      color: inherit;
+      cursor: pointer;
+      font: inherit;
+      transition: transform 140ms ease, border-color 140ms ease, background 140ms ease;
+    }
+
+    .lang-button {
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: 0.95rem;
+      white-space: nowrap;
+    }
+
+    .lang-button.active,
+    .nav-button.active {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    .lang-button:hover,
+    .lang-button:focus-visible,
+    .selector-card:hover,
+    .selector-card:focus-visible,
+    .nav-button:hover,
+    .nav-button:focus-visible,
+    .back-button:hover,
+    .back-button:focus-visible,
+    .allergen-button:hover,
+    .allergen-button:focus-visible {
+      transform: translateY(-1px);
+      border-color: var(--accent);
+      outline: none;
+    }
+
+    .hero {
+      margin-bottom: 16px;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    p {
+      margin-top: 0;
+    }
+
+    h1 {
+      margin-bottom: 10px;
+      font-size: clamp(2.2rem, 4vw, 3.5rem);
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+    }
+
+    .lead {
+      color: var(--muted);
+      line-height: 1.55;
+      max-width: 68ch;
+      margin-bottom: 0;
+    }
+
+    .status {
+      margin-bottom: 16px;
+      color: var(--muted);
+    }
+
+    .screen {
+      display: none;
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    .selector-grid,
+    .allergen-grid,
+    .cards {
+      display: grid;
+      gap: 12px;
+    }
+
+    .selector-grid {
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      margin-top: 20px;
+    }
+
+    .selector-card {
+      padding: 18px;
+      text-align: left;
+      background: linear-gradient(180deg, #fffefb 0%, #fff8ef 100%);
+    }
+
+    .selector-card strong {
+      display: block;
+      font-size: 1.04rem;
+      margin-bottom: 6px;
+    }
+
+    .selector-card span {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .toolbar {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 14px;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .back-button,
+    .nav-button {
+      padding: 10px 14px;
+    }
+
+    .restaurant-title h2 {
+      margin-bottom: 4px;
+      font-size: clamp(1.35rem, 2vw, 2rem);
+    }
+
+    .restaurant-title p {
+      margin-bottom: 0;
+      color: var(--muted);
+    }
+
+    .view-switch {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .search-panel {
+      margin-bottom: 16px;
+    }
+
+    .search-label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--muted);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 0.82rem;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      font: inherit;
+      background: #fff;
+      color: var(--text);
+    }
+
+    .search-input:focus {
+      outline: 2px solid rgba(177, 74, 42, 0.18);
+      border-color: var(--accent);
+    }
+
+    .results-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: baseline;
+      margin-bottom: 18px;
+    }
+
+    .results-header p {
+      margin-bottom: 0;
+      color: var(--muted);
+    }
+
+    .allergen-grid {
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      margin-bottom: 22px;
+    }
+
+    .allergen-button {
+      padding: 14px 16px;
+      text-align: left;
+      background: #fff;
+    }
+
+    .allergen-button.active {
+      background: var(--accent-dark);
+      color: #fff;
+      border-color: var(--accent-dark);
+    }
+
+    .allergen-button-name {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+    }
+
+    .allergen-icon {
+      width: 1.5rem;
+      display: inline-flex;
+      justify-content: center;
+      font-size: 1.1rem;
+    }
+
+    .allergen-count {
+      display: block;
+      margin-top: 6px;
+      font-size: 0.86rem;
+      opacity: 0.82;
+    }
+
+    .card {
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: linear-gradient(180deg, #fffefb 0%, #fff7ed 100%);
+    }
+
+    .card h4 {
+      margin-bottom: 12px;
+      font-size: 1.12rem;
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: #7a331f;
+      font-size: 0.84rem;
+    }
+
+    .allergen-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .allergen-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 11px;
+      border-radius: 999px;
+      background: #1f2b24;
+      color: #fff;
+      font-size: 0.82rem;
+    }
+
+    .dish-detail {
+      margin-top: 14px;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .empty {
+      padding: 26px;
+      border: 1px dashed var(--line);
+      border-radius: 20px;
+      text-align: center;
+      color: var(--muted);
+      background: #fffaf2;
+    }
+
+    @media (max-width: 760px) {
+      .toolbar {
+        grid-template-columns: 1fr;
+      }
+
+      .view-switch {
+        justify-content: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="panel topbar">
+      <div class="lang-switch">
+        <button class="lang-button active" id="langEs" type="button">🇪🇸 ES</button>
+        <button class="lang-button" id="langEn" type="button">🇬🇧 ENG</button>
+        <button class="lang-button" id="langCat" type="button">🇨🇦 CAT</button>
+      </div>
+    </section>
+
+    <section class="panel hero">
+      <h1 id="heroTitle"></h1>
+      <p class="lead" id="heroLead"></p>
+    </section>
+
+    <section class="panel status" id="status"></section>
+
+    <section class="screen active" id="selectorScreen">
+      <div class="panel selector">
+        <h2 id="selectorTitle"></h2>
+        <p class="lead" id="selectorLead"></p>
+        <div class="selector-grid" id="selectorGrid"></div>
+      </div>
+    </section>
+
+    <section class="screen" id="appScreen">
+      <div class="panel toolbar">
+        <button class="back-button" id="backButton" type="button"></button>
+
+        <div class="restaurant-title">
+          <h2 id="restaurantName"></h2>
+          <p id="restaurantMeta"></p>
+        </div>
+
+        <div class="view-switch">
+          <button class="nav-button active" id="dishesViewButton" type="button"></button>
+          <button class="nav-button" id="allergensViewButton" type="button"></button>
+        </div>
+      </div>
+
+      <div class="panel search-panel">
+        <label class="search-label" id="searchLabel" for="searchInput"></label>
+        <input class="search-input" id="searchInput" type="search">
+      </div>
+
+      <div class="panel content-panel">
+        <div class="screen active" id="dishesView">
+          <div class="results-header">
+            <h3 id="dishesTitle"></h3>
+            <p id="dishesCount"></p>
+          </div>
+          <div class="cards" id="dishesList"></div>
+        </div>
+
+        <div class="screen" id="allergensView">
+          <div class="results-header">
+            <h3 id="allergensTitle"></h3>
+            <p id="allergenHint"></p>
+          </div>
+          <div class="allergen-grid" id="allergenButtons"></div>
+          <div class="cards" id="allergenResults"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const SHEET_ID = "1OFX_u1hdNuijBR1YOyvCarY811Y9Za_3nxp7zv-8OWg";
+
+    const RESTAURANTS = [
+      { name: "SAGARDI BCN", gid: "2060307022" },
+      { name: "VINUM", gid: "227750398" },
+      { name: "VIDRIOS Y CRISTALES", gid: "186480075" },
+      { name: "KRESALA", gid: "1610906781" },
+      { name: "IKOYA", gid: "7151326" },
+      { name: "SAGÀS", gid: "229491027" },
+      { name: "CADAQUÉS MAD", gid: "997743306" },
+      { name: "CADAQUÉS BCN", gid: "1356576453" },
+      { name: "GOLFO BORN", gid: "579828285" },
+      { name: "EEBCN", gid: "321970713" },
+      { name: "ORIO", gid: "686166618" },
+      { name: "MUSEO", gid: "1947603756" },
+      { name: "SAGARDI MAD", gid: "215482004" },
+      { name: "TXOKOEEMAD", gid: "1382182349" },
+      { name: "SAGARDI UK", gid: "1141940247" },
+      { name: "SAGARDI NL", gid: "437168086" },
+      { name: "SAGARDI OP", gid: "371188476" }
+    ];
+
+    const TRANSLATIONS = {
+      es: {
+        heroTitle: "Buscador de alérgenos",
+        heroLead: "Selecciona un restaurante, busca platos por nombre o filtra por alérgenos con iconos.",
+        selectorTitle: "Seleccionar restaurante",
+        selectorLead: "Carga solo los platos de la pestaña del restaurante elegido.",
+        selectorHint: "Cargar platos de este restaurante",
+        back: "Volver a restaurantes",
+        dishes: "Platos",
+        allergens: "Alérgenos",
+        searchLabel: "Buscar plato",
+        searchPlaceholder: "Buscar plato por nombre",
+        statusChoose: "Selecciona un restaurante para cargar sus platos.",
+        statusLoading: "Cargando {restaurant}...",
+        statusLoaded: "Se han cargado {count} platos de {restaurant}.",
+        statusError: "No se pudo cargar {restaurant}. Comprueba que la hoja sea pública.",
+        restaurantMeta: "{count} platos cargados de esta pestaña",
+        allDishes: "Todos los platos",
+        matches: "{count} coincidencias",
+        allergenHint: "Haz clic en un alérgeno para ver los platos que lo contienen.",
+        allergenSelected: "{count} platos contienen {allergen}.",
+        noSearchMatches: "No hay platos que coincidan con el filtro actual.",
+        noAllergenSelected: "Selecciona un alérgeno para ver resultados.",
+        noAllergensMarked: "Sin alérgenos marcados",
+        code: "Código",
+        dishCount: "{count} platos"
+      },
+      cat: {
+        heroTitle: "Cercador d'al.lergens",
+        heroLead: "Selecciona un restaurant, busca plats pel nom o filtra'ls per al.lergens amb icones.",
+        selectorTitle: "Seleccionar restaurant",
+        selectorLead: "Carrega nomes els plats de la pestanya del restaurant escollit.",
+        selectorHint: "Carregar plats d'aquest restaurant",
+        back: "Tornar als restaurants",
+        dishes: "Plats",
+        allergens: "Al.lergens",
+        searchLabel: "Buscar plat",
+        searchPlaceholder: "Buscar plat pel nom",
+        statusChoose: "Selecciona un restaurant per carregar els seus plats.",
+        statusLoading: "Carregant {restaurant}...",
+        statusLoaded: "S'han carregat {count} plats de {restaurant}.",
+        statusError: "No s'ha pogut carregar {restaurant}. Comprova que el full sigui public.",
+        restaurantMeta: "{count} plats carregats d'aquesta pestanya",
+        allDishes: "Tots els plats",
+        matches: "{count} coincidencies",
+        allergenHint: "Fes clic en un al.lergen per veure els plats que el contenen.",
+        allergenSelected: "{count} plats contenen {allergen}.",
+        noSearchMatches: "No hi ha plats que coincideixin amb el filtre actual.",
+        noAllergenSelected: "Selecciona un al.lergen per veure resultats.",
+        noAllergensMarked: "Sense al.lergens marcats",
+        code: "Codi",
+        dishCount: "{count} plats"
+      },
+      en: {
+        heroTitle: "Allergen Finder",
+        heroLead: "Select a restaurant, search dishes by name, or filter dishes by allergen with icons.",
+        selectorTitle: "Select restaurant",
+        selectorLead: "Load dishes only from the restaurant tab you choose.",
+        selectorHint: "Load dishes from this restaurant",
+        back: "Back to restaurants",
+        dishes: "Dishes",
+        allergens: "Allergens",
+        searchLabel: "Search dish",
+        searchPlaceholder: "Search dish by name",
+        statusChoose: "Select a restaurant to load its dishes.",
+        statusLoading: "Loading {restaurant}...",
+        statusLoaded: "Loaded {count} dishes from {restaurant}.",
+        statusError: "Could not load {restaurant}. Make sure the sheet is public.",
+        restaurantMeta: "{count} dishes loaded from this tab",
+        allDishes: "All dishes",
+        matches: "{count} matches",
+        allergenHint: "Click an allergen to view the dishes that contain it.",
+        allergenSelected: "{count} dishes contain {allergen}.",
+        noSearchMatches: "No dishes matched the current filter.",
+        noAllergenSelected: "Select an allergen to view results.",
+        noAllergensMarked: "No marked allergens",
+        code: "Code",
+        dishCount: "{count} dishes"
+      }
+    };
+
+    const ALLERGEN_META = {
+      GLUTEN: { es: "Gluten", en: "Gluten", cat: "Gluten", icon: "🌾" },
+      CRUSTACEAN: { es: "Crustáceos", en: "Crustaceans", cat: "Crustacis", icon: "🦐" },
+      EGG: { es: "Huevo", en: "Egg", cat: "Ou", icon: "🥚" },
+      FISH: { es: "Pescado", en: "Fish", cat: "Peix", icon: "🐟" },
+      PEANUTS: { es: "Cacahuetes", en: "Peanuts", cat: "Cacauets", icon: "🥜" },
+      SOYA: { es: "Soja", en: "Soya", cat: "Soja", icon: "🫘" },
+      SOY: { es: "Soja", en: "Soy", cat: "Soja", icon: "🫘" },
+      "MILK AND DAIRY PRODUCTS": { es: "Lácteos", en: "Dairy", cat: "Làctics", icon: "🥛" },
+      NUTS: { es: "Frutos secos", en: "Nuts", cat: "Fruita seca", icon: "🌰" },
+      CELERY: { es: "Apio", en: "Celery", cat: "Api", icon: "🥬" },
+      MUSTARD: { es: "Mostaza", en: "Mustard", cat: "Mostassa", icon: "🟡" },
+      SESAME: { es: "Sésamo", en: "Sesame", cat: "Sèsam", icon: "⚪" },
+      GARLIC: { es: "Ajo", en: "Garlic", cat: "All", icon: "🧄" },
+      PORK: { es: "Cerdo", en: "Pork", cat: "Porc", icon: "🐖" },
+      SULPHITE: { es: "Sulfitos", en: "Sulphites", cat: "Sulfits", icon: "🍷" },
+      LUPINS: { es: "Altramuces", en: "Lupins", cat: "Tramussos", icon: "🌼" },
+      MOLLUSCS: { es: "Moluscos", en: "Molluscs", cat: "Mol·luscs", icon: "🦪" },
+      MOLUSCS: { es: "Moluscos", en: "Molluscs", cat: "Mol·luscs", icon: "🦪" },
+      "SUITABLE FOR VEGETARIANS": { es: "Vegetariano", en: "Vegetarian", cat: "Vegetarià", icon: "🥗" },
+      "SUITABLE FOR VEGAN": { es: "Vegano", en: "Vegan", cat: "Vegà", icon: "🌿" }
+    };
+
+    const statusEl = document.getElementById("status");
+    const heroTitle = document.getElementById("heroTitle");
+    const heroLead = document.getElementById("heroLead");
+    const selectorTitle = document.getElementById("selectorTitle");
+    const selectorLead = document.getElementById("selectorLead");
+    const selectorScreen = document.getElementById("selectorScreen");
+    const appScreen = document.getElementById("appScreen");
+    const selectorGrid = document.getElementById("selectorGrid");
+    const backButton = document.getElementById("backButton");
+    const dishesViewButton = document.getElementById("dishesViewButton");
+    const allergensViewButton = document.getElementById("allergensViewButton");
+    const restaurantNameEl = document.getElementById("restaurantName");
+    const restaurantMetaEl = document.getElementById("restaurantMeta");
+    const searchLabel = document.getElementById("searchLabel");
+    const searchInput = document.getElementById("searchInput");
+    const dishesTitle = document.getElementById("dishesTitle");
+    const dishesCount = document.getElementById("dishesCount");
+    const dishesList = document.getElementById("dishesList");
+    const allergensTitle = document.getElementById("allergensTitle");
+    const allergenHint = document.getElementById("allergenHint");
+    const allergenButtons = document.getElementById("allergenButtons");
+    const allergenResults = document.getElementById("allergenResults");
+    const dishesView = document.getElementById("dishesView");
+    const allergensView = document.getElementById("allergensView");
+    const langEs = document.getElementById("langEs");
+    const langEn = document.getElementById("langEn");
+    const langCat = document.getElementById("langCat");
+
+    const state = {
+      lang: "es",
+      restaurant: null,
+      dishes: [],
+      allergenNames: [],
+      selectedAllergen: null,
+      view: "dishes"
+    };
+
+    function t(key, values = {}) {
+      let text = TRANSLATIONS[state.lang][key];
+      Object.entries(values).forEach(([name, value]) => {
+        text = text.replace(`{${name}}`, value);
+      });
+      return text;
+    }
+
+    function normalizeText(value) {
+      return String(value || "")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/\s+/g, " ")
+        .trim();
+    }
+
+    function cleanCell(value) {
+      return String(value || "").replace(/\s+/g, " ").trim();
+    }
+
+    function prettifyDishName(value) {
+      const lines = String(value || "")
+        .split("\n")
+        .map((line) => line.trim())
+        .filter(Boolean);
+      return lines[0] || "";
+    }
+
+    function isPositiveMark(value) {
+      const normalized = normalizeText(value).toUpperCase();
+      return normalized && (
+        normalized.includes("SI") ||
+        normalized.includes("YES") ||
+        normalized.includes("TRAZ") ||
+        normalized.includes("TRACE") ||
+        normalized.includes("VEST")
+      );
+    }
+
+    function isLikelySectionRow(row) {
+      const code = row.c[0] && row.c[0].v;
+      const cell = cleanCell(row.c[1] && row.c[1].v);
+      return !code && !!cell && normalizeText(cell) === cell.toUpperCase();
+    }
+
+    function parseAllergenKey(label) {
+      const lines = String(label || "")
+        .split("\n")
+        .map((line) => cleanCell(line))
+        .filter(Boolean);
+      return lines[lines.length - 1] || "UNKNOWN";
+    }
+
+    function allergenMeta(key) {
+      const meta = ALLERGEN_META[key] || {
+        es: key,
+        en: key,
+        icon: "⚠️"
+      };
+
+      return {
+        key,
+        icon: meta.icon,
+        label: meta[state.lang]
+      };
+    }
+
+    function sheetUrl(gid) {
+      return `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=responseHandler:sheetCallback_${gid}&gid=${gid}`;
+    }
+
+    function createJsonpRequest(url, callbackName) {
+      return new Promise((resolve, reject) => {
+        const script = document.createElement("script");
+
+        window[callbackName] = (payload) => {
+          resolve(payload);
+          delete window[callbackName];
+          script.remove();
+        };
+
+        script.onerror = () => {
+          delete window[callbackName];
+          script.remove();
+          reject(new Error("Google Sheets script failed to load."));
+        };
+
+        script.src = url;
+        document.body.appendChild(script);
+      });
+    }
+
+    function parseTable(table) {
+      const allergenColumns = table.cols.slice(2, 20).map((col, index) => ({
+        index: index + 2,
+        key: parseAllergenKey(col.label)
+      }));
+
+      const dishes = [];
+      let currentDish = null;
+
+      table.rows.forEach((row) => {
+        const code = row.c[0] && row.c[0].v;
+        const cell = cleanCell(row.c[1] && row.c[1].v);
+
+        if (typeof code === "number" && cell) {
+          currentDish = {
+            code: row.c[0] && row.c[0].f ? row.c[0].f : String(code),
+            title: prettifyDishName(cell),
+            rawTitle: cell,
+            allergens: allergenColumns
+              .filter((entry) => isPositiveMark(row.c[entry.index] && row.c[entry.index].v))
+              .map((entry) => entry.key),
+            details: []
+          };
+          dishes.push(currentDish);
+          return;
+        }
+
+        if (!currentDish || isLikelySectionRow(row)) {
+          return;
+        }
+
+        if (!code && cell) {
+          currentDish.details.push(cell);
+        }
+      });
+
+      return {
+        dishes,
+        allergenNames: [...new Set(allergenColumns.map((entry) => entry.key))]
+      };
+    }
+
+    function filteredDishes() {
+      const query = normalizeText(searchInput.value).toLowerCase();
+      return state.dishes.filter((dish) => !query || normalizeText(dish.rawTitle).toLowerCase().includes(query));
+    }
+
+    function setStatus(text) {
+      statusEl.textContent = text;
+    }
+
+    function showSelectorScreen() {
+      selectorScreen.classList.add("active");
+      appScreen.classList.remove("active");
+    }
+
+    function showAppScreen() {
+      selectorScreen.classList.remove("active");
+      appScreen.classList.add("active");
+    }
+
+    function setView(view) {
+      state.view = view;
+      dishesView.classList.toggle("active", view === "dishes");
+      allergensView.classList.toggle("active", view === "allergens");
+      dishesViewButton.classList.toggle("active", view === "dishes");
+      allergensViewButton.classList.toggle("active", view === "allergens");
+      renderCurrentView();
+    }
+
+    function updateStaticText() {
+      heroTitle.textContent = t("heroTitle");
+      heroLead.textContent = t("heroLead");
+      selectorTitle.textContent = t("selectorTitle");
+      selectorLead.textContent = t("selectorLead");
+      backButton.textContent = t("back");
+      dishesViewButton.textContent = t("dishes");
+      allergensViewButton.textContent = t("allergens");
+      searchLabel.textContent = t("searchLabel");
+      searchInput.placeholder = t("searchPlaceholder");
+      dishesTitle.textContent = t("allDishes");
+      allergensTitle.textContent = t("allergens");
+      langEs.classList.toggle("active", state.lang === "es");
+      langEn.classList.toggle("active", state.lang === "en");
+      langCat.classList.toggle("active", state.lang === "cat");
+
+      if (!state.restaurant) {
+        setStatus(t("statusChoose"));
+      } else {
+        restaurantMetaEl.textContent = t("restaurantMeta", { count: state.dishes.length });
+      }
+    }
+
+    function buildSelector() {
+      selectorGrid.innerHTML = "";
+
+      RESTAURANTS.forEach((restaurant) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "selector-card";
+        button.innerHTML = `
+          <strong>${restaurant.name}</strong>
+          <span>${t("selectorHint")}</span>
+        `;
+        button.addEventListener("click", () => loadRestaurant(restaurant));
+        selectorGrid.appendChild(button);
+      });
+    }
+
+    function renderDishCards(items, target) {
+      target.innerHTML = "";
+
+      if (!items.length) {
+        target.innerHTML = `<div class="empty">${t("noSearchMatches")}</div>`;
+        return;
+      }
+
+      const fragment = document.createDocumentFragment();
+
+      items.forEach((dish) => {
+        const article = document.createElement("article");
+        article.className = "card";
+
+        const detail = dish.details.find((entry) => entry.includes(",")) || dish.details[0] || "";
+        const allergenMarkup = dish.allergens.length
+          ? dish.allergens.map((key) => {
+              const meta = allergenMeta(key);
+              return `<span class="allergen-pill"><span>${meta.icon}</span><span>${meta.label}</span></span>`;
+            }).join("")
+          : `<span class="allergen-pill"><span>✔️</span><span>${t("noAllergensMarked")}</span></span>`;
+
+        article.innerHTML = `
+          <h4>${dish.title}</h4>
+          <div class="meta">
+            <span class="pill">${t("code")} ${dish.code}</span>
+          </div>
+          <div class="allergen-list">${allergenMarkup}</div>
+          ${detail ? `<p class="dish-detail">${detail}</p>` : ""}
+        `;
+
+        fragment.appendChild(article);
+      });
+
+      target.appendChild(fragment);
+    }
+
+    function renderDishesView() {
+      const items = filteredDishes();
+      dishesCount.textContent = t("matches", { count: items.length });
+      renderDishCards(items, dishesList);
+    }
+
+    function renderAllergenButtons() {
+      allergenButtons.innerHTML = "";
+
+      state.allergenNames.forEach((key) => {
+        const count = state.dishes.filter((dish) => dish.allergens.includes(key)).length;
+        const meta = allergenMeta(key);
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "allergen-button";
+        button.dataset.key = key;
+        button.innerHTML = `
+          <span class="allergen-button-name">
+            <span class="allergen-icon">${meta.icon}</span>
+            <span>${meta.label}</span>
+          </span>
+          <span class="allergen-count">${t("dishCount", { count })}</span>
+        `;
+        button.classList.toggle("active", state.selectedAllergen === key);
+        button.addEventListener("click", () => {
+          state.selectedAllergen = key;
+          renderAllergenButtons();
+          renderAllergensView();
+        });
+        allergenButtons.appendChild(button);
+      });
+    }
+
+    function renderAllergensView() {
+      if (!state.selectedAllergen) {
+        allergenHint.textContent = t("allergenHint");
+        allergenResults.innerHTML = `<div class="empty">${t("noAllergenSelected")}</div>`;
+        return;
+      }
+
+      const query = normalizeText(searchInput.value).toLowerCase();
+      const items = state.dishes.filter((dish) => {
+        const matchesAllergen = dish.allergens.includes(state.selectedAllergen);
+        const matchesQuery = !query || normalizeText(dish.rawTitle).toLowerCase().includes(query);
+        return matchesAllergen && matchesQuery;
+      });
+
+      allergenHint.textContent = t("allergenSelected", {
+        count: items.length,
+        allergen: allergenMeta(state.selectedAllergen).label
+      });
+
+      renderDishCards(items, allergenResults);
+    }
+
+    function renderCurrentView() {
+      if (state.view === "dishes") {
+        renderDishesView();
+      } else {
+        renderAllergensView();
+      }
+    }
+
+    async function loadRestaurant(restaurant) {
+      state.restaurant = restaurant;
+      state.selectedAllergen = null;
+      state.dishes = [];
+      state.allergenNames = [];
+      searchInput.value = "";
+      setStatus(t("statusLoading", { restaurant: restaurant.name }));
+
+      try {
+        const payload = await createJsonpRequest(sheetUrl(restaurant.gid), `sheetCallback_${restaurant.gid}`);
+        const parsed = parseTable(payload.table);
+        state.dishes = parsed.dishes;
+        state.allergenNames = parsed.allergenNames;
+
+        restaurantNameEl.textContent = restaurant.name;
+        restaurantMetaEl.textContent = t("restaurantMeta", { count: state.dishes.length });
+
+        renderAllergenButtons();
+        setView("dishes");
+        showAppScreen();
+        setStatus(t("statusLoaded", { count: state.dishes.length, restaurant: restaurant.name }));
+      } catch (error) {
+        setStatus(t("statusError", { restaurant: restaurant.name }));
+        console.error(error);
+      }
+    }
+
+    backButton.addEventListener("click", () => {
+      state.restaurant = null;
+      state.selectedAllergen = null;
+      state.dishes = [];
+      state.allergenNames = [];
+      showSelectorScreen();
+      updateStaticText();
+      buildSelector();
+    });
+
+    dishesViewButton.addEventListener("click", () => setView("dishes"));
+    allergensViewButton.addEventListener("click", () => setView("allergens"));
+    searchInput.addEventListener("input", renderCurrentView);
+    langEs.addEventListener("click", () => {
+      state.lang = "es";
+      updateStaticText();
+      buildSelector();
+      renderAllergenButtons();
+      renderCurrentView();
+    });
+    langEn.addEventListener("click", () => {
+      state.lang = "en";
+      updateStaticText();
+      buildSelector();
+      renderAllergenButtons();
+      renderCurrentView();
+    });
+    langCat.addEventListener("click", () => {
+      state.lang = "cat";
+      updateStaticText();
+      buildSelector();
+      renderAllergenButtons();
+      renderCurrentView();
+    });
+
+    updateStaticText();
+    buildSelector();
+    showSelectorScreen();
+  </script>
+</body>
+</html>
