@@ -596,9 +596,10 @@
     }
     function allergenColors(key){
       const bg=ALLERGEN_BASE_COLORS[key]||"#8A7F74";
-      const traceBgAmount=key==="MILK AND DAIRY PRODUCTS"?.62:.76;
-      const traceBorderAmount=key==="MILK AND DAIRY PRODUCTS"?.44:.62;
-      return {bg,text:"#fff",traceBg:mixColorWithWhite(bg,traceBgAmount),traceText:bg,traceBorder:mixColorWithWhite(bg,traceBorderAmount)};
+      const traceBgAmount=key==="MILK AND DAIRY PRODUCTS"?.46:.76;
+      const traceBorderAmount=key==="MILK AND DAIRY PRODUCTS"?.24:.62;
+      const traceText=key==="MILK AND DAIRY PRODUCTS"?"#111":bg;
+      return {bg,text:"#fff",traceBg:mixColorWithWhite(bg,traceBgAmount),traceText,traceBorder:mixColorWithWhite(bg,traceBorderAmount)};
     }
     function allergenStyle(key,type){
       const palette=allergenColors(key);
