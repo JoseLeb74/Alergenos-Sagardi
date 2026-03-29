@@ -25,13 +25,12 @@
     .lang-button:hover,.lang-button:focus-visible{background:rgba(177,93,67,.08);color:var(--accent-strong);outline:none}
     .lang-button.active{background:linear-gradient(180deg,var(--accent),var(--accent-strong));color:#fff;box-shadow:0 10px 18px rgba(177,93,67,.2)}
     .hero{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:18px;align-items:end;padding:8px 24px 18px}
-    .hero-eyebrow{display:none}
+    .hero-eyebrow{margin:0 0 10px;color:var(--accent-strong);font-size:12px;font-weight:800;letter-spacing:.18em;text-transform:uppercase}
     .hero-title{margin:0 0 8px;font-family:"Fraunces",serif;font-size:clamp(34px,5vw,56px);line-height:.98;letter-spacing:-.04em}
     .hero-subtitle{margin:0;max-width:64ch;color:var(--muted);font-size:15px;line-height:1.65}
     .hero-summary{min-width:260px;display:grid;gap:10px;padding:18px;border:1px solid rgba(201,181,155,.78);border-radius:20px;background:linear-gradient(180deg,rgba(255,255,255,.76),rgba(250,244,236,.92));box-shadow:var(--shadow-soft)}
     .summary-label,.field-label,.section-label{color:var(--muted-soft);font-size:11px;font-weight:800;letter-spacing:.16em;text-transform:uppercase}
-    .summary-value{font-size:clamp(12px,1.5vw,15px);font-weight:700;line-height:1.25;letter-spacing:0}
-    .summary-value.is-empty{font-size:clamp(12px,1.5vw,15px);line-height:1.25;letter-spacing:0}
+    .summary-value{font-size:14px;font-weight:700;line-height:1.45}
     .main{display:grid;grid-template-columns:330px minmax(0,1fr);gap:18px;padding:0 18px 18px}
     .panel{border:1px solid rgba(201,181,155,.76);border-radius:var(--radius-lg);background:rgba(255,252,247,.95);box-shadow:var(--shadow-soft)}
     .panel+.panel{margin-top:14px}
@@ -53,12 +52,8 @@
     .view-button{padding:13px 14px;border:1px solid transparent;border-radius:14px;background:#f6f0e7;color:var(--muted);font-size:14px;font-weight:800}
     .view-button:hover,.view-button:focus-visible{border-color:rgba(177,93,67,.34);background:#f8f3ec;color:var(--accent-strong);outline:none}
     .view-button.active{background:linear-gradient(180deg,var(--support),#1f3c37);color:#fff;box-shadow:0 12px 20px rgba(40,72,67,.18)}
-    #dishesViewButton.active{background:linear-gradient(180deg,#7ca79b,#638d82);color:#fff;box-shadow:0 12px 20px rgba(99,141,130,.22)}
-    #allergensViewButton{background:#e3edf8;color:#5b7da5;border-color:#cedff2}
-    #allergensViewButton:hover,#allergensViewButton:focus-visible{border-color:#a9c5e3;background:#edf4fb;color:#42688f}
-    #allergensViewButton.active{background:linear-gradient(180deg,#87a9cf,#6f93bc);color:#fff;box-shadow:0 12px 20px rgba(101,138,181,.22)}
     .status-panel{padding:16px 18px;border-radius:18px;background:linear-gradient(180deg,rgba(250,245,236,.98),rgba(244,236,224,.88));color:var(--muted);font-size:13px;line-height:1.55}
-    .mode-chip{display:none}
+    .mode-chip{display:inline-flex;align-items:center;gap:8px;padding:9px 12px;border:1px solid rgba(201,181,155,.78);border-radius:999px;background:rgba(255,255,255,.72);color:var(--support);font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
     .public-note{display:none;margin-bottom:16px;padding:14px 16px;border:1px solid rgba(201,181,155,.68);border-radius:16px;background:linear-gradient(180deg,rgba(255,252,246,.96),rgba(245,238,227,.92));color:var(--muted);font-size:13px;line-height:1.6}
     .shell.public-mode .public-note{display:block}
     .search-panel{display:none}.search-panel.active{display:block}
@@ -163,7 +158,7 @@
     const EMBEDDED_DATA=JSON.parse(document.getElementById("embedded-data").textContent);
     const RESTAURANTS=[{name:"SAGARDI BCN",gid:"2060307022"},{name:"VINUM",gid:"227750398"},{name:"VIDRIOS Y CRISTALES",gid:"186480075"},{name:"KRESALA",gid:"1610906781"},{name:"IKOYA",gid:"7151326"},{name:"SAGÀS",gid:"229491027"},{name:"CADAQUÉS MAD",gid:"997743306"},{name:"CADAQUÉS BCN",gid:"1356576453"},{name:"GOLFO BORN",gid:"579828285"},{name:"EEBCN",gid:"321970713"},{name:"ORIO",gid:"686166618"},{name:"MUSEO",gid:"1947603756"},{name:"SAGARDI MAD",gid:"215482004"},{name:"TXOKOEEMAD",gid:"1382182349"},{name:"SAGARDI UK",gid:"1141940247"},{name:"SAGARDI NL",gid:"437168086"},{name:"SAGARDI OP",gid:"371188476"}];
     const TRANSLATIONS={es:{brandLabel:"Consulta gastronomica",heroEyebrow:"Consulta rapida para sala y cliente",heroTitle:"Informacion de Alergenos",heroLead:"Consulta rapida de alergenos e ingredientes de nuestros platos con una interfaz clara, compacta y lista para uso real en restaurante.",summaryLabel:"Restaurante activo",restaurantPanelTitle:"Restaurante",restaurantPanelCopy:"Carga una sola carta cada vez para mantener la consulta rapida, ordenada y precisa.",restaurantLabel:"Seleccionar restaurante",loadRestaurant:"Cargar restaurante",viewPanelTitle:"Modo de consulta",viewPanelCopy:"Alterna entre listado de platos o exploracion directa por alergeno.",dishes:"Platos",allergenView:"Ver alergenos",searchPanelTitle:"Buscador",searchPanelCopy:"Encuentra un plato por nombre en segundos.",searchLabel:"Buscar plato",searchPlaceholder:"Escribe el nombre del plato, un ingrediente o una referencia...",statusIdle:"Selecciona un restaurante para cargar solo su pestana y consultar platos, alergenos e ingredientes sin ruido.",statusLoading:"Cargando {restaurant}...",statusLoaded:"Se han cargado {count} platos de {restaurant}.",statusError:"No se pudo cargar {restaurant}. Comprueba que la hoja sea publica.",resultsTitleDishes:"Carta de platos",resultsTitleAllergens:"Consulta por alergeno",resultsMetaDishes:"{count} coincidencias en la carta activa.",resultsMetaAllergens:"{count} platos contienen {allergen}.",restaurantMeta:"{restaurant} · {count} platos",heroRestaurantMeta:"{restaurant} · {count} platos",noRestaurantSelected:"Ningun restaurante cargado",chooseAllergen:"Selecciona un alergeno para ver los platos relacionados dentro del restaurante activo.",noMatches:"No hay resultados para la busqueda o filtro actual.",noMarkedAllergens:"Sin alergenos marcados",allergensLabel:"Alergenos",ingredientsLabel:"Ingredientes",showIngredients:"Ver ingredientes ▼",hideIngredients:"Ocultar ingredientes ▲",traceLabel:"TRAZAS",code:"Codigo",dishCount:"{count} platos"},en:{brandLabel:"Hospitality lookup",heroEyebrow:"Fast access for staff and guests",heroTitle:"Allergen Information",heroLead:"Quick access to allergens and ingredients with a compact, polished interface designed for real restaurant service.",summaryLabel:"Active restaurant",restaurantPanelTitle:"Restaurant",restaurantPanelCopy:"Load one worksheet at a time to keep the experience precise, fast and easy to scan.",restaurantLabel:"Select restaurant",loadRestaurant:"Load restaurant",viewPanelTitle:"Browse mode",viewPanelCopy:"Switch between dish list mode and allergen-led exploration.",dishes:"Dishes",allergenView:"View allergens",searchPanelTitle:"Search",searchPanelCopy:"Find a dish by name in seconds.",searchLabel:"Search dish",searchPlaceholder:"Type a dish name, ingredient, or reference...",statusIdle:"Select a restaurant to load only its worksheet and review dishes, allergens, and ingredients without extra noise.",statusLoading:"Loading {restaurant}...",statusLoaded:"Loaded {count} dishes from {restaurant}.",statusError:"Could not load {restaurant}. Make sure the sheet is public.",resultsTitleDishes:"Dish list",resultsTitleAllergens:"Browse by allergen",resultsMetaDishes:"{count} matches in the active menu.",resultsMetaAllergens:"{count} dishes contain {allergen}.",restaurantMeta:"{restaurant} · {count} dishes",heroRestaurantMeta:"{restaurant} · {count} dishes",noRestaurantSelected:"No restaurant loaded",chooseAllergen:"Select an allergen to see matching dishes within the active restaurant.",noMatches:"No dishes matched the current search or filter.",noMarkedAllergens:"No marked allergens",allergensLabel:"Allergens",ingredientsLabel:"Ingredients",showIngredients:"Show ingredients ▼",hideIngredients:"Hide ingredients ▲",traceLabel:"TRACE",code:"Code",dishCount:"{count} dishes"},cat:{brandLabel:"Consulta gastronomica",heroEyebrow:"Consulta rapida per a sala i client",heroTitle:"Informacio d'Alergens",heroLead:"Consulta rapida d'alergens i ingredients dels nostres plats amb una interficie clara, compacta i preparada per a un us real en restaurant.",summaryLabel:"Restaurant actiu",restaurantPanelTitle:"Restaurant",restaurantPanelCopy:"Carrega una sola carta cada vegada per mantenir la consulta rapida, ordenada i precisa.",restaurantLabel:"Seleccionar restaurant",loadRestaurant:"Carregar restaurant",viewPanelTitle:"Mode de consulta",viewPanelCopy:"Alterna entre el llistat de plats i l'exploracio directa per alergens.",dishes:"Plats",allergenView:"Veure alergens",searchPanelTitle:"Cercador",searchPanelCopy:"Troba un plat pel nom en segons.",searchLabel:"Buscar plat",searchPlaceholder:"Escriu el nom del plat, un ingredient o una referencia...",statusIdle:"Selecciona un restaurant per carregar nomes la seva pestanya i consultar plats, alergens i ingredients sense soroll.",statusLoading:"Carregant {restaurant}...",statusLoaded:"S'han carregat {count} plats de {restaurant}.",statusError:"No s'ha pogut carregar {restaurant}. Comprova que el full sigui public.",resultsTitleDishes:"Carta de plats",resultsTitleAllergens:"Consulta per alergen",resultsMetaDishes:"{count} coincidencies a la carta activa.",resultsMetaAllergens:"{count} plats contenen {allergen}.",restaurantMeta:"{restaurant} · {count} plats",heroRestaurantMeta:"{restaurant} · {count} plats",noRestaurantSelected:"Cap restaurant carregat",chooseAllergen:"Selecciona un alergen per veure els plats relacionats dins del restaurant actiu.",noMatches:"No hi ha resultats per a la cerca o filtre actual.",noMarkedAllergens:"Sense alergens marcats",allergensLabel:"Alergens",ingredientsLabel:"Ingredients",showIngredients:"Veure ingredients ▼",hideIngredients:"Ocultar ingredients ▲",traceLabel:"TRACES",code:"Codi",dishCount:"{count} plats"}};
-    const ALLERGEN_META={GLUTEN:{icon:"🌾",es:"Gluten",en:"Gluten",cat:"Gluten"},CRUSTACEAN:{icon:"🦐",es:"Crustaceos",en:"Shellfish",cat:"Crustacis"},EGG:{icon:"🥚",es:"Huevo",en:"Egg",cat:"Ou"},FISH:{icon:"🐟",es:"Pescado",en:"Fish",cat:"Peix"},PEANUTS:{icon:"🥜",es:"Cacahuetes",en:"Peanuts",cat:"Cacauets"},"MILK AND DAIRY PRODUCTS":{icon:"🥛",es:"Lacteos",en:"Dairy",cat:"Lactics"},SOYA:{icon:"🫘",es:"Soja",en:"Soy",cat:"Soja"},SOY:{icon:"🫘",es:"Soja",en:"Soy",cat:"Soja"},NUTS:{icon:"🌰",es:"Frutos secos",en:"Nuts",cat:"Fruita seca"},CELERY:{icon:"🥬",es:"Apio",en:"Celery",cat:"Api"},MUSTARD:{icon:"🟡",es:"Mostaza",en:"Mustard",cat:"Mostassa"},SESAME:{icon:"⚪",es:"Sesamo",en:"Sesame",cat:"Sesam"},SULPHITE:{icon:"🍷",es:"Sulfitos",en:"Sulphites",cat:"Sulfits"},LUPINS:{icon:"🌱",es:"Altramuces",en:"Lupin",cat:"Tramussos"},MOLLUSCS:{icon:"🐚",es:"Moluscos",en:"Moluscs",cat:"Mol\u00b7luscs"},MOLUSCS:{icon:"🐚",es:"Moluscos",en:"Moluscs",cat:"Mol\u00b7luscs"}};
+    const ALLERGEN_META={GLUTEN:{icon:"🌾",es:"Gluten",en:"Gluten",cat:"Gluten"},CRUSTACEAN:{icon:"🦐",es:"Crustaceos",en:"Shellfish",cat:"Crustacis"},EGG:{icon:"🥚",es:"Huevo",en:"Egg",cat:"Ou"},FISH:{icon:"🐟",es:"Pescado",en:"Fish",cat:"Peix"},PEANUTS:{icon:"🥜",es:"Cacahuetes",en:"Peanuts",cat:"Cacauets"},"MILK AND DAIRY PRODUCTS":{icon:"🥛",es:"Lacteos",en:"Dairy",cat:"Lactics"},SOYA:{icon:"🫘",es:"Soja",en:"Soy",cat:"Soja"},SOY:{icon:"🫘",es:"Soja",en:"Soy",cat:"Soja"},NUTS:{icon:"🌰",es:"Frutos secos",en:"Nuts",cat:"Fruita seca"},CELERY:{icon:"🥬",es:"Apio",en:"Celery",cat:"Api"},MUSTARD:{icon:"🟡",es:"Mostaza",en:"Mustard",cat:"Mostassa"},SESAME:{icon:"⚪",es:"Sesamo",en:"Sesame",cat:"Sesam"},SULPHITE:{icon:"🍷",es:"Sulfitos",en:"Sulphites",cat:"Sulfits"},LUPINS:{icon:"🌱",es:"Altramuces",en:"Lupin",cat:"Tramussos"},MOLLUSCS:{icon:"🐚",es:"Moluscos",en:"Molluscs",cat:"Molluscs"},MOLUSCS:{icon:"🐚",es:"Moluscos",en:"Molluscs",cat:"Molluscs"}};
     const ALLERGEN_BASE_COLORS={GLUTEN:"#D86A61",CRUSTACEAN:"#F39A72",EGG:"#B894D3",FISH:"#6598C5",PEANUTS:"#997455",SOYA:"#56AC6E",SOY:"#56AC6E","MILK AND DAIRY PRODUCTS":"#A8CBD3",NUTS:"#997455",CELERY:"#7E9989",MUSTARD:"#DABE34",SESAME:"#A0A7AC",SULPHITE:"#4B4D4C",LUPINS:"#A997B8",MOLLUSCS:"#58A79B",MOLUSCS:"#58A79B"};
     RESTAURANTS[5].name="SAGÀS";
     RESTAURANTS[6].name="CADAQUÉS MAD";
@@ -529,31 +524,7 @@
     Object.assign(ALLERGEN_META.LUPINS,{pt:"Tremo\u00e7o"});
     Object.assign(ALLERGEN_META.MOLLUSCS,{pt:"Moluscos"});
     Object.assign(ALLERGEN_META.MOLUSCS,{pt:"Moluscos"});
-    TRANSLATIONS.pt.traceLabel="VEST\u00cdGIOS";
-    TRANSLATIONS.cat.traceLabel="TRAÇES";
-    Object.assign(TRANSLATIONS.es,{
-      heroLead:"Consulta de los Alergenos e Ingredientes",
-      statusIdle:"Selecciona un restaurante para cargar solo su pestaña y consultar platos, alérgenos e ingredientes."
-    });
-    Object.assign(TRANSLATIONS.en,{
-      statusIdle:"Select a restaurant to load only its worksheet and review dishes, allergens, and ingredients.",
-      traceLabel:"TRACES"
-    });
-    Object.assign(TRANSLATIONS.cat,{
-      heroTitle:"Informació d'Al·lèrgens",
-      heroLead:"Consulta ràpida dels al·lèrgens i ingredients dels nostres plats al restaurant, de manera pràctica i senzilla.",
-      viewPanelCopy:"Alterna entre el llistat de plats i la consulta directa per al·lèrgens.",
-      allergenView:"Veure al·lèrgens",
-      statusIdle:"Selecciona un restaurant per carregar només la seva pestanya i consultar plats, al·lèrgens i ingredients.",
-      resultsTitleAllergens:"Consulta per al·lèrgen",
-      chooseAllergen:"Selecciona un al·lèrgen per veure els plats relacionats dins del restaurant actiu.",
-      noMarkedAllergens:"Sense al·lèrgens marcats",
-      allergensLabel:"Al·lèrgens",
-      publicLead:"Consulta els al·lèrgens d'aquesta carta de manera clara i ràpida. Per a qualsevol dubte addicional, el nostre equip et pot ajudar."
-    });
-    Object.assign(TRANSLATIONS.pt,{
-      statusIdle:"Seleciona um restaurante para carregar apenas a respetiva folha e consultar pratos, alergénios e ingredientes."
-    });
+    TRANSLATIONS.pt.traceLabel="TRAÇOS";
     const MASTER_ALLERGEN_KEYS=["GLUTEN","CRUSTACEAN","EGG","FISH","MILK AND DAIRY PRODUCTS","NUTS","SOY","CELERY","MUSTARD","SESAME","SULPHITE","MOLUSCS"];
     const ALLERGEN_KEY_ALIASES={SOYA:"SOY",MOLLUSCS:"MOLUSCS"};
     const KNOWN_ALLERGEN_KEYS=[...new Set([...MASTER_ALLERGEN_KEYS,...Object.keys(ALLERGEN_KEY_ALIASES),...Object.keys(ALLERGEN_META)])];
@@ -597,10 +568,7 @@
     }
     function allergenColors(key){
       const bg=ALLERGEN_BASE_COLORS[key]||"#8A7F74";
-      const traceBgAmount=key==="MILK AND DAIRY PRODUCTS"?.46:.76;
-      const traceBorderAmount=key==="MILK AND DAIRY PRODUCTS"?.24:.62;
-      const traceText=key==="MILK AND DAIRY PRODUCTS"?"#111":bg;
-      return {bg,text:"#fff",traceBg:mixColorWithWhite(bg,traceBgAmount),traceText,traceBorder:mixColorWithWhite(bg,traceBorderAmount)};
+      return {bg,text:"#fff",traceBg:mixColorWithWhite(bg,.76),traceText:bg,traceBorder:mixColorWithWhite(bg,.62)};
     }
     function allergenStyle(key,type){
       const palette=allergenColors(key);
@@ -688,28 +656,21 @@
         phrasePatterns:[/\bpao ralado\b/g,/\bleite gordo\b/g,/\bfarinha de trigo\b/g,/\boleo de girassol\b/g,/\bovos liquidos\b/g,/\bcreme pasteurizado\b/g,/\bfermentos lacteos\b/g,/\bgelatina de porco\b/g,/\bagente de tratamento da farinha\b/g,/\bregulador de acidez\b/g,/\bcebolinho\b/g,/\bazeite virgem\b/g,/\bazeite virgem extra\b/g,/\bvinagre de cidra\b/g,/\bmassa mae\b/g,/\brebentos de coentros\b/g,/\bsumo de\b/g,/\bnatas\b/g]
       }
     };
-    const RESTAURANT_LANGUAGE_GROUPS=[
-      {order:["CAT","ES","ENG","PT"],names:["SAGARDI BCN","VIDRIOS Y CRISTALES","SAGÀS","GOLFO BORN","KRESALA","IKOYA","CADAQUÉS BCN","EEBCN","MUSEO"]},
-      {order:["ES","ENG","CAT","PT"],names:["CADAQUÉS MAD","SAGARDI MAD","TXOKOEEMAD","SAGARDI UK","SAGARDI NL"]},
-      {order:["PT","ENG","ES","CAT"],names:["VINUM","SAGARDI OP"]}
-    ].map(group=>({order:group.order,names:new Set(group.names.map(normalizeRestaurantParam))}));
     function restaurantExpectedLanguages(){
       const name=normalizeRestaurantParam(state.restaurant&&state.restaurant.name);
       if(!name) return ["ES","ENG","CAT","PT"];
-      const match=RESTAURANT_LANGUAGE_GROUPS.find(group=>group.names.has(name));
-      return match?match.order.slice():["ES","ENG","CAT","PT"];
+      if(name.includes("UK")||name.includes("NL")) return ["ENG","ES","CAT","PT"];
+      if(name.includes("VINUM")||name.includes(" PT")||name.includes("OP")) return ["PT","ENG","ES","CAT"];
+      if(name.includes("BCN")||name.includes("KRESALA")||name.includes("SAGAS")||name.includes("CADAQUES")||name.includes("EEBCN")||name.includes("GOLFO")) return ["CAT","ES","ENG","PT"];
+      return ["ES","ENG","CAT","PT"];
     }
     function restaurantLanguageBias(){
-      const order=restaurantExpectedLanguages();
-      const bias={ES:1.8,ENG:1.8,CAT:1.8,PT:1.8};
-      order.forEach((code,index)=>{bias[code]+=[4.2,2.6,1.4,.8][index]||0;});
-      return bias;
-    }
-    function languageOrderIndex(code,expectedOrder=restaurantExpectedLanguages()){
-      const index=expectedOrder.indexOf(code);
-      if(index!==-1) return index;
-      const fallback=DISPLAY_LANGUAGE_ORDER.indexOf(code);
-      return fallback===-1?99:expectedOrder.length+fallback;
+      const name=normalizeRestaurantParam(state.restaurant&&state.restaurant.name);
+      if(!name) return {ES:3.5,ENG:2.5,CAT:2,PT:2};
+      if(name.includes("UK")||name.includes("NL")) return {ES:2,ENG:5.5,CAT:1.5,PT:1.5};
+      if(name.includes("VINUM")||name.includes(" PT")||name.includes("OP")) return {ES:2,ENG:3.2,CAT:1.4,PT:5.8};
+      if(name.includes("BCN")||name.includes("KRESALA")||name.includes("SAGAS")||name.includes("CADAQUES")||name.includes("EEBCN")||name.includes("GOLFO")) return {ES:3.2,ENG:1.8,CAT:5,PT:1.4};
+      return {ES:4,ENG:2.6,CAT:2.8,PT:2.2};
     }
     function tokenizeWords(text){return normalizeText(text).toLowerCase().split(/[^a-z0-9]+/).filter(Boolean)}
     function collectLanguageScores(text){
@@ -771,7 +732,9 @@
         unique.push(item);
       });
       return unique.sort((a,b)=>{
-        return languageOrderIndex(a.code,expectedOrder)-languageOrderIndex(b.code,expectedOrder);
+        const ai=DISPLAY_LANGUAGE_ORDER.indexOf(a.code);
+        const bi=DISPLAY_LANGUAGE_ORDER.indexOf(b.code);
+        return (ai===-1?99:ai)-(bi===-1?99:bi);
       }).map(item=>({code:item.code,text:item.text}));
     }
     function detectIngredientLanguage(text,fallbackIndex=0){return classifyLanguageBlock(text,fallbackIndex)}
@@ -814,139 +777,26 @@
       return {scores,contextWords,expectedOrder};
     }
     const EMBEDDED_RESTAURANT_MAP=new Map((EMBEDDED_DATA.restaurants||[]).map(restaurant=>[restaurant.gid,restaurant]));
-    const LIVE_SHEET_ID=String(EMBEDDED_DATA.sheetId||"").trim();
-    const LIVE_LOAD_TIMEOUT_MS=12000;
-    const LIVE_REFRESH_INTERVAL_MS=60000;
-    let liveJsonpRequestId=0;
-    let activeRestaurantLoadToken=0;
-    let activeRefreshTimer=0;
-    let lastAutomaticRefreshAt=0;
-    function buildDishRecord(code,rawTitle,allergenEntries,details){
-      const canonicalEntries=canonicalizeAllergenEntries(allergenEntries||[]);
-      return {
-        code:String(code||""),
-        rawTitle:cleanCell(rawTitle),
-        allergenEntries:canonicalEntries,
-        allergens:canonicalEntries.map(entry=>entry.key),
-        positiveAllergens:canonicalEntries.filter(entry=>entry.type==="positive").map(entry=>entry.key),
-        traceAllergens:canonicalEntries.filter(entry=>entry.type==="trace").map(entry=>entry.key),
-        details:Array.isArray(details)?details.map(cleanCell).filter(Boolean):null
-      };
-    }
     function parseEmbeddedRestaurant(record,includeIngredients){
-      const dishes=(record&&record.dishes||[]).map(dish=>buildDishRecord(dish.code,dish.rawTitle,dish.allergenEntries||[],includeIngredients?dish.details||[]:null));
-      return {
-        dishes,
-        allergenNames:MASTER_ALLERGEN_KEYS.slice()
-      };
-    }
-    function buildLiveWorksheetUrl(gid,callbackName){
-      const tqx=encodeURIComponent(`out:json;responseHandler:${callbackName}`);
-      return `https://docs.google.com/spreadsheets/d/${encodeURIComponent(LIVE_SHEET_ID)}/gviz/tq?tqx=${tqx}&gid=${encodeURIComponent(gid)}&cacheBust=${Date.now()}`;
-    }
-    function loadLiveRestaurantPayload(gid){
-      if(!LIVE_SHEET_ID) return Promise.reject(new Error("Missing Google Sheets id."));
-      return new Promise((resolve,reject)=>{
-        const callbackName=`__alergenosLiveSheet_${Date.now()}_${++liveJsonpRequestId}`;
-        const script=document.createElement("script");
-        let timeoutId=0;
-        const cleanup=()=>{
-          if(timeoutId) window.clearTimeout(timeoutId);
-          delete window[callbackName];
-          if(script.parentNode) script.parentNode.removeChild(script);
+      const dishes=(record&&record.dishes||[]).map(dish=>{
+        const allergenEntries=canonicalizeAllergenEntries(dish.allergenEntries||[]);
+        return {
+          code:String(dish.code||""),
+          rawTitle:cleanCell(dish.rawTitle),
+          allergenEntries,
+          allergens:allergenEntries.map(entry=>entry.key),
+          positiveAllergens:allergenEntries.filter(entry=>entry.type==="positive").map(entry=>entry.key),
+          traceAllergens:allergenEntries.filter(entry=>entry.type==="trace").map(entry=>entry.key),
+          details:includeIngredients?(dish.details||[]).map(cleanCell).filter(Boolean):null
         };
-        window[callbackName]=payload=>{
-          cleanup();
-          resolve(payload);
-        };
-        script.async=true;
-        script.src=buildLiveWorksheetUrl(gid,callbackName);
-        script.onerror=()=>{
-          cleanup();
-          reject(new Error(`Live worksheet unavailable for gid ${gid}.`));
-        };
-        timeoutId=window.setTimeout(()=>{
-          cleanup();
-          reject(new Error(`Timed out while loading live worksheet ${gid}.`));
-        },LIVE_LOAD_TIMEOUT_MS);
-        document.head.appendChild(script);
-      });
-    }
-    function gvizCellValue(row,index){
-      const cell=row&&row.c&&row.c[index];
-      if(!cell) return "";
-      return cleanCell(cell.f!=null?cell.f:cell.v);
-    }
-    function liveAllergenColumns(table){
-      return ((table&&table.cols)||[]).slice(2).map((column,offset)=>{
-        const parsedKey=normalizeText(parseAllergenKey(column&&column.label)).toUpperCase();
-        const key=normalizeAllergenKey(parsedKey);
-        return KNOWN_ALLERGEN_KEYS.includes(key)?{index:offset+2,key}:null;
-      }).filter(Boolean);
-    }
-    function parseLiveRestaurantPayload(payload,includeIngredients){
-      if(!payload||payload.status!=="ok"||!payload.table) throw new Error("Invalid Google Sheets response.");
-      const dishes=[];
-      const allergenColumns=liveAllergenColumns(payload.table);
-      let currentDish=null;
-      (payload.table.rows||[]).forEach(row=>{
-        if(!row||!Array.isArray(row.c)) return;
-        if(isLikelySectionRow(row)){currentDish=null; return;}
-        const code=gvizCellValue(row,0);
-        const title=gvizCellValue(row,1);
-        if(code&&title){
-          const allergenEntries=allergenColumns.map(({index,key})=>{
-            const type=allergenMarkType(gvizCellValue(row,index));
-            return type?{key,type}:null;
-          }).filter(Boolean);
-          currentDish=buildDishRecord(code,title,allergenEntries,includeIngredients?[]:null);
-          dishes.push(currentDish);
-          return;
-        }
-        if(!currentDish||!title||!includeIngredients||!Array.isArray(currentDish.details)) return;
-        currentDish.details.push(title);
       });
       return {
         dishes,
         allergenNames:MASTER_ALLERGEN_KEYS.slice()
       };
-    }
-    async function loadRestaurantDataset(restaurant,includeIngredients){
-      const embeddedRecord=EMBEDDED_RESTAURANT_MAP.get(restaurant.gid);
-      try{
-        const payload=await loadLiveRestaurantPayload(restaurant.gid);
-        const parsed=parseLiveRestaurantPayload(payload,includeIngredients);
-        if(parsed.dishes.length) return parsed;
-        throw new Error(`Live worksheet returned no dishes for ${restaurant.name}.`);
-      }catch(error){
-        if(embeddedRecord){
-          console.warn(`Using embedded fallback for ${restaurant.name}.`,error);
-          return parseEmbeddedRestaurant(embeddedRecord,includeIngredients);
-        }
-        throw error;
-      }
-    }
-    function stopAutomaticRefresh(){
-      if(activeRefreshTimer){window.clearInterval(activeRefreshTimer); activeRefreshTimer=0;}
-    }
-    function queueAutomaticRefresh(){
-      stopAutomaticRefresh();
-      if(!state.restaurant) return;
-      activeRefreshTimer=window.setInterval(()=>{
-        if(document.hidden||!state.restaurant) return;
-        lastAutomaticRefreshAt=Date.now();
-        loadSelectedRestaurant(state.restaurant,{silent:true,preserveState:true});
-      },LIVE_REFRESH_INTERVAL_MS);
-    }
-    function refreshActiveRestaurantSoon(){
-      if(!state.restaurant) return;
-      const now=Date.now();
-      if(now-lastAutomaticRefreshAt<12000) return;
-      lastAutomaticRefreshAt=now;
-      loadSelectedRestaurant(state.restaurant,{silent:true,preserveState:true});
     }
     function filteredDishes(){const q=normalizeText(searchInput.value).toLowerCase(); return state.dishes.filter(d=>!q||normalizeText(d.rawTitle).toLowerCase().includes(q))}
-    function renderDishCards(items,target){target.innerHTML=""; if(!items.length){target.innerHTML=`<div class="empty">${t("noMatches")}</div>`; return} const fragment=document.createDocumentFragment(); const expectedOrder=restaurantExpectedLanguages(); items.forEach(dish=>{const dishId=`${state.restaurant?state.restaurant.gid:"global"}-${dish.code}`; const titleLines=buildLanguageLines(dish.rawTitle); const ingredientLines=RUNTIME.showIngredients&&Array.isArray(dish.details)?dish.details.map((item,index)=>({code:detectIngredientLanguage(item,index),text:item.trim(),index})).filter(item=>item.text).sort((a,b)=>languageOrderIndex(a.code,expectedOrder)-languageOrderIndex(b.code,expectedOrder)):[]; const isExpanded=!!state.expandedIngredients[dishId]; const icons=dish.allergenEntries.map(entry=>{const meta=allergenMeta(entry.key); return `<span class="dish-icon${entry.type==="trace"?" trace":""}" title="${meta.label}${entry.type==="trace"?" - "+t("traceLabel"):""}">${meta.icon}</span>`}).join(""); const pills=dish.allergenEntries.length?dish.allergenEntries.map(entry=>{const meta=allergenMeta(entry.key); return entry.type==="trace"?`<span class="allergen-pill trace" style="${allergenStyle(entry.key,"trace")}"><span>${meta.icon}</span><span>${meta.label} - ${t("traceLabel")}</span></span>`:`<span class="allergen-pill" style="${allergenStyle(entry.key,"positive")}"><span>${meta.icon}</span><span>${meta.label}</span></span>`}).join(""):`<span class="allergen-pill" style="background:#ece7e1;color:#655c53;border-color:#ece7e1;"><span>✔</span><span>${t("noMarkedAllergens")}</span></span>`; const metaBlock=RUNTIME.mode==="staff"?`<div class="meta"><span class="pill">${t("code")} ${dish.code}</span></div>`:""; const ingredientsBlock=ingredientLines.length?`<button class="ingredients-toggle" type="button" data-dish-id="${dishId}">${isExpanded?t("hideIngredients"):t("showIngredients")}</button><div class="ingredients-block" ${isExpanded?"":"hidden"}><p class="section-label">${t("ingredientsLabel")}</p>${ingredientLines.map(item=>`<div class="language-line"><span class="language-code">${item.code}</span><p class="dish-detail">${item.text}</p></div>`).join("")}</div>`:""; const article=document.createElement("article"); article.className="card"; article.innerHTML=`<div class="card-title-row"><div class="dish-name-block">${titleLines.map((item,index)=>`<div class="language-line"><span class="language-code">${item.code}</span><p class="dish-name-line${index===0?" primary":""}">${item.text}</p></div>`).join("")}</div><div class="dish-icons">${icons}</div></div>${metaBlock}<div class="detail-block"><p class="section-label">${t("allergensLabel")}</p><div class="allergen-list">${pills}</div></div>${ingredientsBlock}`; fragment.appendChild(article)}); target.appendChild(fragment); if(RUNTIME.showIngredients){target.querySelectorAll(".ingredients-toggle").forEach(button=>button.addEventListener("click",()=>{const id=button.dataset.dishId; state.expandedIngredients[id]=!state.expandedIngredients[id]; renderCurrentView()}))}}
+    function renderDishCards(items,target){target.innerHTML=""; if(!items.length){target.innerHTML=`<div class="empty">${t("noMatches")}</div>`; return} const fragment=document.createDocumentFragment(); items.forEach(dish=>{const dishId=`${state.restaurant?state.restaurant.gid:"global"}-${dish.code}`; const titleLines=buildLanguageLines(dish.rawTitle); const ingredientLines=RUNTIME.showIngredients&&Array.isArray(dish.details)?dish.details.map((item,index)=>({code:detectIngredientLanguage(item,index),text:item.trim(),index})).filter(item=>item.text).sort((a,b)=>DISPLAY_LANGUAGE_ORDER.indexOf(a.code)-DISPLAY_LANGUAGE_ORDER.indexOf(b.code)):[]; const isExpanded=!!state.expandedIngredients[dishId]; const icons=dish.allergenEntries.map(entry=>{const meta=allergenMeta(entry.key); return `<span class="dish-icon${entry.type==="trace"?" trace":""}" title="${meta.label}${entry.type==="trace"?" - "+t("traceLabel"):""}">${meta.icon}</span>`}).join(""); const pills=dish.allergenEntries.length?dish.allergenEntries.map(entry=>{const meta=allergenMeta(entry.key); return entry.type==="trace"?`<span class="allergen-pill trace" style="${allergenStyle(entry.key,"trace")}"><span>${meta.icon}</span><span>${meta.label} - ${t("traceLabel")}</span></span>`:`<span class="allergen-pill" style="${allergenStyle(entry.key,"positive")}"><span>${meta.icon}</span><span>${meta.label}</span></span>`}).join(""):`<span class="allergen-pill" style="background:#ece7e1;color:#655c53;border-color:#ece7e1;"><span>✔</span><span>${t("noMarkedAllergens")}</span></span>`; const metaBlock=RUNTIME.mode==="staff"?`<div class="meta"><span class="pill">${t("code")} ${dish.code}</span></div>`:""; const ingredientsBlock=ingredientLines.length?`<button class="ingredients-toggle" type="button" data-dish-id="${dishId}">${isExpanded?t("hideIngredients"):t("showIngredients")}</button><div class="ingredients-block" ${isExpanded?"":"hidden"}><p class="section-label">${t("ingredientsLabel")}</p>${ingredientLines.map(item=>`<div class="language-line"><span class="language-code">${item.code}</span><p class="dish-detail">${item.text}</p></div>`).join("")}</div>`:""; const article=document.createElement("article"); article.className="card"; article.innerHTML=`<div class="card-title-row"><div class="dish-name-block">${titleLines.map((item,index)=>`<div class="language-line"><span class="language-code">${item.code}</span><p class="dish-name-line${index===0?" primary":""}">${item.text}</p></div>`).join("")}</div><div class="dish-icons">${icons}</div></div>${metaBlock}<div class="detail-block"><p class="section-label">${t("allergensLabel")}</p><div class="allergen-list">${pills}</div></div>${ingredientsBlock}`; fragment.appendChild(article)}); target.appendChild(fragment); if(RUNTIME.showIngredients){target.querySelectorAll(".ingredients-toggle").forEach(button=>button.addEventListener("click",()=>{const id=button.dataset.dishId; state.expandedIngredients[id]=!state.expandedIngredients[id]; renderCurrentView()}))}}
     function renderAllergenButtons(){
       allergenButtons.innerHTML="";
       state.allergenNames.forEach(key=>{
@@ -966,52 +816,35 @@
     function renderDishesView(){const items=filteredDishes(); resultsTitle.textContent=t("resultsTitleDishes"); resultsMeta.textContent=t("resultsMetaDishes",{count:items.length}); renderDishCards(items,dishesList)}
     function renderAllergensView(){resultsTitle.textContent=t("resultsTitleAllergens"); if(!state.selectedAllergen){resultsMeta.textContent=t("chooseAllergen"); allergenResults.innerHTML=`<div class="empty">${t("chooseAllergen")}</div>`; return} const q=normalizeText(searchInput.value).toLowerCase(); const items=state.dishes.filter(d=>d.allergens.includes(state.selectedAllergen)&&(!q||normalizeText(d.rawTitle).toLowerCase().includes(q))); resultsMeta.textContent=t("resultsMetaAllergens",{count:items.length,allergen:allergenMeta(state.selectedAllergen).label}); renderDishCards(items,allergenResults)}
     function renderCurrentView(){dishesView.hidden=state.view!=="dishes"; allergensView.hidden=state.view!=="allergens"; dishesViewButton.classList.toggle("active",state.view==="dishes"); allergensViewButton.classList.toggle("active",state.view==="allergens"); state.view==="dishes"?renderDishesView():renderAllergensView()}
-    function updateHeaderMeta(){const hasRestaurant=!!state.restaurant; const heroMeta=hasRestaurant?state.restaurant.name:t("noRestaurantSelected"); const listMeta=hasRestaurant?t("restaurantMeta",{restaurant:state.restaurant.name,count:state.dishes.length}):t("noRestaurantSelected"); heroRestaurantMeta.textContent=heroMeta; heroRestaurantMeta.classList.toggle("is-empty",!hasRestaurant); restaurantMeta.textContent=listMeta}
+    function updateHeaderMeta(){const meta=state.restaurant?t("heroRestaurantMeta",{restaurant:state.restaurant.name,count:state.dishes.length}):t("noRestaurantSelected"); heroRestaurantMeta.textContent=meta; restaurantMeta.textContent=meta}
     function applyTranslations(){document.documentElement.lang=state.lang; document.title=t("heroTitle"); brandLabel.textContent=t("brandLabel"); heroEyebrow.textContent=RUNTIME.mode==="public"?t("publicHero"):t("heroEyebrow"); heroTitle.textContent=t("heroTitle"); heroLead.textContent=RUNTIME.mode==="public"?t("publicLead"):t("heroLead"); summaryLabel.textContent=t("summaryLabel"); modeChip.textContent=RUNTIME.mode==="public"?t("modePublic"):t("modeStaff"); publicNotice.textContent=t("publicNotice"); restaurantPanelTitle.textContent=t("restaurantPanelTitle"); restaurantPanelCopy.textContent=t("restaurantPanelCopy"); restaurantLabel.textContent=t("restaurantLabel"); loadRestaurantButton.textContent=t("loadRestaurant"); viewPanelTitle.textContent=t("viewPanelTitle"); viewPanelCopy.textContent=t("viewPanelCopy"); dishesViewButton.textContent=t("dishes"); allergensViewButton.textContent=t("allergenView"); searchPanelTitle.textContent=t("searchPanelTitle"); searchPanelCopy.textContent=t("searchPanelCopy"); searchLabel.textContent=t("searchLabel"); searchInput.placeholder=t("searchPlaceholder"); langEs.classList.toggle("active",state.lang==="es"); langEn.classList.toggle("active",state.lang==="en"); langCat.classList.toggle("active",state.lang==="cat"); langPt.classList.toggle("active",state.lang==="pt"); setStatus(state.statusKey,state.statusValues); updateHeaderMeta(); renderAllergenButtons(); renderCurrentView(); if(RUNTIME.mode==="public"&&!state.restaurant&&requestedRestaurant){resultsTitle.textContent=t("resultsTitleDishes"); resultsMeta.textContent=t("statusPublicMissing"); publicNotice.textContent=t("statusPublicMissing")}}
     function findRestaurantByParam(value){if(!value) return null; return RESTAURANTS.find(restaurant=>normalizeRestaurantParam(restaurant.name)===value)||null}
     function populateRestaurants(){restaurantSelect.innerHTML=""; RESTAURANTS.forEach(restaurant=>{const option=document.createElement("option"); option.value=restaurant.gid; option.textContent=restaurant.name; restaurantSelect.appendChild(option)}); if(RUNTIME.mode==="public"){const publicRestaurant=findRestaurantByParam(requestedRestaurant); if(publicRestaurant){restaurantSelect.value=publicRestaurant.gid}}}
-    async function loadSelectedRestaurant(forcedRestaurant,options={}){
+    async function loadSelectedRestaurant(forcedRestaurant){
       const restaurant=forcedRestaurant||RESTAURANTS.find(item=>item.gid===restaurantSelect.value);
       if(!restaurant) return;
-      const sameRestaurant=state.restaurant&&state.restaurant.gid===restaurant.gid;
-      const preserveState=sameRestaurant&&options.preserveState!==false;
-      const nextSearchValue=preserveState?searchInput.value:"";
-      const nextSelectedAllergen=preserveState?state.selectedAllergen:null;
-      const nextExpandedIngredients=preserveState?{...state.expandedIngredients}:{};
-      const loadToken=++activeRestaurantLoadToken;
       restaurantSelect.value=restaurant.gid;
       state.restaurant=restaurant;
-      if(!preserveState){
-        state.selectedAllergen=null;
-        state.dishes=[];
-        state.allergenNames=[];
-        state.expandedIngredients={};
-        searchInput.value="";
-      }
-      if(!options.silent) setStatus("statusLoading",{restaurant:restaurant.name});
+      state.selectedAllergen=null;
+      state.dishes=[];
+      state.allergenNames=[];
+      state.expandedIngredients={};
+      searchInput.value="";
+      setStatus("statusLoading",{restaurant:restaurant.name});
       try{
-        const parsed=await loadRestaurantDataset(restaurant,RUNTIME.showIngredients);
-        if(loadToken!==activeRestaurantLoadToken) return;
-        state.restaurant=restaurant;
+        const record=EMBEDDED_RESTAURANT_MAP.get(restaurant.gid);
+        if(!record) throw new Error(`Embedded restaurant not found: ${restaurant.name}`);
+        const parsed=parseEmbeddedRestaurant(record,RUNTIME.showIngredients);
         state.dishes=parsed.dishes;
         state.allergenNames=parsed.allergenNames;
-        state.selectedAllergen=nextSelectedAllergen;
-        state.expandedIngredients=nextExpandedIngredients;
-        searchInput.value=nextSearchValue;
         searchPanel.classList.add("active");
         updateHeaderMeta();
-        lastAutomaticRefreshAt=Date.now();
-        if(!options.silent) setStatus("statusLoaded",{restaurant:restaurant.name,count:state.dishes.length});
+        setStatus("statusLoaded",{restaurant:restaurant.name,count:state.dishes.length});
         renderAllergenButtons();
         renderCurrentView();
-        queueAutomaticRefresh();
       }catch(error){
-        if(loadToken!==activeRestaurantLoadToken) return;
         updateHeaderMeta();
         setStatus("statusError",{restaurant:restaurant.name});
-        renderAllergenButtons();
-        renderCurrentView();
-        queueAutomaticRefresh();
         console.error(error);
       }
     }
@@ -1023,8 +856,6 @@
     langEn.addEventListener("click",()=>{state.lang="en"; applyTranslations()});
     langCat.addEventListener("click",()=>{state.lang="cat"; applyTranslations()});
     langPt.addEventListener("click",()=>{state.lang="pt"; applyTranslations()});
-    document.addEventListener("visibilitychange",()=>{if(!document.hidden) refreshActiveRestaurantSoon()});
-    window.addEventListener("focus",refreshActiveRestaurantSoon);
     shellEl.classList.toggle("public-mode",RUNTIME.mode==="public");
     populateRestaurants(); updateHeaderMeta(); applyTranslations();
     if(RUNTIME.mode==="public"){state.view="dishes"; const publicRestaurant=findRestaurantByParam(requestedRestaurant); if(publicRestaurant){loadSelectedRestaurant(publicRestaurant)}else{setStatus("statusPublicMissing"); resultsTitle.textContent=t("resultsTitleDishes"); resultsMeta.textContent=t("statusPublicMissing"); publicNotice.textContent=t("statusPublicMissing")}} 
