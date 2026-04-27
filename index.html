@@ -67,7 +67,9 @@
     .hero-alert::after{content:"";position:absolute;inset:0;border-radius:inherit;box-shadow:inset 0 1px 0 rgba(255,255,255,.42),inset 0 -1px 0 rgba(128,54,0,.18);pointer-events:none}
     @keyframes heroAlertGlow{0%{transform:translateX(-18%) rotate(18deg);opacity:0}12%{opacity:.95}55%{opacity:.95}100%{transform:translateX(430%) rotate(18deg);opacity:0}}
     .hero-summary{min-width:260px;display:grid;gap:10px;padding:18px;border:1px solid #e8cd79;border-radius:20px;background:linear-gradient(180deg,#fff1b8,#ffe699);box-shadow:0 12px 28px rgba(214,186,82,.22)}
+    .hero-summary{display:none}
     .summary-label,.field-label,.section-label{color:#8c7413;font-size:11px;font-weight:800;letter-spacing:.16em;text-transform:uppercase}
+    .summary-label{display:none}
     .summary-value{font-size:clamp(14px,1.7vw,17px);font-weight:800;line-height:1.25;letter-spacing:0;color:#5f4b00}
     .summary-value.is-empty{font-size:clamp(12px,1.5vw,15px);font-weight:700;line-height:1.25;letter-spacing:0}
     .main{display:grid;grid-template-columns:330px minmax(0,1fr);gap:18px;padding:0 18px 18px}
@@ -113,11 +115,16 @@
     .mode-chip{display:none}
     .public-note{display:none;margin-bottom:16px;padding:14px 16px;border:1px solid rgba(201,181,155,.68);border-radius:16px;background:linear-gradient(180deg,rgba(255,252,246,.96),rgba(245,238,227,.92));color:var(--muted);font-size:13px;line-height:1.6}
     .shell.public-mode .public-note{display:block}
-    .search-panel{display:none}.search-panel.active{display:block}
-    .results-header{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid rgba(201,181,155,.54)}
+    .search-panel{display:none!important}
+    .results-header{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid rgba(201,181,155,.54)}
+    .results-heading{min-width:0;flex:1}
+    .results-actions{display:flex;align-items:center;justify-content:flex-end;gap:10px;flex-wrap:wrap}
     .results-title{margin:0 0 6px;font-family:"Fraunces",serif;font-size:28px;line-height:1;letter-spacing:-.03em}
-    .results-subtitle{margin:0;color:var(--muted);font-size:14px;line-height:1.5}
-    .restaurant-meta{padding:10px 14px;border:1px solid rgba(201,181,155,.76);border-radius:999px;background:linear-gradient(180deg,rgba(255,255,255,.72),rgba(245,237,228,.88));color:var(--support);font-size:13px;font-weight:700;white-space:nowrap}
+    .results-subtitle{display:none;margin:0;color:var(--muted);font-size:14px;line-height:1.5}
+    .restaurant-meta{min-height:46px;display:inline-flex;align-items:center;justify-content:center;padding:10px 16px;border:1px solid rgba(201,181,155,.76);border-radius:999px;background:linear-gradient(180deg,rgba(255,255,255,.72),rgba(245,237,228,.88));color:var(--support);font-size:14px;font-weight:900;white-space:nowrap;box-shadow:0 10px 18px rgba(53,37,24,.08)}
+    .compact-search{position:relative;min-width:260px;flex:1 1 260px}
+    .compact-search .search-input{min-height:46px;padding:12px 14px 12px 52px;border-radius:999px;font-size:14px;font-weight:800;background:linear-gradient(180deg,#fffdfa,#fff4df);box-shadow:0 10px 18px rgba(53,37,24,.08),inset 0 1px 0 rgba(255,255,255,.68)}
+    .compact-search .search-icon{left:17px;width:24px;height:24px;color:#8f452d;stroke-width:2.6}
     .group-filter{position:relative;margin:0 0 16px;padding:12px;border:1px solid rgba(201,181,155,.72);border-radius:20px;background:linear-gradient(135deg,rgba(255,252,246,.98),rgba(247,238,224,.94));box-shadow:0 14px 28px rgba(88,62,32,.08),inset 0 1px 0 rgba(255,255,255,.72)}
     .group-filter[hidden]{display:none}
     .group-trigger{width:100%;min-height:48px;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:12px;padding:11px 13px;border:1px solid rgba(201,181,155,.82);border-radius:16px;background:linear-gradient(180deg,#fffdfa,#f7efe4);color:var(--text);box-shadow:0 10px 20px rgba(93,67,38,.08);text-align:left;cursor:pointer;transition:transform .16s ease,box-shadow .16s ease,border-color .16s ease,background .16s ease}
@@ -158,7 +165,7 @@
     .dish-detail{margin:0;color:#666;font-size:14px;line-height:1.72;max-width:78ch}
     .empty{padding:28px 18px;border:1px dashed rgba(201,181,155,.84);border-radius:18px;background:linear-gradient(180deg,#fffdf9,#f8f1e9);color:var(--muted);text-align:center;font-size:14px;line-height:1.6}
     @media (max-width:920px){.hero{grid-template-columns:1fr}.hero-summary{min-width:0}.main{grid-template-columns:1fr}.cards{grid-template-columns:1fr}.card{padding:20px}.shell.public-mode .hero{grid-template-columns:1fr}}
-    @media (max-width:720px){.page{width:min(1220px,calc(100% - 10px));margin:8px auto 18px}.shell{border-radius:24px}.topbar{padding:14px 14px 6px}.brand{display:none}.hero{padding:10px 16px 16px}.main{padding:0 12px 12px;gap:12px}.control-panel,.search-panel,.results-panel{padding:16px}.results-header{flex-direction:column;align-items:flex-start}.restaurant-meta{white-space:normal}.group-filter{margin-bottom:14px;padding:10px}.group-menu{left:10px;right:10px;max-height:46vh}.card-title-row{flex-direction:column}.dish-icons{justify-content:flex-start;max-width:none}}
+    @media (max-width:720px){.page{width:min(1220px,calc(100% - 10px));margin:8px auto 18px}.shell{border-radius:24px}.topbar{padding:14px 14px 6px}.brand{display:none}.hero{padding:10px 16px 16px}.main{padding:0 12px 12px;gap:12px}.control-panel,.search-panel,.results-panel{padding:16px}.results-header{align-items:flex-start;gap:10px}.results-title{font-size:24px}.results-actions{width:100%;display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px}.restaurant-meta{min-height:44px;padding:9px 12px;font-size:13px}.compact-search{min-width:0;flex:auto}.compact-search .search-input{min-height:44px;padding-left:48px}.compact-search .search-icon{width:23px;height:23px}.group-filter{margin-bottom:14px;padding:10px}.group-menu{left:10px;right:10px;max-height:46vh}.card-title-row{flex-direction:column}.dish-icons{justify-content:flex-start;max-width:none}}
   </style>
 </head>
 <body class="auth-pending">
@@ -246,15 +253,17 @@
           <div class="panel search-panel" id="searchPanel">
             <div class="panel-head"><div><h2 class="panel-title" id="searchPanelTitle"></h2><p class="panel-copy" id="searchPanelCopy"></p></div></div>
             <label class="field-label" id="searchLabel" for="searchInput"></label>
-            <div class="search-box">
-              <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
-              <input class="search-input" id="searchInput" type="search">
-            </div>
           </div>
           <section class="panel results-panel">
             <div class="results-header">
-              <div><h2 class="results-title" id="resultsTitle"></h2><p class="results-subtitle" id="resultsMeta"></p></div>
-              <div class="restaurant-meta" id="restaurantMeta"></div>
+              <div class="results-heading"><h2 class="results-title" id="resultsTitle"></h2><p class="results-subtitle" id="resultsMeta"></p></div>
+              <div class="results-actions">
+                <div class="restaurant-meta" id="restaurantMeta"></div>
+                <div class="compact-search search-box">
+                  <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+                  <input class="search-input" id="searchInput" type="search">
+                </div>
+              </div>
             </div>
             <div class="public-note" id="publicNotice"></div>
             <div id="dishesView">
@@ -1640,7 +1649,7 @@
     function renderAllergensView(){resultsTitle.textContent=t("resultsTitleAllergens"); if(state.restaurant&&!state.dishes.length){resultsMeta.textContent=t("statusNoData"); allergenResults.innerHTML=`<div class="empty">${t("statusNoData")}</div>`; return} if(!state.selectedAllergen){resultsMeta.textContent=t("chooseAllergen"); allergenResults.innerHTML=`<div class="empty">${t("chooseAllergen")}</div>`; return} const q=normalizeText(searchInput.value).toLowerCase(); const items=state.dishes.filter(d=>d.allergens.includes(state.selectedAllergen)&&(!q||normalizeText(d.rawTitle).toLowerCase().includes(q))); resultsMeta.textContent=t("resultsMetaAllergens",{count:items.length,allergen:allergenMeta(state.selectedAllergen).label}); renderDishCards(items,allergenResults)}
     function activeViewLabel(){if(state.view==="pintxos") return t("pintxos"); if(state.view==="alertas") return restaurantAlertasLabel(state.restaurant); if(state.view==="allergens") return t("allergenView"); return t("dishes")}
     function renderCurrentView(){const hasRestaurant=!!state.restaurant; const hasPintxos=restaurantHasPintxos(state.restaurant); const hasAlertas=restaurantHasAlertas(state.restaurant); if(state.view==="pintxos"&&!hasPintxos) state.view="dishes"; if(state.view==="alertas"&&!hasAlertas) state.view="dishes"; if(state.view==="allergens"&&!state.hasOpenedFoodView) state.view="dishes"; viewEmptyNotice.hidden=hasRestaurant; viewActiveNotice.hidden=!hasRestaurant; if(hasRestaurant){viewActiveNotice.innerHTML=`<span class="view-active-label">Estás Viendo</span><span class="view-active-restaurant">"${restaurantDisplayName(state.restaurant)}"</span><span class="view-active-mode">${activeViewLabel()}</span>`}else{viewActiveNotice.textContent=""} dishesViewButton.hidden=!hasRestaurant; allergensViewButton.hidden=!hasRestaurant||!state.hasOpenedFoodView; dishesView.hidden=!(state.view==="dishes"||state.view==="pintxos"||state.view==="alertas"); allergensView.hidden=state.view!=="allergens"; pintxosViewButton.hidden=!hasRestaurant||!hasPintxos; alertasViewButton.hidden=!hasRestaurant||!hasAlertas; alertasViewButton.textContent=hasAlertas?restaurantAlertasLabel(state.restaurant):t("alertasCarta"); dishesViewButton.classList.toggle("active",state.view==="dishes"); pintxosViewButton.classList.toggle("active",state.view==="pintxos"); alertasViewButton.classList.toggle("active",state.view==="alertas"); allergensViewButton.classList.toggle("active",state.view==="allergens"); if(state.view==="dishes"||state.view==="pintxos"||state.view==="alertas"){renderGroupFilter(currentGroupSource())}else{groupFilter.hidden=true; closeGroupMenu()} state.view==="alertas"?renderAlertasView():(state.view==="pintxos"?renderPintxosView():(state.view==="dishes"?renderDishesView():renderAllergensView()))}
-    function updateHeaderMeta(){const hasRestaurant=!!state.restaurant; const label=restaurantDisplayName(state.restaurant); const heroMeta=hasRestaurant?label:t("noRestaurantSelected"); const listMeta=hasRestaurant?t("restaurantMeta",{restaurant:label,count:state.dishes.length}):t("noRestaurantSelected"); heroRestaurantMeta.textContent=heroMeta; heroRestaurantMeta.classList.toggle("is-empty",!hasRestaurant); restaurantMeta.textContent=listMeta; restaurantSelect.classList.toggle("is-loaded",hasRestaurant)}
+    function updateHeaderMeta(){const hasRestaurant=!!state.restaurant; const label=restaurantDisplayName(state.restaurant); const heroMeta=hasRestaurant?label:t("noRestaurantSelected"); const listMeta=hasRestaurant?`${state.dishes.length} ${state.dishes.length===1?"plato":"platos"}`:t("noRestaurantSelected"); heroRestaurantMeta.textContent=heroMeta; heroRestaurantMeta.classList.toggle("is-empty",!hasRestaurant); restaurantMeta.textContent=listMeta; restaurantSelect.classList.toggle("is-loaded",hasRestaurant)}
     function applyTranslations(){document.documentElement.lang=state.lang; document.title=t("heroTitle"); brandLabel.textContent=t("brandLabel"); heroEyebrow.textContent=RUNTIME.mode==="public"?t("publicHero"):t("heroEyebrow"); heroTitle.textContent=t("heroTitle"); heroLead.textContent=RUNTIME.mode==="public"?t("publicLead"):t("heroLead"); heroAlert.textContent=t("heroAlert"); summaryLabel.textContent=t("summaryLabel"); modeChip.textContent=RUNTIME.mode==="public"?t("modePublic"):t("modeStaff"); publicNotice.textContent=t("publicNotice"); restaurantPanelTitle.textContent=t("restaurantPanelTitle"); restaurantPanelCopy.textContent=t("restaurantPanelCopy"); restaurantLabel.textContent=t("restaurantLabel"); loadRestaurantButton.textContent=t("loadRestaurant"); viewPanelTitle.textContent=t("viewPanelTitle"); viewPanelCopy.textContent=t("viewPanelCopy"); viewEmptyNotice.textContent=t("viewEmptyNotice"); dishesViewButton.textContent=t("dishes"); pintxosViewButton.textContent=t("pintxos"); alertasViewButton.textContent=t("alertasCarta"); allergensViewButton.textContent=t("allergenView"); searchPanelTitle.textContent=t("searchPanelTitle"); searchPanelCopy.textContent=t("searchPanelCopy"); searchLabel.textContent=t("searchLabel"); searchInput.placeholder=t("searchPlaceholder"); langEs.classList.toggle("active",state.lang==="es"); langEn.classList.toggle("active",state.lang==="en"); langCat.classList.toggle("active",state.lang==="cat"); langPt.classList.toggle("active",state.lang==="pt"); setStatus(state.statusKey,state.statusValues); updateHeaderMeta(); renderAllergenButtons(); renderCurrentView(); if(RUNTIME.mode==="public"&&!state.restaurant&&requestedRestaurant){resultsTitle.textContent=t("resultsTitleDishes"); resultsMeta.textContent=t("statusPublicMissing"); publicNotice.textContent=t("statusPublicMissing")}}
     function findRestaurantByParam(value){if(!value) return null; return RESTAURANTS.find(restaurant=>normalizeRestaurantParam(restaurant.name)===value||normalizeRestaurantParam(restaurantDisplayName(restaurant))===value)||null}
     function populateRestaurants(){restaurantSelect.innerHTML=""; RESTAURANTS.forEach(restaurant=>{const option=document.createElement("option"); option.value=restaurantKey(restaurant); option.textContent=restaurantDisplayName(restaurant); restaurantSelect.appendChild(option)}); if(RUNTIME.mode==="public"){const publicRestaurant=findRestaurantByParam(requestedRestaurant); if(publicRestaurant){restaurantSelect.value=restaurantKey(publicRestaurant)}}}
