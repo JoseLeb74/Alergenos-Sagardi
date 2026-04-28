@@ -124,8 +124,11 @@
     .panel-title{margin:0;font-size:16px;font-weight:800}
     .panel-copy{margin:0;color:var(--muted);font-size:13px;line-height:1.6}
     .field{display:grid;gap:9px}.select-wrap,.search-box{position:relative}
-    .select-wrap:after{content:none}
-    .restaurant-select{display:none}
+    .select-wrap:after{content:"⌄";position:absolute;right:17px;top:50%;transform:translateY(-50%);color:#8c7413;font-size:14px;font-weight:900;pointer-events:none}
+    .restaurant-select{width:100%;appearance:none;border:1px solid var(--line);border-radius:var(--radius-md);background:linear-gradient(180deg,#fffdfa,#f8f1e8);color:var(--text);box-shadow:inset 0 1px 0 rgba(255,255,255,.6);padding:15px 44px 15px 16px;font-size:16px;font-weight:900;outline:none}
+    .restaurant-select.is-loaded{border-color:#aebe75;background:linear-gradient(180deg,#dbe7b3,#cad495);color:#42511f;box-shadow:0 12px 22px rgba(151,165,94,.18),inset 0 1px 0 rgba(255,255,255,.4)}
+    .restaurant-select:hover,.restaurant-select:focus-visible{border-color:#98ad55;box-shadow:0 0 0 4px rgba(151,165,94,.16),0 12px 22px rgba(151,165,94,.2),inset 0 1px 0 rgba(255,255,255,.45)}
+    .restaurant-picker-field,.restaurant-picker-menu{display:none!important}
     .restaurant-picker{position:relative}
     .restaurant-picker-field{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:10px;width:100%;min-height:58px;border:1px solid var(--line);border-radius:var(--radius-md);background:linear-gradient(180deg,#fffdfa,#f8f1e8);color:var(--text);box-shadow:inset 0 1px 0 rgba(255,255,255,.6);transition:border-color .18s ease,box-shadow .18s ease,background .18s ease}
     .restaurant-picker-field.is-loaded{border-color:#aebe75;background:linear-gradient(180deg,#dbe7b3,#cad495);color:#42511f;box-shadow:0 12px 22px rgba(151,165,94,.18),inset 0 1px 0 rgba(255,255,255,.4)}
@@ -326,15 +329,7 @@
             <div class="field">
               <label class="field-label" id="restaurantLabel" for="restaurantSelect"></label>
               <div class="select-wrap restaurant-picker" id="restaurantPicker">
-                <div class="restaurant-picker-field" id="restaurantPickerField">
-                  <input class="restaurant-picker-input" id="restaurantSearchInput" type="search" autocomplete="off" placeholder="Buscar restaurante...">
-                  <div class="restaurant-picker-actions">
-                    <button class="restaurant-picker-clear" id="restaurantSearchClear" type="button" aria-label="Limpiar búsqueda" hidden>×</button>
-                    <button class="restaurant-picker-chevron" id="restaurantPickerToggle" type="button" aria-expanded="false" aria-controls="restaurantPickerMenu" aria-label="Abrir restaurantes">⌄</button>
-                  </div>
-                </div>
-                <div class="restaurant-picker-menu" id="restaurantPickerMenu" hidden></div>
-                <select class="restaurant-select" id="restaurantSelect" aria-hidden="true" tabindex="-1"></select>
+                <select class="restaurant-select" id="restaurantSelect"></select>
               </div>
             </div>
             <div style="margin-top:14px"><button class="load-button" id="loadRestaurantButton" type="button"></button></div>
@@ -903,10 +898,10 @@
     Object.assign(TRANSLATIONS.en,{statusLoading:"Loading information...",statusError:"The information could not be loaded. Check the connection or data file.",statusNoData:"Information pending upload",pendingDataTitle:"Information pending upload",pendingDataCopy:"This restaurant does not yet have allergen information available in the app.",pendingDataWarning:"Check with Gastronomy, Quality and Food Safety before using this information in service."});
     Object.assign(TRANSLATIONS.cat,{statusLoading:"Carregant informació...",statusError:"No s'ha pogut carregar la informació. Revisa la connexió o l'arxiu de dades.",statusNoData:"Informació pendent de carregar",pendingDataTitle:"Informació pendent de carregar",pendingDataCopy:"Aquest restaurant encara no té informació d'al·lèrgens disponible a l'app.",pendingDataWarning:"Consulta amb Gastronomia i Qualitat i Seguretat Alimentària abans d'utilitzar aquesta informació en servei."});
     Object.assign(TRANSLATIONS.pt,{statusLoading:"A carregar informação...",statusError:"Não foi possível carregar a informação. Verifique a ligação ou o ficheiro de dados.",statusNoData:"Informação pendente de carregar",pendingDataTitle:"Informação pendente de carregar",pendingDataCopy:"Este restaurante ainda não tem informação de alergénios disponível na app.",pendingDataWarning:"Consulte Gastronomia, Qualidade e Segurança Alimentar antes de utilizar esta informação no serviço."});
-    Object.assign(TRANSLATIONS.es,{containsLabel:"CONTIENE",updateDateStatus:"Fecha de Actualización \"{date}\"",statusLoaded:"{updateDateLine}Se han cargado {count} platos de {restaurant}."});
-    Object.assign(TRANSLATIONS.en,{containsLabel:"CONTAINS",updateDateStatus:"Update date \"{date}\"",statusLoaded:"{updateDateLine}Loaded {count} dishes from {restaurant}."});
-    Object.assign(TRANSLATIONS.cat,{containsLabel:"CONTÉ",updateDateStatus:"Data d'actualització \"{date}\"",statusLoaded:"{updateDateLine}S'han carregat {count} plats de {restaurant}."});
-    Object.assign(TRANSLATIONS.pt,{containsLabel:"CONTÉM",updateDateStatus:"Data de atualização \"{date}\"",statusLoaded:"{updateDateLine}Foram carregados {count} pratos de {restaurant}."});
+    Object.assign(TRANSLATIONS.es,{containsLabel:"CONTIENE",updateDateStatus:"Fecha de Actualización {date}",statusLoaded:"{updateDateLine}Se han cargado {count} platos de {restaurant}."});
+    Object.assign(TRANSLATIONS.en,{containsLabel:"CONTAINS",updateDateStatus:"Update date {date}",statusLoaded:"{updateDateLine}Loaded {count} dishes from {restaurant}."});
+    Object.assign(TRANSLATIONS.cat,{containsLabel:"CONTÉ",updateDateStatus:"Data d'actualització {date}",statusLoaded:"{updateDateLine}S'han carregat {count} plats de {restaurant}."});
+    Object.assign(TRANSLATIONS.pt,{containsLabel:"CONTÉM",updateDateStatus:"Data de atualização {date}",statusLoaded:"{updateDateLine}Foram carregados {count} pratos de {restaurant}."});
     Object.assign(TRANSLATIONS.es,{loginNoResults:"No se encontraron restaurantes.",loginSelectProfile:"Selecciona restaurante o perfil",loginNoProfiles:"No hay accesos disponibles",restaurantSearchPlaceholder:"Buscar restaurante...",restaurantNoResults:"No se encontraron restaurantes."});
     Object.assign(TRANSLATIONS.en,{loginNoResults:"No restaurants found.",loginSelectProfile:"Select restaurant or profile",loginNoProfiles:"No access profiles available",restaurantSearchPlaceholder:"Search restaurant...",restaurantNoResults:"No restaurants found."});
     Object.assign(TRANSLATIONS.cat,{loginNoResults:"No s\u2019han trobat restaurants.",loginSelectProfile:"Selecciona restaurant o perfil",loginNoProfiles:"No hi ha accessos disponibles",restaurantSearchPlaceholder:"Buscar restaurant...",restaurantNoResults:"No s\u2019han trobat restaurants."});
@@ -1010,9 +1005,9 @@
     }
     function allergenColors(key){
       const bg=ALLERGEN_BASE_COLORS[key]||"#8A7F74";
-      const traceBgAmount=key==="MILK AND DAIRY PRODUCTS"?.46:.76;
-      const traceBorderAmount=key==="MILK AND DAIRY PRODUCTS"?.24:.62;
-      const traceText=key==="MILK AND DAIRY PRODUCTS"?"#111":bg;
+      const traceBgAmount=key==="MILK AND DAIRY PRODUCTS"?.28:.76;
+      const traceBorderAmount=key==="MILK AND DAIRY PRODUCTS"?.12:.62;
+      const traceText=key==="MILK AND DAIRY PRODUCTS"?"#fff":bg;
       return {bg,text:"#fff",traceBg:mixColorWithWhite(bg,traceBgAmount),traceText,traceBorder:mixColorWithWhite(bg,traceBorderAmount)};
     }
     function allergenStyle(key,type){
@@ -1313,18 +1308,37 @@
       if(!cell) return "";
       return cell.v!=null?cell.v:(cell.f!=null?cell.f:"");
     }
-    function extractUpdateDateFromPayload(payload){
-      const columns=payload&&payload.table&&payload.table.cols;
-      const raw=cleanCell(columns&&columns[15]&&columns[15].label);
+    function cleanUpdateDateValue(value){
+      const raw=cleanCell(value);
       if(!raw) return "";
       const firstLine=cleanCell((raw.split("\n")[0]||raw));
-      return cleanCell(firstLine.replace(/\s+(SULFITS?|SULFITOS?|SULPHITES?|SULPHITE)\b.*$/i,""));
+      return cleanCell(firstLine.replace(/^['"]+|['"]+$/g,"").replace(/\s+(SULFITS?|SULFITOS?|SULPHITES?|SULPHITE)\b.*$/i,""));
+    }
+    function extractUpdateDateFromPayload(payload){
+      const table=payload&&payload.table;
+      const columns=table&&table.cols;
+      const firstRow=table&&table.rows&&table.rows[0];
+      const candidates=[
+        columns&&columns[15]&&columns[15].label,
+        gvizCellValue(firstRow,15),
+        gvizRawCellValue(firstRow,15)
+      ];
+      for(const candidate of candidates){
+        const value=cleanUpdateDateValue(candidate);
+        if(value) return value;
+      }
+      return "";
     }
     function liveAllergenColumns(table){
       return ((table&&table.cols)||[]).slice(2).map((column,offset)=>{
-        const parsedKey=normalizeText(parseAllergenKey(column&&column.label)).toUpperCase();
+        const index=offset+2;
+        const fallbackLabel=((table&&table.rows)||[]).slice(0,8).map(row=>gvizCellValue(row,index)).find(value=>{
+          const parsed=normalizeAllergenKey(parseAllergenKey(value));
+          return MASTER_ALLERGEN_KEYS.includes(parsed);
+        })||"";
+        const parsedKey=normalizeText(parseAllergenKey((column&&column.label)||fallbackLabel)).toUpperCase();
         const key=normalizeAllergenKey(parsedKey);
-        return KNOWN_ALLERGEN_KEYS.includes(key)?{index:offset+2,key}:null;
+        return KNOWN_ALLERGEN_KEYS.includes(key)?{index,key}:null;
       }).filter(Boolean);
     }
     function liveGroupColumn(table){
@@ -2021,21 +2035,22 @@
     function findRestaurantByParam(value){if(!value) return null; return RESTAURANTS.find(restaurant=>normalizeRestaurantParam(restaurant.name)===value||normalizeRestaurantParam(restaurantDisplayName(restaurant))===value)||null}
     function restaurantPickerCurrentRestaurant(){return RESTAURANTS.find(item=>restaurantKey(item)===restaurantSelect.value)||state.restaurant||null}
     function updateRestaurantPickerInput(){
-      if(!restaurantSearchInput||document.activeElement===restaurantSearchInput&&restaurantPicker&&restaurantPicker.classList.contains("is-open")) return;
+      if(!restaurantSearchInput) return;
+      if(document.activeElement===restaurantSearchInput&&restaurantPicker&&restaurantPicker.classList.contains("is-open")) return;
       const current=restaurantPickerCurrentRestaurant();
       restaurantSearchInput.value=current?restaurantDisplayName(current):"";
-      restaurantSearchClear.hidden=!restaurantSearchInput.value.trim();
+      if(restaurantSearchClear) restaurantSearchClear.hidden=!restaurantSearchInput.value.trim();
     }
     function restaurantPickerMatches(restaurant,query){
       if(!query) return true;
       return [restaurantDisplayName(restaurant),restaurant.name,restaurant.sourceSheetName,restaurantSheetName(restaurant)].some(value=>normalizeSearchText(value).includes(query));
     }
     function renderRestaurantPickerOptions(){
-      if(!restaurantPickerMenu) return;
+      if(!restaurantPickerMenu||!restaurantSearchInput) return;
       const query=normalizeSearchText(restaurantSearchInput.value);
       const visible=RESTAURANTS.filter(restaurant=>restaurantPickerMatches(restaurant,query));
       restaurantPickerMenu.innerHTML="";
-      restaurantSearchClear.hidden=!restaurantSearchInput.value.trim();
+      if(restaurantSearchClear) restaurantSearchClear.hidden=!restaurantSearchInput.value.trim();
       visible.forEach(restaurant=>{
         const button=document.createElement("button");
         const value=restaurantKey(restaurant);
@@ -2049,7 +2064,7 @@
       if(!visible.length) restaurantPickerMenu.innerHTML=`<div class="restaurant-picker-empty">${t("restaurantNoResults")}</div>`;
     }
     function openRestaurantPicker(){
-      if(!restaurantPicker||restaurantSelect.disabled) return;
+      if(!restaurantPicker||!restaurantPickerToggle||!restaurantPickerMenu||!restaurantSearchInput||restaurantSelect.disabled) return;
       restaurantPicker.classList.add("is-open");
       restaurantPickerToggle.setAttribute("aria-expanded","true");
       restaurantPickerMenu.hidden=false;
@@ -2058,7 +2073,7 @@
       restaurantSearchInput.select();
     }
     function closeRestaurantPicker(){
-      if(!restaurantPicker) return;
+      if(!restaurantPicker||!restaurantPickerToggle||!restaurantPickerMenu) return;
       restaurantPicker.classList.remove("is-open");
       restaurantPickerToggle.setAttribute("aria-expanded","false");
       restaurantPickerMenu.hidden=true;
@@ -2066,12 +2081,13 @@
     }
     function selectRestaurantFromPicker(restaurant){
       restaurantSelect.value=restaurantKey(restaurant);
-      restaurantSearchInput.value=restaurantDisplayName(restaurant);
-      restaurantSearchClear.hidden=!restaurantSearchInput.value.trim();
+      if(restaurantSearchInput) restaurantSearchInput.value=restaurantDisplayName(restaurant);
+      if(restaurantSearchClear&&restaurantSearchInput) restaurantSearchClear.hidden=!restaurantSearchInput.value.trim();
       closeRestaurantPicker();
       if(state.restaurant&&restaurantKey(state.restaurant)!==restaurantSelect.value) loadSelectedRestaurant();
     }
     function selectFirstRestaurantPickerMatch(){
+      if(!restaurantSearchInput) return;
       const query=normalizeSearchText(restaurantSearchInput.value);
       const first=RESTAURANTS.find(restaurant=>restaurantPickerMatches(restaurant,query));
       if(first) selectRestaurantFromPicker(first);
@@ -2171,7 +2187,7 @@
     logoutButton.addEventListener("click",clearAccessSession);
     document.addEventListener("click",event=>{if(!loginLocalPicker.contains(event.target)) closeLoginPicker(); if(restaurantPicker&&!restaurantPicker.contains(event.target)) closeRestaurantPicker()});
     document.addEventListener("keydown",event=>{if(event.key==="Escape"){closeLoginPicker(); closeRestaurantPicker();}});
-    if(RUNTIME.allowRestaurantSelection){loadRestaurantButton.addEventListener("click",()=>loadSelectedRestaurant()); restaurantPickerField.addEventListener("click",event=>{if(event.target!==restaurantSearchClear) openRestaurantPicker()}); restaurantPickerToggle.addEventListener("click",event=>{event.stopPropagation(); restaurantPicker.classList.contains("is-open")?closeRestaurantPicker():openRestaurantPicker()}); restaurantSearchInput.addEventListener("input",()=>{openRestaurantPicker(); renderRestaurantPickerOptions()}); restaurantSearchInput.addEventListener("keydown",event=>{if(event.key==="Enter"){event.preventDefault(); selectFirstRestaurantPickerMatch()} if(event.key==="Escape") closeRestaurantPicker()}); restaurantSearchClear.addEventListener("click",event=>{event.stopPropagation(); restaurantSearchInput.value=""; renderRestaurantPickerOptions(); restaurantSearchInput.focus()}); restaurantPickerMenu.addEventListener("keydown",event=>{const options=[...restaurantPickerMenu.querySelectorAll(".restaurant-picker-option")]; const index=options.indexOf(document.activeElement); if(event.key==="ArrowDown"&&options[index+1]){event.preventDefault(); options[index+1].focus();} if(event.key==="ArrowUp"){event.preventDefault(); (options[index-1]||restaurantSearchInput).focus();}});}
+    if(RUNTIME.allowRestaurantSelection){loadRestaurantButton.addEventListener("click",()=>loadSelectedRestaurant()); if(restaurantPickerField&&restaurantPickerToggle&&restaurantSearchInput&&restaurantSearchClear&&restaurantPickerMenu){restaurantPickerField.addEventListener("click",event=>{if(event.target!==restaurantSearchClear) openRestaurantPicker()}); restaurantPickerToggle.addEventListener("click",event=>{event.stopPropagation(); restaurantPicker.classList.contains("is-open")?closeRestaurantPicker():openRestaurantPicker()}); restaurantSearchInput.addEventListener("input",()=>{openRestaurantPicker(); renderRestaurantPickerOptions()}); restaurantSearchInput.addEventListener("keydown",event=>{if(event.key==="Enter"){event.preventDefault(); selectFirstRestaurantPickerMatch()} if(event.key==="Escape") closeRestaurantPicker()}); restaurantSearchClear.addEventListener("click",event=>{event.stopPropagation(); restaurantSearchInput.value=""; renderRestaurantPickerOptions(); restaurantSearchInput.focus()}); restaurantPickerMenu.addEventListener("keydown",event=>{const options=[...restaurantPickerMenu.querySelectorAll(".restaurant-picker-option")]; const index=options.indexOf(document.activeElement); if(event.key==="ArrowDown"&&options[index+1]){event.preventDefault(); options[index+1].focus();} if(event.key==="ArrowUp"){event.preventDefault(); (options[index-1]||restaurantSearchInput).focus();}});}}
     langEs.addEventListener("click",()=>{state.lang="es"; closeLangMenu(); applyTranslations()});
     langEn.addEventListener("click",()=>{state.lang="en"; closeLangMenu(); applyTranslations()});
     langCat.addEventListener("click",()=>{state.lang="cat"; closeLangMenu(); applyTranslations()});
