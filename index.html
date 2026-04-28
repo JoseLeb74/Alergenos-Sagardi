@@ -1268,23 +1268,28 @@
       }).filter(Boolean);
     }
     function liveGroupColumn(table){
+      const rows=(table&&table.rows)||[];
       return ((table&&table.cols)||[]).map((column,index)=>{
         const label=normalizeText(column&&column.label).toUpperCase();
-        return /^(GRUPO|GRUPOS|GROUP|GROUPS|SECCION|SECCION|SECCIO)$/.test(label)?{index}:null;
+        if(!/^(GRUPO|GRUPOS|GROUP|GROUPS|SECCION|SECCION|SECCIO)$/.test(label)) return null;
+        const hasRealGroup=rows.some(row=>cleanGroupLabel(gvizCellValue(row,index)));
+        return hasRealGroup?{index}:null;
       }).filter(Boolean)[0]||null;
     }
-    function parseLiveRestaurantPayload(payload,includeIngredients){
+    function parseLiveRestaurantPayload(payload,includeIngredients,restaurant=null){
       if(!payload||payload.status!=="ok"||!payload.table) throw new Error("Invalid Google Sheets response.");
       const dishes=[];
       const allergenColumns=liveAllergenColumns(payload.table);
+      const groupColumn=liveGroupColumn(payload.table);
       let currentDish=null;
-      let currentGroup=cleanGroupLabel(payload.table.cols&&payload.table.cols[1]&&payload.table.cols[1].label)||"";
+      let currentGroup=cleanRestaurantGroupLabel(payload.table.cols&&payload.table.cols[1]&&payload.table.cols[1].label,restaurant)||"";
       (payload.table.rows||[]).forEach(row=>{
         if(!row||!Array.isArray(row.c)) return;
         const title=gvizCellValue(row,1);
-        const titleGroup=cleanGroupLabel(title);
-        if(titleGroup){currentGroup=titleGroup; currentDish=null; return;}
-        if(isLikelySectionRow(row)){currentGroup=cleanGroupLabel(gvizCellValue(row,1)); currentDish=null; return;}
+        const explicitGroup=groupColumn?cleanRestaurantGroupLabel(gvizCellValue(row,groupColumn.index),restaurant):"";
+        const titleGroup=groupColumn?"":cleanRestaurantGroupLabel(title,restaurant);
+        if(explicitGroup||titleGroup){currentGroup=explicitGroup||titleGroup; currentDish=null; return;}
+        if(!groupColumn&&isLikelySectionRow(row)){currentGroup=cleanRestaurantGroupLabel(gvizCellValue(row,1),restaurant); currentDish=null; return;}
         const code=gvizCellValue(row,0);
         const isPintxosDishWithoutCode=currentGroup&&title&&title.includes("\n")&&!/^#N\/A$/i.test(title);
         if((code&&title)||isPintxosDishWithoutCode){
@@ -1321,6 +1326,21 @@
       if(/^SAGARDI\s+PINTXOS/i.test(label)) label=label.replace(/^SAGARDI\s+/i,"").trim();
       return label;
     }
+    function cleanRestaurantGroupLabel(group,restaurant){
+      let label=cleanGroupLabel(group);
+      if(!label||!restaurant) return label;
+      const aliases=[restaurantDisplayName(restaurant),restaurantSheetName(restaurant),restaurant&&restaurant.sourceSheetName,restaurant&&restaurant.name].map(cleanCell).filter(Boolean);
+      aliases.forEach(alias=>{
+        const normalizedAlias=normalizeText(alias).toUpperCase();
+        const normalizedLabel=normalizeText(label).toUpperCase();
+        if(!normalizedAlias||normalizedAlias.length<3) return;
+        if(normalizedLabel===normalizedAlias){label=""; return;}
+        if(normalizedLabel.startsWith(`${normalizedAlias} `)||normalizedLabel.startsWith(`${normalizedAlias} /`)||normalizedLabel.startsWith(`${normalizedAlias}|`)){
+          label=label.slice(alias.length).replace(/^[\s/|:-]+/,"").trim();
+        }
+      });
+      return cleanGroupLabel(label);
+    }
     function normalizePintxosGroup(group){
       const key=normalizeText(group).toUpperCase();
       if(/\b(FRIO|FRIOS|FRED|FREDS|COLD)\b/.test(key)) return "Pintxos fríos";
@@ -1348,7 +1368,7 @@
       const embeddedRecord=EMBEDDED_RESTAURANT_MAP.get(restaurant.gid);
       try{
         const payload=await loadLiveRestaurantPayload({sheetName:restaurantSheetName(restaurant),gid:restaurant.gid});
-        const parsed=parseLiveRestaurantPayload(payload,includeIngredients);
+        const parsed=parseLiveRestaurantPayload(payload,includeIngredients,restaurant);
         return parsed;
       }catch(error){
         if(embeddedRecord){
@@ -1361,13 +1381,13 @@
     async function loadPintxosDataset(restaurant,includeIngredients){
       if(!restaurantHasPintxos(restaurant)) return {dishes:[],allergenNames:MASTER_ALLERGEN_KEYS.slice()};
       const payload=await loadLiveRestaurantPayload({sheetId:PINTXOS_SHEET_ID,sheetName:restaurantPintxosSheetName(restaurant)});
-      const parsed=parseLiveRestaurantPayload(payload,includeIngredients);
+      const parsed=parseLiveRestaurantPayload(payload,includeIngredients,restaurant);
       return {...parsed,dishes:normalizePintxosGroups(parsed.dishes)};
     }
     async function loadAlertasDataset(restaurant,includeIngredients){
       if(!restaurantHasAlertas(restaurant)) return {dishes:[],allergenNames:MASTER_ALLERGEN_KEYS.slice()};
       const payload=await loadLiveRestaurantPayload({sheetName:restaurantAlertasSheetName(restaurant)});
-      return parseLiveRestaurantPayload(payload,includeIngredients);
+      return parseLiveRestaurantPayload(payload,includeIngredients,restaurant);
     }
     async function syncRestaurantsFromLocales(){
       try{
