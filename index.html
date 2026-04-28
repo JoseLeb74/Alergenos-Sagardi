@@ -1707,7 +1707,7 @@
     function handleSafetyNoticeClick(){
       const now=Date.now();
       if(safetySecondsRemaining()>0){
-        safetyBlockedUntil=Math.max(safetyBlockedUntil,now+40000);
+        safetyBlockedUntil=Math.max(safetyBlockedUntil,now+10000);
         safetyWarning.textContent=t("safetyBlocked");
         safetyWarning.classList.remove("is-shaking");
         void safetyWarning.offsetWidth;
