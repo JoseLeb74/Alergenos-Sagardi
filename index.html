@@ -1667,7 +1667,7 @@
     function safetySecondsRemaining(){
       if(!safetyNoticeShownAt) return 12;
       const elapsed=Math.floor((Date.now()-safetyNoticeShownAt)/1000);
-      return Math.max(0,12-elapsed);
+      return Math.max(0,8-elapsed);
     }
     function renderSafetyNotice(){
       safetyTitle.textContent=t("safetyTitle");
