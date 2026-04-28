@@ -932,6 +932,7 @@
     function updateDateStatusLine(updateDate){return updateDate?`${t("updateDateStatus",{date:updateDate})}`+"\n":""}
     function normalizeRestaurantParam(value){return normalizeText(value).toUpperCase()}
     function normalizeText(v){return String(v||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/\s+/g," ").trim()}
+    function normalizeSearchText(v){return normalizeText(v).toLowerCase()}
     const STATIC_RESTAURANT_INDEX=new Map(RESTAURANT_SEED.map(restaurant=>[normalizeRestaurantParam(restaurant.name),restaurant]));
     function restaurantSheetName(restaurant){
       if(!restaurant) return "";
@@ -1498,10 +1499,15 @@
     }
     function accessColumnMap(table){
       const map=new Map();
+      const counts=new Map();
       (table.cols||[]).forEach((column,index)=>{
         const label=cleanCell(column&&column.label);
         const key=normalizeAccessKey(label);
-        if(label&&!map.has(key)) map.set(key,index);
+        if(!label) return;
+        const count=counts.get(key)||0;
+        counts.set(key,count+1);
+        if(!map.has(key)) map.set(key,index);
+        if(count>0) map.set(`${key}.${count}`,index);
       });
       return map;
     }
