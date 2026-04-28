@@ -1206,8 +1206,8 @@
         details:Array.isArray(details)?details.map(cleanCell).filter(Boolean):null
       };
     }
-    function parseEmbeddedRestaurant(record,includeIngredients){
-      const dishes=(record&&record.dishes||[]).map(dish=>buildDishRecord(dish.code,dish.rawTitle,dish.allergenEntries||[],includeIngredients?dish.details||[]:null,dish.group||""));
+    function parseEmbeddedRestaurant(record,includeIngredients,restaurant=null){
+      const dishes=(record&&record.dishes||[]).map(dish=>buildDishRecord(dish.code,dish.rawTitle,dish.allergenEntries||[],includeIngredients?dish.details||[]:null,cleanRestaurantGroupLabel(dish.group||"",restaurant)));
       return {
         dishes,
         allergenNames:MASTER_ALLERGEN_KEYS.slice()
@@ -1353,9 +1353,13 @@
       if(/\b(CALIENTE|CALIENTES|CALENT|CALENTS|HOT)\b/.test(key)) return "Pintxos calientes";
       return "";
     }
-    function normalizePintxosGroups(dishes){
-      return dishes.map(dish=>({...dish,group:cleanGroupLabel(dish.group)||normalizePintxosGroup(dish.group)}));
+    function normalizePintxosGroups(dishes,restaurant=null){
+      return dishes.map(dish=>({...dish,group:cleanRestaurantGroupLabel(dish.group,restaurant)||normalizePintxosGroup(dish.group)}));
     }
+    function sanitizeDishGroups(dishes,restaurant=null){
+      return (dishes||[]).map(dish=>({...dish,group:cleanRestaurantGroupLabel(dish.group,restaurant)}));
+    }
+    function dishGroupLabel(dish){return cleanRestaurantGroupLabel(dish&&dish.group,state.restaurant)}
     function parseLocalesPayload(payload){
       if(!payload||payload.status!=="ok"||!payload.table) throw new Error("Invalid locales response.");
       return mergeRestaurantsFromLocales((payload.table.rows||[]).map(row=>[gvizCellValue(row,LOCALES_TAB_COLUMN_INDEX),gvizCellValue(row,ALERTAS_CARTA_TAB_COLUMN_INDEX)]).filter(row=>row[0]));
@@ -1379,7 +1383,7 @@
       }catch(error){
         if(embeddedRecord){
           console.warn(`Using embedded fallback for ${restaurant.name}.`,error);
-          return parseEmbeddedRestaurant(embeddedRecord,includeIngredients);
+          return parseEmbeddedRestaurant(embeddedRecord,includeIngredients,restaurant);
         }
         throw error;
       }
@@ -1388,7 +1392,7 @@
       if(!restaurantHasPintxos(restaurant)) return {dishes:[],allergenNames:MASTER_ALLERGEN_KEYS.slice()};
       const payload=await loadLiveRestaurantPayload({sheetId:PINTXOS_SHEET_ID,sheetName:restaurantPintxosSheetName(restaurant)});
       const parsed=parseLiveRestaurantPayload(payload,includeIngredients,restaurant);
-      return {...parsed,dishes:normalizePintxosGroups(parsed.dishes)};
+      return {...parsed,dishes:normalizePintxosGroups(parsed.dishes,restaurant)};
     }
     async function loadAlertasDataset(restaurant,includeIngredients){
       if(!restaurantHasAlertas(restaurant)) return {dishes:[],allergenNames:MASTER_ALLERGEN_KEYS.slice()};
@@ -1790,7 +1794,7 @@
     function currentGroupSource(){return state.view==="pintxos"?state.pintxosDishes:state.view==="alertas"?state.alertasDishes:state.dishes}
     function availableGroups(items=currentGroupSource()){
       const seen=new Set();
-      return items.map(item=>cleanCell(item.group)).filter(group=>{
+      return items.map(item=>dishGroupLabel(item)).filter(group=>{
         const key=normalizeText(group).toUpperCase();
         if(!key||seen.has(key)) return false;
         seen.add(key);
@@ -1832,7 +1836,7 @@
       const q=normalizeText(searchInput.value).toLowerCase();
       if(!state.restaurant||!state.dishes.length||q.length<2||state.view==="allergens"){closeSearchSuggestions(); return}
       const selectedGroup=normalizeText(currentSelectedGroup()).toUpperCase();
-      const matches=currentGroupSource().filter(dish=>(!selectedGroup||normalizeText(dish.group).toUpperCase()===selectedGroup)&&dishSearchText(dish).includes(q)).slice(0,8);
+      const matches=currentGroupSource().filter(dish=>(!selectedGroup||normalizeText(dishGroupLabel(dish)).toUpperCase()===selectedGroup)&&dishSearchText(dish).includes(q)).slice(0,8);
       searchSuggestions.hidden=false;
       if(!matches.length){searchSuggestions.innerHTML=`<div class="search-suggestion-empty">${t("searchNoSuggestions")}</div>`; return}
       searchSuggestions.innerHTML="";
@@ -1842,7 +1846,7 @@
         button.className="search-suggestion";
         button.innerHTML='<span class="search-suggestion-title"></span><span class="search-suggestion-meta"></span>';
         button.querySelector(".search-suggestion-title").textContent=dishDisplayTitle(dish);
-        button.querySelector(".search-suggestion-meta").textContent=dish.group||`${t("code")} ${dish.code}`;
+        button.querySelector(".search-suggestion-meta").textContent=dishGroupLabel(dish)||`${t("code")} ${dish.code}`;
         button.addEventListener("click",()=>{searchInput.value=dishDisplayTitle(dish); renderCurrentView(); closeSearchSuggestions()});
         searchSuggestions.appendChild(button);
       });
@@ -1850,7 +1854,7 @@
     function isRealDish(dish){return !!(dish&&(cleanCell(dish.rawTitle)||cleanCell(dish.code)||(Array.isArray(dish.details)&&dish.details.some(item=>cleanCell(item)))||(Array.isArray(dish.allergenEntries)&&dish.allergenEntries.length)))}
     function realDishes(items){return (items||[]).filter(isRealDish)}
     function renderPendingState(target){target.innerHTML=`<div class="pending-state" role="status"><div class="pending-icon" aria-hidden="true">i</div><h3 class="pending-title">${t("pendingDataTitle")}</h3><p class="pending-copy">${t("pendingDataCopy")}</p><p class="pending-warning">${t("pendingDataWarning")}</p></div>`}
-    function filteredItems(items){const q=normalizeText(searchInput.value).toLowerCase(); const selectedGroup=normalizeText(currentSelectedGroup()).toUpperCase(); return items.filter(d=>(!selectedGroup||normalizeText(d.group).toUpperCase()===selectedGroup)&&(!q||dishSearchText(d).includes(q)))}
+    function filteredItems(items){const q=normalizeText(searchInput.value).toLowerCase(); const selectedGroup=normalizeText(currentSelectedGroup()).toUpperCase(); return items.filter(d=>(!selectedGroup||normalizeText(dishGroupLabel(d)).toUpperCase()===selectedGroup)&&(!q||dishSearchText(d).includes(q)))}
     function filteredDishes(){return filteredItems(state.dishes)}
     function filteredPintxos(){return filteredItems(state.pintxosDishes)}
     function filteredAlertas(){return filteredItems(state.alertasDishes)}
@@ -1930,9 +1934,9 @@
         const alertasParsed=await loadAlertasDataset(restaurant,RUNTIME.showIngredients).catch(error=>{console.warn(`Could not load alertas carta for ${restaurant.name}.`,error); return {dishes:[],allergenNames:MASTER_ALLERGEN_KEYS.slice()}});
         if(loadToken!==activeRestaurantLoadToken) return;
         state.restaurant=restaurant;
-        state.dishes=realDishes(parsed.dishes);
-        state.pintxosDishes=realDishes(pintxosParsed.dishes);
-        state.alertasDishes=realDishes(alertasParsed.dishes);
+        state.dishes=realDishes(sanitizeDishGroups(parsed.dishes,restaurant));
+        state.pintxosDishes=realDishes(sanitizeDishGroups(pintxosParsed.dishes,restaurant));
+        state.alertasDishes=realDishes(sanitizeDishGroups(alertasParsed.dishes,restaurant));
         state.allergenNames=parsed.allergenNames;
         state.selectedAllergen=nextSelectedAllergen;
         state.selectedGroups=nextSelectedGroups;
