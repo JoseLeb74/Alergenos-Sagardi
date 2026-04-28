@@ -81,6 +81,7 @@
     .summary-value{font-size:clamp(14px,1.7vw,17px);font-weight:800;line-height:1.25;letter-spacing:0;color:#5f4b00}
     .summary-value.is-empty{font-size:clamp(12px,1.5vw,15px);font-weight:700;line-height:1.25;letter-spacing:0}
     .main{display:grid;grid-template-columns:330px minmax(0,1fr);gap:18px;padding:0 18px 18px}
+    .main>aside[hidden]+.results-panel{grid-column:1/-1}
     .panel{border:1px solid rgba(201,181,155,.76);border-radius:var(--radius-lg);background:rgba(255,252,247,.95);box-shadow:var(--shadow-soft)}
     .panel+.panel{margin-top:14px}
     .control-panel,.search-panel,.results-panel{padding:20px}
@@ -111,9 +112,9 @@
     @keyframes activeRestaurantPulse{0%,100%{transform:scale(1);box-shadow:0 16px 30px rgba(154,82,22,.34),0 0 0 5px rgba(242,162,58,.16),0 0 24px rgba(255,217,102,.34);filter:saturate(1.02)}50%{transform:scale(1.02);box-shadow:0 18px 36px rgba(154,82,22,.46),0 0 0 8px rgba(242,162,58,.24),0 0 38px rgba(255,217,102,.58);filter:saturate(1.22)}}
     @keyframes activeRestaurantShine{0%{transform:translateX(-20%) rotate(18deg);opacity:0}18%{opacity:1}100%{transform:translateX(470%) rotate(18deg);opacity:0}}
     @keyframes activeRestaurantSparkle{0%,100%{opacity:.35;transform:scale(1)}50%{opacity:1;transform:scale(1.04)}}
-    .view-button{position:relative;overflow:hidden;padding:13px 14px;border:1px solid #e8cd79;border-radius:14px;background:linear-gradient(180deg,#fff1a6,#ffe699);color:#5f4b00;font-size:14px;font-weight:800;box-shadow:0 10px 18px rgba(224,189,71,.18)}
-    .view-button:hover,.view-button:focus-visible{border-color:#ddb95d;background:linear-gradient(180deg,#fff6bf,#ffecb3);color:#5f4b00;outline:none}
-    .view-button.active{background:linear-gradient(135deg,#3f86d6,#1f5fa8);border-color:#1a4f8c;color:#fff;box-shadow:0 16px 30px rgba(31,95,168,.32),0 0 0 4px rgba(63,134,214,.18),0 0 22px rgba(63,134,214,.34)}
+    .view-button{position:relative;overflow:hidden;padding:13px 14px;border:1px solid #e8cd79;border-radius:14px;background:linear-gradient(180deg,#fff3ad,#ffe699);color:#5f4b00;font-size:14px;font-weight:800;box-shadow:0 10px 18px rgba(224,189,71,.18)}
+    .view-button:hover,.view-button:focus-visible{border-color:#ddb95d;background:linear-gradient(180deg,#fff7c7,#ffecb3);color:#5f4b00;outline:none}
+    .view-button.active{background:linear-gradient(135deg,#ffd966,#f0b800);border-color:#c89400;color:#4f3d00;box-shadow:0 16px 30px rgba(193,139,0,.32),0 0 0 4px rgba(255,217,102,.22),0 0 22px rgba(255,217,102,.42)}
     .view-button.active::after{content:"";position:absolute;inset:-35% auto -35% -45%;width:38%;background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.86),rgba(255,255,255,0));transform:rotate(18deg);animation:viewButtonGlow 2.1s linear infinite;pointer-events:none}
     .view-button.active::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 18% 28%,rgba(255,255,255,.95) 0 2px,transparent 3px),radial-gradient(circle at 80% 70%,rgba(255,255,255,.82) 0 2px,transparent 3px);animation:viewButtonSparkle 1.35s steps(2,end) infinite;pointer-events:none}
     @keyframes viewButtonGlow{0%{transform:translateX(-20%) rotate(18deg);opacity:0}18%{opacity:.95}100%{transform:translateX(420%) rotate(18deg);opacity:0}}
