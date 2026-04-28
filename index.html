@@ -49,9 +49,11 @@
     .safety-modal::before{content:"";position:absolute;inset:0 0 auto 0;height:8px;background:linear-gradient(90deg,#a94d00,#ffd966,#a94d00)}
     .safety-icon{width:50px;height:50px;display:grid;place-items:center;margin-bottom:14px;border-radius:18px;background:linear-gradient(135deg,#fff1a6,#ffd966);color:#5f3c00;font-size:24px;font-weight:950;box-shadow:0 14px 24px rgba(168,110,20,.2)}
     .safety-title{margin:0 0 12px;font-family:"Fraunces",serif;font-size:clamp(28px,7vw,42px);line-height:.98;letter-spacing:-.04em;color:#241a12}
-    .safety-copy{display:grid;gap:12px;margin:0 0 18px;color:#322418;font-size:16px;font-weight:750;line-height:1.58}
+    .safety-copy{position:relative;isolation:isolate;overflow:hidden;display:grid;gap:12px;margin:0 0 18px;padding:16px;border:1px solid rgba(150,45,26,.28);border-radius:18px;background:linear-gradient(135deg,#fff8f3,#fff0e8);color:#8f2d1d;font-size:16px;font-weight:850;line-height:1.58;box-shadow:0 14px 28px rgba(143,45,29,.1);animation:safetyTextPulse 1.9s ease-in-out infinite}
+    .safety-copy::before{content:"";position:absolute;inset:-35% auto -35% -42%;z-index:-1;width:32%;background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.82),rgba(255,255,255,0));transform:rotate(18deg);animation:safetyTextShine 2.4s linear infinite}
+    .safety-copy::after{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(circle at 16% 24%,rgba(255,217,102,.9) 0 2px,transparent 3px),radial-gradient(circle at 84% 20%,rgba(255,255,255,.9) 0 2px,transparent 3px),radial-gradient(circle at 76% 78%,rgba(255,217,102,.75) 0 2px,transparent 3px),radial-gradient(circle at 28% 82%,rgba(255,255,255,.75) 0 1px,transparent 3px);animation:safetyTextSparkle 1.25s steps(2,end) infinite;pointer-events:none}
     .safety-copy p{margin:0}
-    .safety-copy strong{font-weight:950;color:#5f3100}
+    .safety-copy strong{font-weight:950;color:#6f1f14}
     .safety-action{display:grid;gap:10px}
     .safety-button{min-height:54px;border:1px solid #bd7d11;border-radius:16px;background:linear-gradient(180deg,#ffd966,#f0b800);color:#4f3d00;font-size:16px;font-weight:950;box-shadow:0 16px 28px rgba(193,139,0,.26)}
     .safety-button:hover,.safety-button:focus-visible{outline:none;transform:translateY(-1px);box-shadow:0 20px 34px rgba(193,139,0,.34)}
@@ -60,6 +62,9 @@
     .safety-warning.is-shaking{animation:safetyShake .32s ease}
     @keyframes safetyFlash{0%{opacity:0;transform:scale(.92) translateY(18px);filter:brightness(1.35)}55%{opacity:1;transform:scale(1.025);filter:brightness(1.08)}100%{transform:scale(1) translateY(0);filter:brightness(1)}}
     @keyframes safetyShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}50%{transform:translateX(6px)}75%{transform:translateX(-3px)}}
+    @keyframes safetyTextPulse{0%,100%{transform:scale(1);box-shadow:0 14px 28px rgba(143,45,29,.1)}50%{transform:scale(1.012);box-shadow:0 18px 34px rgba(143,45,29,.18)}}
+    @keyframes safetyTextShine{0%{transform:translateX(-15%) rotate(18deg);opacity:0}18%{opacity:.82}100%{transform:translateX(470%) rotate(18deg);opacity:0}}
+    @keyframes safetyTextSparkle{0%,100%{opacity:.28}50%{opacity:1}}
     .page{width:min(1220px,calc(100% - 18px));margin:12px auto 24px}
     .shell{position:relative;overflow:hidden;border:1px solid rgba(201,181,155,.68);border-radius:34px;background:linear-gradient(180deg,rgba(255,254,251,.96),rgba(247,241,233,.94));box-shadow:0 28px 70px rgba(45,31,17,.1)}
     .shell:before{content:"";position:absolute;inset:0 0 auto 0;height:240px;background:radial-gradient(circle at top left,rgba(177,93,67,.1),transparent 40%),radial-gradient(circle at 85% 0,rgba(40,72,67,.08),transparent 28%),linear-gradient(180deg,rgba(255,249,241,.86),transparent);pointer-events:none}
@@ -1621,16 +1626,15 @@
       if(safetyNoticeTimer){window.clearInterval(safetyNoticeTimer); safetyNoticeTimer=0;}
     }
     function safetySecondsRemaining(){
-      if(!safetyNoticeShownAt) return 7;
+      if(!safetyNoticeShownAt) return 12;
       const elapsed=Math.floor((Date.now()-safetyNoticeShownAt)/1000);
-      return Math.max(0,7-elapsed);
+      return Math.max(0,12-elapsed);
     }
     function renderSafetyNotice(){
-      const remaining=safetySecondsRemaining();
       safetyTitle.textContent=t("safetyTitle");
       safetyIntro.textContent=t("safetyIntro");
       safetyMandatory.innerHTML=`<strong>${t("safetyMandatoryLead")}</strong>, ${t("safetyMandatoryRest")}`;
-      safetyButton.textContent=remaining>0?t("safetyButtonWait",{seconds:remaining}):t("safetyButtonReady");
+      safetyButton.textContent=t("safetyButtonReady");
     }
     function showSafetyNotice(result){
       pendingSafetyAccess=result;
