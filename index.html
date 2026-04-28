@@ -1329,14 +1329,20 @@
     function cleanRestaurantGroupLabel(group,restaurant){
       let label=cleanGroupLabel(group);
       if(!label||!restaurant) return label;
-      const aliases=[restaurantDisplayName(restaurant),restaurantSheetName(restaurant),restaurant&&restaurant.sourceSheetName,restaurant&&restaurant.name].map(cleanCell).filter(Boolean);
+      const baseAliases=[restaurantDisplayName(restaurant),restaurantSheetName(restaurant),restaurant&&restaurant.sourceSheetName,restaurant&&restaurant.name].map(cleanCell).filter(Boolean);
+      const aliases=[...new Set(baseAliases.flatMap(alias=>{
+        const firstWord=cleanCell(alias).split(/\s+/)[0]||"";
+        return firstWord.length>=4?[alias,firstWord]:[alias];
+      }))];
       aliases.forEach(alias=>{
         const normalizedAlias=normalizeText(alias).toUpperCase();
         const normalizedLabel=normalizeText(label).toUpperCase();
         if(!normalizedAlias||normalizedAlias.length<3) return;
         if(normalizedLabel===normalizedAlias){label=""; return;}
         if(normalizedLabel.startsWith(`${normalizedAlias} `)||normalizedLabel.startsWith(`${normalizedAlias} /`)||normalizedLabel.startsWith(`${normalizedAlias}|`)){
-          label=label.slice(alias.length).replace(/^[\s/|:-]+/,"").trim();
+          const candidate=label.slice(alias.length).replace(/^[\s/|:-]+/,"").trim();
+          const cleanedCandidate=cleanGroupLabel(candidate);
+          if(cleanedCandidate) label=cleanedCandidate;
         }
       });
       return cleanGroupLabel(label);
