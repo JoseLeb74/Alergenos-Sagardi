@@ -205,6 +205,10 @@
     .compact-search{position:relative;min-width:260px;max-width:560px;flex:1 1 360px}
     .compact-search .search-input{min-height:46px;padding:12px 14px 12px 52px;border-radius:999px;font-size:14px;font-weight:800;background:linear-gradient(180deg,#fffdfa,#fff4df);box-shadow:0 10px 18px rgba(53,37,24,.08),inset 0 1px 0 rgba(255,255,255,.68)}
     .compact-search .search-icon{left:17px;width:24px;height:24px;color:#8f452d;stroke-width:2.6}
+    .ingredient-exclude-search{max-width:420px;flex:1 1 300px}
+    .ingredient-exclude-search .search-input{background:linear-gradient(180deg,#f7fffb,#e8f4ef);border-color:rgba(37,116,90,.28)}
+    .ingredient-exclude-search .search-icon{color:#25745a}
+    .ingredient-exclude-search.is-active .search-input{border-color:#25745a;box-shadow:0 0 0 4px rgba(37,116,90,.14),0 10px 18px rgba(53,37,24,.08),inset 0 1px 0 rgba(255,255,255,.72)}
     .search-suggestions{position:absolute;z-index:45;left:0;right:0;top:calc(100% + 8px);display:grid;gap:6px;max-height:min(360px,54vh);overflow:auto;padding:8px;border:1px solid rgba(201,181,155,.92);border-radius:20px;background:rgba(255,252,247,.98);box-shadow:0 26px 54px rgba(45,31,20,.24);animation:groupMenuIn .16s ease-out}
     .search-suggestions[hidden]{display:none}
     .search-suggestion{width:100%;display:grid;gap:4px;padding:12px 13px;border:0;border-radius:14px;background:transparent;color:#302820;text-align:left;cursor:pointer}
@@ -238,9 +242,13 @@
     .group-option-text{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
     .group-check{flex:0 0 auto;color:#7f6500;font-size:14px;font-weight:900}
     .allergen-grid,.cards{display:grid;gap:14px}.allergen-grid{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));margin-bottom:18px}
+    .dietary-filter-row{grid-column:1/-1;display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-bottom:4px;padding:12px;border:1px solid rgba(201,181,155,.72);border-radius:20px;background:linear-gradient(135deg,rgba(255,253,246,.98),rgba(241,247,235,.94));box-shadow:0 12px 24px rgba(53,37,24,.07)}
     .allergen-button{padding:16px;border:1px solid transparent;border-radius:18px;text-align:left;color:#fff;box-shadow:inset 0 -1px 0 rgba(255,255,255,.08)}
     .allergen-button:hover,.allergen-button:focus-visible{transform:translateY(-1px);box-shadow:0 10px 20px rgba(37,26,17,.12);outline:none}
     .allergen-button.active{border-width:3px!important;border-color:#251b13!important;box-shadow:0 0 0 4px rgba(255,217,102,.56),0 14px 26px rgba(37,26,17,.22),inset 0 0 0 1px rgba(255,255,255,.58);transform:translateY(-1px)}
+    .allergen-button.dietary-button{position:relative;overflow:hidden;min-height:62px;border-radius:12px;border:2px solid rgba(37,27,19,.14);font-family:Verdana,Arial,sans-serif;font-weight:950;letter-spacing:.02em;text-transform:uppercase}
+    .allergen-button.dietary-button::after{content:"";position:absolute;inset:-50% auto -50% -40%;width:34%;background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.42),rgba(255,255,255,0));transform:rotate(18deg);transition:transform .38s ease}
+    .allergen-button.dietary-button:hover::after,.allergen-button.dietary-button.active::after{transform:translateX(420%) rotate(18deg)}
     .allergen-help{display:grid;gap:4px;margin:0 0 16px;padding:14px 16px;border:1px solid rgba(201,181,155,.68);border-radius:18px;background:linear-gradient(135deg,rgba(255,251,235,.96),rgba(247,241,231,.92));box-shadow:0 10px 24px rgba(53,37,24,.08)}
     .allergen-help p{margin:0;color:#5d5144;font-size:13px;font-weight:700;line-height:1.45}.allergen-help p:first-child{color:#251b13;font-size:14px}
     .allergen-name{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:700}.allergen-count{display:block;margin-top:8px;font-size:12px;font-weight:600;opacity:.88}
@@ -260,6 +268,7 @@
     .ingredients-toggle:hover,.ingredients-toggle:focus-visible{border-color:rgba(177,93,67,.34);background:linear-gradient(180deg,#fffaf5,#eee6db);box-shadow:0 0 0 3px rgba(145,120,88,.08);outline:none}
     .ingredients-block{display:grid;gap:12px;padding-top:10px;border-top:1px dashed rgba(201,181,155,.7)} .ingredients-block[hidden]{display:none}
     .dish-detail{margin:0;color:#666;font-size:14px;line-height:1.72;max-width:78ch}
+    .ingredient-highlight{display:inline;padding:1px 5px;border-radius:7px;color:#fff;font-weight:900;box-decoration-break:clone;-webkit-box-decoration-break:clone;box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 4px 10px rgba(45,31,20,.12)}
     .empty{padding:28px 18px;border:1px dashed rgba(201,181,155,.84);border-radius:18px;background:linear-gradient(180deg,#fffdf9,#f8f1e9);color:var(--muted);text-align:center;font-size:14px;line-height:1.6}
     @media (max-width:920px){.hero{grid-template-columns:1fr}.hero-summary{min-width:0}.main{grid-template-columns:1fr}.cards{grid-template-columns:1fr}.card{padding:20px}.shell.public-mode .hero{grid-template-columns:1fr}}
     @media (max-width:720px){.page{width:min(1220px,calc(100% - 10px));margin:8px auto 18px}.shell{border-radius:24px}.topbar{padding:14px 14px 6px;justify-content:flex-end;z-index:220}.brand{display:none}.lang-switch{z-index:260}.lang-toggle{min-height:44px;padding:9px 13px}.lang-menu{position:fixed;top:62px;right:10px;left:auto;z-index:5000;min-width:0;width:min(230px,calc(100vw - 20px));max-height:calc(100vh - 78px);overflow:auto;border-radius:24px}.lang-button{min-height:54px;font-size:14px}.hero{padding:10px 16px 16px}.main{padding:0 12px 12px;gap:12px}.control-panel,.search-panel,.results-panel{padding:16px}.results-header{align-items:flex-start;gap:10px}.results-title{font-size:24px}.results-actions{width:100%;display:block}.restaurant-meta{min-height:44px;padding:9px 12px;font-size:13px}.compact-search{min-width:0;max-width:none;flex:auto}.compact-search .search-input{min-height:44px;padding-left:48px}.compact-search .search-icon{width:23px;height:23px}.search-suggestions{left:auto;right:0;width:min(78vw,420px)}.group-filter{margin-bottom:14px;padding:10px}.group-menu{left:10px;right:10px;max-height:46vh}.card-title-row{flex-direction:column}.dish-icons{justify-content:flex-start;max-width:none}}
@@ -388,6 +397,7 @@
               <button class="view-button" id="alertasViewButton" type="button" hidden></button>
               <button class="view-button" id="allergensViewButton" type="button"></button>
               <button class="view-button" id="allergensPintxosViewButton" type="button" hidden></button>
+              <button class="view-button" id="allergensAlertasViewButton" type="button" hidden></button>
             </div>
           </section>
           <section class="panel status-panel" id="status"></section>
@@ -406,6 +416,11 @@
                   <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
                   <input class="search-input" id="searchInput" type="search">
                   <div class="search-suggestions" id="searchSuggestions" hidden></div>
+                </div>
+                <div class="compact-search search-box ingredient-exclude-search" id="ingredientExcludeBox">
+                  <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+                  <input class="search-input" id="ingredientExcludeInput" type="search">
+                  <div class="search-suggestions" id="ingredientExcludeSuggestions" hidden></div>
                 </div>
               </div>
             </div>
@@ -435,7 +450,7 @@
     Object.assign(RESTAURANTS.find(restaurant=>restaurant.gid==="437168086")||{},{displayName:"NL Amsterdam"});
     const TRANSLATIONS={es:{brandLabel:"Consulta gastronomica",heroEyebrow:"Consulta rapida para sala y cliente",heroTitle:"Informacion de Alergenos",heroLead:"Consulta rapida de alergenos e ingredientes de nuestros platos con una interfaz clara, compacta y lista para uso real en restaurante.",summaryLabel:"Restaurante activo",restaurantPanelTitle:"Restaurante",restaurantPanelCopy:"Carga una sola carta cada vez para mantener la consulta rapida, ordenada y precisa.",restaurantLabel:"Seleccionar restaurante",loadRestaurant:"Cargar restaurante",viewPanelTitle:"Modo de consulta",viewPanelCopy:"Alterna entre listado de platos o exploracion directa por alergeno.",dishes:"Platos",allergenView:"Ver alergenos",searchPanelTitle:"Buscador",searchPanelCopy:"Encuentra un plato por nombre en segundos.",searchLabel:"Buscar plato",searchPlaceholder:"Escribe el nombre del plato, un ingrediente o una referencia...",statusIdle:"Selecciona un restaurante para cargar solo su pestana y consultar platos, alergenos e ingredientes sin ruido.",statusLoading:"Cargando {restaurant}...",statusLoaded:"Se han cargado {count} platos de {restaurant}.",statusError:"No se pudo cargar {restaurant}. Comprueba que la hoja sea publica.",resultsTitleDishes:"Carta de platos",resultsTitleAllergens:"Consulta por alergeno",resultsMetaDishes:"{count} coincidencias en la carta activa.",resultsMetaAllergens:"{count} platos contienen {allergen}.",restaurantMeta:"{restaurant} · {count} platos",heroRestaurantMeta:"{restaurant} · {count} platos",noRestaurantSelected:"Ningun restaurante cargado",chooseAllergen:"Selecciona un alergeno para ver los platos relacionados dentro del restaurante activo.",noMatches:"No hay resultados para la busqueda o filtro actual.",noMarkedAllergens:"Sin alergenos marcados",allergensLabel:"Alergenos",ingredientsLabel:"Ingredientes",showIngredients:"Ver ingredientes ▼",hideIngredients:"Ocultar ingredientes ▲",traceLabel:"TRAZAS",code:"Codigo",dishCount:"{count} platos"},en:{brandLabel:"Hospitality lookup",heroEyebrow:"Fast access for staff and guests",heroTitle:"Allergen Information",heroLead:"Quick access to allergens and ingredients with a compact, polished interface designed for real restaurant service.",summaryLabel:"Active restaurant",restaurantPanelTitle:"Restaurant",restaurantPanelCopy:"Load one worksheet at a time to keep the experience precise, fast and easy to scan.",restaurantLabel:"Select restaurant",loadRestaurant:"Load restaurant",viewPanelTitle:"Browse mode",viewPanelCopy:"Switch between dish list mode and allergen-led exploration.",dishes:"Dishes",allergenView:"View allergens",searchPanelTitle:"Search",searchPanelCopy:"Find a dish by name in seconds.",searchLabel:"Search dish",searchPlaceholder:"Type a dish name, ingredient, or reference...",statusIdle:"Select a restaurant to load only its worksheet and review dishes, allergens, and ingredients without extra noise.",statusLoading:"Loading {restaurant}...",statusLoaded:"Loaded {count} dishes from {restaurant}.",statusError:"Could not load {restaurant}. Make sure the sheet is public.",resultsTitleDishes:"Dish list",resultsTitleAllergens:"Browse by allergen",resultsMetaDishes:"{count} matches in the active menu.",resultsMetaAllergens:"{count} dishes contain {allergen}.",restaurantMeta:"{restaurant} · {count} dishes",heroRestaurantMeta:"{restaurant} · {count} dishes",noRestaurantSelected:"No restaurant loaded",chooseAllergen:"Select an allergen to see matching dishes within the active restaurant.",noMatches:"No dishes matched the current search or filter.",noMarkedAllergens:"No marked allergens",allergensLabel:"Allergens",ingredientsLabel:"Ingredients",showIngredients:"Show ingredients ▼",hideIngredients:"Hide ingredients ▲",traceLabel:"TRACE",code:"Code",dishCount:"{count} dishes"},cat:{brandLabel:"Consulta gastronomica",heroEyebrow:"Consulta rapida per a sala i client",heroTitle:"Informacio d'Alergens",heroLead:"Consulta rapida d'alergens i ingredients dels nostres plats amb una interficie clara, compacta i preparada per a un us real en restaurant.",summaryLabel:"Restaurant actiu",restaurantPanelTitle:"Restaurant",restaurantPanelCopy:"Carrega una sola carta cada vegada per mantenir la consulta rapida, ordenada i precisa.",restaurantLabel:"Seleccionar restaurant",loadRestaurant:"Carregar restaurant",viewPanelTitle:"Mode de consulta",viewPanelCopy:"Alterna entre el llistat de plats i l'exploracio directa per alergens.",dishes:"Plats",allergenView:"Veure alergens",searchPanelTitle:"Cercador",searchPanelCopy:"Troba un plat pel nom en segons.",searchLabel:"Buscar plat",searchPlaceholder:"Escriu el nom del plat, un ingredient o una referencia...",statusIdle:"Selecciona un restaurant per carregar nomes la seva pestanya i consultar plats, alergens i ingredients sense soroll.",statusLoading:"Carregant {restaurant}...",statusLoaded:"S'han carregat {count} plats de {restaurant}.",statusError:"No s'ha pogut carregar {restaurant}. Comprova que el full sigui public.",resultsTitleDishes:"Carta de plats",resultsTitleAllergens:"Consulta per alergen",resultsMetaDishes:"{count} coincidencies a la carta activa.",resultsMetaAllergens:"{count} plats contenen {allergen}.",restaurantMeta:"{restaurant} · {count} plats",heroRestaurantMeta:"{restaurant} · {count} plats",noRestaurantSelected:"Cap restaurant carregat",chooseAllergen:"Selecciona un alergen per veure els plats relacionats dins del restaurant actiu.",noMatches:"No hi ha resultats per a la cerca o filtre actual.",noMarkedAllergens:"Sense alergens marcats",allergensLabel:"Alergens",ingredientsLabel:"Ingredients",showIngredients:"Veure ingredients ▼",hideIngredients:"Ocultar ingredients ▲",traceLabel:"TRACES",code:"Codi",dishCount:"{count} plats"}};
     const ALLERGEN_META={GLUTEN:{icon:"🌾",es:"Gluten",en:"Gluten",cat:"Gluten",pt:"Glúten"},CRUSTACEAN:{icon:"🦐",es:"Crustáceos",en:"Crustaceans",cat:"Crustacis",pt:"Crustáceos"},EGG:{icon:"🥚",es:"Huevo",en:"Egg",cat:"Ou",pt:"Ovo"},FISH:{icon:"🐟",es:"Pescado",en:"Fish",cat:"Peix",pt:"Peixe"},PEANUTS:{icon:"🥜",es:"Cacahuetes",en:"Peanuts",cat:"Cacauets",pt:"Amendoins"},SOYA:{icon:"🫘",es:"Soja",en:"Soy",cat:"Soja",pt:"Soja"},SOY:{icon:"🫘",es:"Soja",en:"Soy",cat:"Soja",pt:"Soja"},"MILK AND DAIRY PRODUCTS":{icon:"🥛",es:"Lácteos",en:"Milk and dairy",cat:"Làctics",pt:"Leite e derivados"},NUTS:{icon:"🌰",es:"Frutos secos",en:"Nuts",cat:"Fruits amb closca",pt:"Frutos de casca rija"},CELERY:{icon:"🥬",es:"Apio",en:"Celery",cat:"Api",pt:"Aipo"},MUSTARD:{icon:"🟡",es:"Mostaza",en:"Mustard",cat:"Mostassa",pt:"Mostarda"},SESAME:{icon:"⚪",es:"Sésamo",en:"Sesame",cat:"Sèsam",pt:"Sésamo"},GARLIC:{icon:"🧄",es:"Ajo",en:"Garlic",cat:"All",pt:"Alho"},PORK:{icon:"🐖",es:"Cerdo",en:"Pork",cat:"Porc",pt:"Porco"},SULPHITE:{icon:"🍷",es:"Sulfitos",en:"Sulphites",cat:"Sulfits",pt:"Sulfitos"},LUPINS:{icon:"🌱",es:"Altramuces",en:"Lupins",cat:"Tramussos",pt:"Tremoços"},MOLLUSCS:{icon:"🐚",es:"Moluscos",en:"Moluscs",cat:"Mol\u00b7luscs",pt:"Moluscos"},MOLUSCS:{icon:"🐚",es:"Moluscos",en:"Moluscs",cat:"Mol\u00b7luscs",pt:"Moluscos"}};
-    const ALLERGEN_BASE_COLORS={GLUTEN:"#D86A61",CRUSTACEAN:"#F39A72",EGG:"#B894D3",FISH:"#6598C5",PEANUTS:"#C28A45",SOYA:"#56AC6E",SOY:"#56AC6E","MILK AND DAIRY PRODUCTS":"#A8CBD3",NUTS:"#997455",CELERY:"#7E9989",MUSTARD:"#DABE34",SESAME:"#A0A7AC",GARLIC:"#B6A15A",PORK:"#B86F79",SULPHITE:"#4B4D4C",LUPINS:"#A997B8",MOLLUSCS:"#58A79B",MOLUSCS:"#58A79B"};
+    const ALLERGEN_BASE_COLORS={GLUTEN:"#D86A61",CRUSTACEAN:"#F39A72",EGG:"#B894D3",FISH:"#6598C5",PEANUTS:"#C28A45",SOYA:"#7A4EB3",SOY:"#7A4EB3","MILK AND DAIRY PRODUCTS":"#A8CBD3",NUTS:"#997455",CELERY:"#7E9989",MUSTARD:"#DABE34",SESAME:"#A0A7AC",GARLIC:"#B6A15A",PORK:"#B86F79",SULPHITE:"#4B4D4C",LUPINS:"#A997B8",MOLLUSCS:"#58A79B",MOLUSCS:"#58A79B"};
     RESTAURANTS[5].name="SAGÀS";
     RESTAURANTS[6].name="CADAQUÉS MAD";
     RESTAURANTS[7].name="CADAQUÉS BCN";
@@ -958,12 +973,15 @@
     const MASTER_ALLERGEN_KEYS=["GLUTEN","CRUSTACEAN","EGG","FISH","PEANUTS","SOY","MILK AND DAIRY PRODUCTS","NUTS","CELERY","MUSTARD","SESAME","GARLIC","PORK","SULPHITE","LUPINS","MOLUSCS"];
     const ALLERGEN_KEY_ALIASES={GLUTEN:"GLUTEN",CRUSTACEAN:"CRUSTACEAN",CRUSTACEANS:"CRUSTACEAN",CRUSTACEOS:"CRUSTACEAN",CRUSTACIS:"CRUSTACEAN",EGG:"EGG",HUEVO:"EGG",OU:"EGG",OVO:"EGG",FISH:"FISH",PESCADO:"FISH",PEIX:"FISH",PEIXE:"FISH",PEANUT:"PEANUTS",PEANUTS:"PEANUTS",CACAHUETE:"PEANUTS",CACAHUETES:"PEANUTS",CACAUETS:"PEANUTS",AMENDOINS:"PEANUTS",SOYA:"SOY",SOY:"SOY",SOJA:"SOY","MILK AND DAIRY PRODUCTS":"MILK AND DAIRY PRODUCTS","MILK PRODUCTS":"MILK AND DAIRY PRODUCTS",DAIRY:"MILK AND DAIRY PRODUCTS",LACTEOS:"MILK AND DAIRY PRODUCTS",LACTICS:"MILK AND DAIRY PRODUCTS","LECHE Y DERIVADOS":"MILK AND DAIRY PRODUCTS","LLET I DERIVATS":"MILK AND DAIRY PRODUCTS","LEITE E DERIVADOS":"MILK AND DAIRY PRODUCTS",NUT:"NUTS",NUTS:"NUTS","FRUTOS SECOS":"NUTS","FRUTOS CON CASCARA":"NUTS","FRUITS AMB CLOSCA":"NUTS",CELERY:"CELERY",APIO:"CELERY",API:"CELERY",AIPO:"CELERY",MUSTARD:"MUSTARD",MOSTAZA:"MUSTARD",MOSTASSA:"MUSTARD",MOSTARDA:"MUSTARD",SESAME:"SESAME",SESAMO:"SESAME",SESAM:"SESAME",GARLIC:"GARLIC",AJO:"GARLIC",ALL:"GARLIC",ALHO:"GARLIC",PORK:"PORK",CERDO:"PORK",PORC:"PORK",PORCO:"PORK",SULPHITE:"SULPHITE",SULPHITES:"SULPHITE",SULFITO:"SULPHITE",SULFITOS:"SULPHITE",SULFITS:"SULPHITE",LUPIN:"LUPINS",LUPINS:"LUPINS",ALTRAMUCES:"LUPINS",TRAMUSSOS:"LUPINS",TREMOCOS:"LUPINS",MOLLUSCS:"MOLUSCS",MOLLUSC:"MOLUSCS",MOLUSCS:"MOLUSCS",MOLUSCOS:"MOLUSCS"};
     const KNOWN_ALLERGEN_KEYS=[...new Set([...MASTER_ALLERGEN_KEYS,...Object.keys(ALLERGEN_KEY_ALIASES),...Object.keys(ALLERGEN_META)])];
+    const DIETARY_FILTERS=["VEGETARIAN","VEGAN"];
+    const DIETARY_COLUMN_INDEXES={VEGETARIAN:18,VEGAN:19};
+    const DIETARY_META={VEGETARIAN:{icon:"\ud83e\udd6c",labelKey:"vegetarianFilter",color:"#2F7D52"},VEGAN:{icon:"\ud83c\udf31",labelKey:"veganFilter",color:"#0B4F3A"}};
     const params=new URLSearchParams(window.location.search);
     const requestedMode=(params.get("mode")||"staff").toLowerCase();
     const requestedRestaurant=normalizeRestaurantParam(params.get("restaurant"));
     const RUNTIME={mode:requestedMode==="public"?"public":"staff",showIngredients:requestedMode!=="public",allowRestaurantSelection:requestedMode!=="public"};
-    const state={lang:"es",restaurant:null,updateDate:"",dishes:[],pintxosDishes:[],alertasDishes:[],allergenNames:[],allergensToAvoid:[],selectedGroups:{dishes:"",pintxos:"",alertas:""},hasOpenedFoodView:false,expandedIngredients:{},view:"dishes",allergenSourceView:"dishes",statusKey:"statusIdle",statusValues:{}};
-    const $=id=>document.getElementById(id); const shellEl=document.querySelector(".shell"),brandLabel=$("brandLabel"),heroEyebrow=$("heroEyebrow"),heroTitle=$("heroTitle"),heroLead=$("heroLead"),heroAlert=$("heroAlert"),summaryLabel=$("summaryLabel"),heroRestaurantMeta=$("heroRestaurantMeta"),modeChip=$("modeChip"),publicNotice=$("publicNotice"),restaurantAside=$("restaurantAside"),restaurantAccessPanel=$("restaurantAccessPanel"),restaurantPanelTitle=$("restaurantPanelTitle"),restaurantPanelCopy=$("restaurantPanelCopy"),restaurantLabel=$("restaurantLabel"),restaurantPicker=$("restaurantPicker"),restaurantPickerField=$("restaurantPickerField"),restaurantSearchInput=$("restaurantSearchInput"),restaurantSearchClear=$("restaurantSearchClear"),restaurantPickerToggle=$("restaurantPickerToggle"),restaurantPickerMenu=$("restaurantPickerMenu"),restaurantSelect=$("restaurantSelect"),loadRestaurantButton=$("loadRestaurantButton"),viewPanelTitle=$("viewPanelTitle"),viewPanelCopy=$("viewPanelCopy"),viewEmptyNotice=$("viewEmptyNotice"),viewActiveNotice=$("viewActiveNotice"),dishesViewButton=$("dishesViewButton"),pintxosViewButton=$("pintxosViewButton"),alertasViewButton=$("alertasViewButton"),allergensViewButton=$("allergensViewButton"),allergensPintxosViewButton=$("allergensPintxosViewButton"),searchPanel=$("searchPanel"),searchPanelTitle=$("searchPanelTitle"),searchPanelCopy=$("searchPanelCopy"),searchLabel=$("searchLabel"),searchInput=$("searchInput"),searchSuggestions=$("searchSuggestions"),statusEl=$("status"),resultsTitle=$("resultsTitle"),resultsMeta=$("resultsMeta"),restaurantMeta=$("restaurantMeta"),dishesView=$("dishesView"),groupFilter=$("groupFilter"),groupToggle=$("groupToggle"),groupLabel=$("groupLabel"),groupSelected=$("groupSelected"),groupMenu=$("groupMenu"),allergensView=$("allergensView"),dishesList=$("dishesList"),allergenButtons=$("allergenButtons"),allergenResults=$("allergenResults"),langSwitch=$("langSwitch"),langToggle=$("langToggle"),langCurrentIcon=$("langCurrentIcon"),langCurrent=$("langCurrent"),langMenu=$("langMenu"),langEs=$("langEs"),langEn=$("langEn"),langCat=$("langCat"),langPt=$("langPt");
+    const state={lang:"es",restaurant:null,updateDate:"",dishes:[],pintxosDishes:[],alertasDishes:[],allergenNames:[],allergensToAvoid:[],dietaryFilters:[],excludedIngredient:"",selectedGroups:{dishes:"",pintxos:"",alertas:""},hasOpenedFoodView:false,expandedIngredients:{},view:"dishes",allergenSourceView:"dishes",statusKey:"statusIdle",statusValues:{}};
+    const $=id=>document.getElementById(id); const shellEl=document.querySelector(".shell"),brandLabel=$("brandLabel"),heroEyebrow=$("heroEyebrow"),heroTitle=$("heroTitle"),heroLead=$("heroLead"),heroAlert=$("heroAlert"),summaryLabel=$("summaryLabel"),heroRestaurantMeta=$("heroRestaurantMeta"),modeChip=$("modeChip"),publicNotice=$("publicNotice"),restaurantAside=$("restaurantAside"),restaurantAccessPanel=$("restaurantAccessPanel"),restaurantPanelTitle=$("restaurantPanelTitle"),restaurantPanelCopy=$("restaurantPanelCopy"),restaurantLabel=$("restaurantLabel"),restaurantPicker=$("restaurantPicker"),restaurantPickerField=$("restaurantPickerField"),restaurantSearchInput=$("restaurantSearchInput"),restaurantSearchClear=$("restaurantSearchClear"),restaurantPickerToggle=$("restaurantPickerToggle"),restaurantPickerMenu=$("restaurantPickerMenu"),restaurantSelect=$("restaurantSelect"),loadRestaurantButton=$("loadRestaurantButton"),viewPanelTitle=$("viewPanelTitle"),viewPanelCopy=$("viewPanelCopy"),viewEmptyNotice=$("viewEmptyNotice"),viewActiveNotice=$("viewActiveNotice"),dishesViewButton=$("dishesViewButton"),pintxosViewButton=$("pintxosViewButton"),alertasViewButton=$("alertasViewButton"),allergensViewButton=$("allergensViewButton"),allergensPintxosViewButton=$("allergensPintxosViewButton"),allergensAlertasViewButton=$("allergensAlertasViewButton"),searchPanel=$("searchPanel"),searchPanelTitle=$("searchPanelTitle"),searchPanelCopy=$("searchPanelCopy"),searchLabel=$("searchLabel"),searchInput=$("searchInput"),searchSuggestions=$("searchSuggestions"),ingredientExcludeBox=$("ingredientExcludeBox"),ingredientExcludeInput=$("ingredientExcludeInput"),ingredientExcludeSuggestions=$("ingredientExcludeSuggestions"),statusEl=$("status"),resultsTitle=$("resultsTitle"),resultsMeta=$("resultsMeta"),restaurantMeta=$("restaurantMeta"),dishesView=$("dishesView"),groupFilter=$("groupFilter"),groupToggle=$("groupToggle"),groupLabel=$("groupLabel"),groupSelected=$("groupSelected"),groupMenu=$("groupMenu"),allergensView=$("allergensView"),dishesList=$("dishesList"),allergenButtons=$("allergenButtons"),allergenResults=$("allergenResults"),langSwitch=$("langSwitch"),langToggle=$("langToggle"),langCurrentIcon=$("langCurrentIcon"),langCurrent=$("langCurrent"),langMenu=$("langMenu"),langEs=$("langEs"),langEn=$("langEn"),langCat=$("langCat"),langPt=$("langPt");
     const loginScreen=$("loginScreen"),loginForm=$("loginForm"),loginLocalPicker=$("loginLocalPicker"),loginLocalToggle=$("loginLocalToggle"),loginLocalSelected=$("loginLocalSelected"),loginLocalMenu=$("loginLocalMenu"),loginLocalSearch=$("loginLocalSearch"),loginLocalSearchClear=$("loginLocalSearchClear"),loginLocalOptions=$("loginLocalOptions"),loginUser=$("loginUser"),loginPassword=$("loginPassword"),loginPasswordToggle=$("loginPasswordToggle"),loginButton=$("loginButton"),loginError=$("loginError"),logoutButton=$("logoutButton"),safetyNotice=$("safetyNotice"),safetyTitle=$("safetyTitle"),safetyIntro=$("safetyIntro"),safetyMandatory=$("safetyMandatory"),safetyButton=$("safetyButton"),safetyWarning=$("safetyWarning");
     const resultsHeader=document.querySelector(".results-header"),compactSearch=searchInput.closest(".compact-search");
     const t=(k,v={})=>{
@@ -972,6 +990,14 @@
       const template=finalDict[k]??k;
       return Object.entries(v).reduce((s,[n,val])=>s.replace(`{${n}}`,val),template);
     };
+    Object.assign(TRANSLATIONS.es,{vegetarianFilter:"Vegetarianos",veganFilter:"Veganos"});
+    Object.assign(TRANSLATIONS.en,{vegetarianFilter:"Vegetarian",veganFilter:"Vegan"});
+    Object.assign(TRANSLATIONS.cat,{vegetarianFilter:"Vegetarians",veganFilter:"Vegans"});
+    Object.assign(TRANSLATIONS.pt,{vegetarianFilter:"Vegetarianos",veganFilter:"Veganos"});
+    Object.assign(TRANSLATIONS.es,{ingredientExcludePlaceholder:"Excluir ingrediente...",ingredientExcludeAction:"Excluir ingrediente",ingredientExcludeMeta:"No mostrar platos con este ingrediente",ingredientExcludeActive:"Excluyendo: {ingredient}"});
+    Object.assign(TRANSLATIONS.en,{ingredientExcludePlaceholder:"Exclude ingredient...",ingredientExcludeAction:"Exclude ingredient",ingredientExcludeMeta:"Hide dishes with this ingredient",ingredientExcludeActive:"Excluding: {ingredient}"});
+    Object.assign(TRANSLATIONS.cat,{ingredientExcludePlaceholder:"Excloure ingredient...",ingredientExcludeAction:"Excloure ingredient",ingredientExcludeMeta:"No mostrar plats amb aquest ingredient",ingredientExcludeActive:"Excloent: {ingredient}"});
+    Object.assign(TRANSLATIONS.pt,{ingredientExcludePlaceholder:"Excluir ingrediente...",ingredientExcludeAction:"Excluir ingrediente",ingredientExcludeMeta:"Não mostrar pratos com este ingrediente",ingredientExcludeActive:"A excluir: {ingredient}"});
     function setStatus(key,values={}){state.statusKey=key;state.statusValues=values;const displayValues={...values}; if(Object.prototype.hasOwnProperty.call(displayValues,"updateDate")) displayValues.updateDateLine=updateDateStatusLine(displayValues.updateDate); const message=t(key,displayValues);statusEl.textContent=message;statusEl.hidden=!message.trim()}
     function updateDateStatusLine(updateDate){return updateDate?`${t("updateDateStatus",{date:updateDate})}`+"\n":""}
     function normalizeRestaurantParam(value){return normalizeText(value).toUpperCase()}
@@ -1007,6 +1033,8 @@
     function isTraceValue(v){const n=normalizeText(v).toUpperCase(); return !!n&&(n.includes("TRAZ")||n.includes("TRACE")||n.includes("TRAC")||n.includes("VEST")||n.includes("PUEDE CONTENER")||n.includes("MAY CONTAIN"))}
     function isAllergenPresent(v){const n=normalizeText(v).toUpperCase(); if(!n||isTraceValue(v)||isAllergenAbsent(v)||n.includes("NO CONTIENE")) return false; const tokens=n.split(/[^A-Z0-9]+/).filter(Boolean); return ["SI","YES","TRUE","VERDADERO","VERDADEIRO","1","X","OK","CONTIENE"].some(value=>tokens.includes(value))||n.includes("CONTIENE")}
     function isAllergenAbsent(v){const n=normalizeText(v).toUpperCase(); return !n||["NO","FALSE","0","FALSO"].includes(n)}
+    function isDietaryMarked(v){const n=normalizeText(v).toUpperCase(); if(!n||["NO","FALSE","0","FALSO","N"].includes(n)) return false; const tokens=n.split(/[^A-Z0-9]+/).filter(Boolean); return ["SI","YES","TRUE","VERDADERO","VERDADEIRO","1","X","OK","APTO","APTA","VEGETARIANO","VEGETARIANA","VEGETARIAN","VEGANO","VEGANA","VEGAN"].some(value=>tokens.includes(value))||/^[✓✔☑]$/.test(cleanCell(v))}
+    function readDietaryFlags(row){return DIETARY_FILTERS.reduce((flags,key)=>{flags[key]=isDietaryMarked(gvizCellValue(row,DIETARY_COLUMN_INDEXES[key])); return flags},{})}
     function allergenMarkType(v){if(isTraceValue(v)) return "trace"; if(isAllergenPresent(v)) return "positive"; return false}
     function isLikelySectionRow(row){
       const code=cleanCell(row.c[0]&&(row.c[0].f!=null?row.c[0].f:row.c[0].v));
@@ -1292,12 +1320,13 @@
     let safetyNoticeShownAt=0;
     let safetyBlockedUntil=0;
     let safetyNoticeTimer=0;
-    function buildDishRecord(code,rawTitle,allergenEntries,details,group=""){
+    function buildDishRecord(code,rawTitle,allergenEntries,details,group="",dietaryFlags={}){
       const canonicalEntries=canonicalizeAllergenEntries(allergenEntries||[]);
       return {
         code:String(code||""),
         rawTitle:cleanCell(rawTitle),
         group:cleanCell(group),
+        dietary:DIETARY_FILTERS.reduce((flags,key)=>{flags[key]=!!dietaryFlags[key]; return flags},{}),
         allergenEntries:canonicalEntries,
         allergens:canonicalEntries.map(entry=>entry.key),
         positiveAllergens:canonicalEntries.filter(entry=>entry.type==="positive").map(entry=>entry.key),
@@ -1306,7 +1335,7 @@
       };
     }
     function parseEmbeddedRestaurant(record,includeIngredients,restaurant=null){
-      const dishes=(record&&record.dishes||[]).map(dish=>buildDishRecord(dish.code,dish.rawTitle,dish.allergenEntries||[],includeIngredients?dish.details||[]:null,cleanRestaurantGroupLabel(dish.group||"",restaurant)));
+      const dishes=(record&&record.dishes||[]).map(dish=>buildDishRecord(dish.code,dish.rawTitle,dish.allergenEntries||[],includeIngredients?dish.details||[]:null,cleanRestaurantGroupLabel(dish.group||"",restaurant),dish.dietary||{}));
       return {
         dishes,
         allergenNames:MASTER_ALLERGEN_KEYS.slice(),
@@ -1424,7 +1453,7 @@
             const type=allergenMarkType(gvizCellValue(row,index));
             return type?{key,type}:null;
           }).filter(Boolean);
-          currentDish=buildDishRecord(code||`${dishes.length+1}`,title,allergenEntries,includeIngredients?[]:null,currentGroup);
+          currentDish=buildDishRecord(code||`${dishes.length+1}`,title,allergenEntries,includeIngredients?[]:null,currentGroup,readDietaryFlags(row));
           dishes.push(currentDish);
           return;
         }
@@ -1811,10 +1840,13 @@
       state.alertasDishes=[];
       state.allergenNames=[];
       state.allergensToAvoid=[];
+      state.dietaryFilters=[];
+      state.excludedIngredient="";
       state.selectedGroups={dishes:"",pintxos:"",alertas:""};
       state.hasOpenedFoodView=false;
       state.allergenSourceView="dishes";
       searchInput.value="";
+      if(ingredientExcludeInput) ingredientExcludeInput.value="";
       logoutButton.hidden=true;
       restaurantSelect.disabled=false;
       loadRestaurantButton.hidden=false;
@@ -1985,35 +2017,78 @@
       });
     }
     function dishSearchText(dish){return normalizeText([dish.rawTitle,...(Array.isArray(dish.details)?dish.details:[])].join(" ")).toLowerCase()}
+    function dishIngredientText(dish){return normalizeText([dish.rawTitle,...(Array.isArray(dish.details)?dish.details:[])].join(" ")).toLowerCase()}
+    function excludedIngredientInfo(){
+      const raw=normalizeText(state.excludedIngredient).toLowerCase();
+      if(!raw) return {raw:"",key:"",terms:[]};
+      const key=normalizeAllergenKey(parseAllergenKey(state.excludedIngredient));
+      const terms=new Set([raw]);
+      if(INGREDIENT_HIGHLIGHT_TERMS[key]) INGREDIENT_HIGHLIGHT_TERMS[key].forEach(term=>terms.add(normalizeText(term).toLowerCase()));
+      return {raw,key:MASTER_ALLERGEN_KEYS.includes(key)?key:"",terms:[...terms].filter(Boolean)};
+    }
+    function dishHasExcludedIngredient(dish){
+      const info=excludedIngredientInfo();
+      if(!info.raw) return false;
+      const haystack=dishIngredientText(dish);
+      if(info.terms.some(term=>haystack.includes(term))) return true;
+      return !!info.key&&(dish.allergens||[]).includes(info.key);
+    }
     function dishDisplayTitle(dish){
       const desired=state.lang==="en"?"ENG":state.lang==="cat"?"CAT":state.lang==="pt"?"PT":"ES";
       const lines=buildLanguageLines(dish.rawTitle);
       return (lines.find(item=>item.code===desired)||lines[0]||{text:dish.rawTitle}).text;
     }
+    function globalDishSearchSources(){
+      return [
+        {key:"dishes",label:t("dishes"),items:state.dishes},
+        {key:"pintxos",label:t("pintxos"),items:state.pintxosDishes},
+        {key:"alertas",label:restaurantAlertasLabel(state.restaurant),items:state.alertasDishes}
+      ].filter(source=>Array.isArray(source.items)&&source.items.length);
+    }
     function closeSearchSuggestions(){searchSuggestions.hidden=true; searchSuggestions.innerHTML=""}
+    function closeIngredientExcludeSuggestions(){ingredientExcludeSuggestions.hidden=true; ingredientExcludeSuggestions.innerHTML=""}
     function renderSearchSuggestions(){
       const q=normalizeText(searchInput.value).toLowerCase();
-      if(!state.restaurant||!state.dishes.length||q.length<2||state.view==="allergens"){closeSearchSuggestions(); return}
-      const selectedGroup=normalizeText(currentSelectedGroup()).toUpperCase();
-      const matches=currentGroupSource().filter(dish=>(!selectedGroup||normalizeText(dishGroupLabel(dish)).toUpperCase()===selectedGroup)&&dishSearchText(dish).includes(q)).slice(0,8);
+      if(!state.restaurant||!state.dishes.length||q.length<2){closeSearchSuggestions(); return}
+      const matches=globalDishSearchSources().flatMap(source=>source.items.filter(dish=>dishSearchText(dish).includes(q)).map(dish=>({dish,source}))).slice(0,10);
       searchSuggestions.hidden=false;
       if(!matches.length){searchSuggestions.innerHTML=`<div class="search-suggestion-empty">${t("searchNoSuggestions")}</div>`; return}
       searchSuggestions.innerHTML="";
-      matches.forEach(dish=>{
+      matches.forEach(({dish,source})=>{
         const button=document.createElement("button");
         button.type="button";
         button.className="search-suggestion";
         button.innerHTML='<span class="search-suggestion-title"></span><span class="search-suggestion-meta"></span>';
         button.querySelector(".search-suggestion-title").textContent=dishDisplayTitle(dish);
-        button.querySelector(".search-suggestion-meta").textContent=dishGroupLabel(dish)||`${t("code")} ${dish.code}`;
-        button.addEventListener("click",()=>{searchInput.value=dishDisplayTitle(dish); renderCurrentView(); closeSearchSuggestions()});
+        button.querySelector(".search-suggestion-meta").textContent=[source.label,dishGroupLabel(dish)||`${t("code")} ${dish.code}`].filter(Boolean).join(" · ");
+        button.addEventListener("click",()=>{state.view=source.key; state.allergenSourceView=source.key; state.hasOpenedFoodView=true; searchInput.value=dishDisplayTitle(dish); renderCurrentView(); closeSearchSuggestions()});
         searchSuggestions.appendChild(button);
       });
+    }
+    function renderIngredientExcludeSuggestions(){
+      const q=normalizeText(ingredientExcludeInput.value).toLowerCase();
+      if(!state.restaurant||!state.dishes.length||q.length<2){closeIngredientExcludeSuggestions(); return}
+      const source=state.view==="allergens"?allergenSourceItems():currentGroupSource();
+      const previousExcludedIngredient=state.excludedIngredient;
+      state.excludedIngredient=ingredientExcludeInput.value.trim();
+      const matches=source.filter(dish=>dishHasExcludedIngredient(dish));
+      state.excludedIngredient=previousExcludedIngredient;
+      ingredientExcludeSuggestions.hidden=false;
+      if(!matches.length){ingredientExcludeSuggestions.innerHTML=`<div class="search-suggestion-empty">${t("searchNoSuggestions")}</div>`; return}
+      ingredientExcludeSuggestions.innerHTML="";
+      const button=document.createElement("button");
+      button.type="button";
+      button.className="search-suggestion";
+      button.innerHTML='<span class="search-suggestion-title"></span><span class="search-suggestion-meta"></span>';
+      button.querySelector(".search-suggestion-title").textContent=`${t("ingredientExcludeAction")}: ${ingredientExcludeInput.value.trim()}`;
+      button.querySelector(".search-suggestion-meta").textContent=`${matches.length} ${t(matches.length===1?"dishSingular":"dishPlural")} · ${t("ingredientExcludeMeta")}`;
+      button.addEventListener("click",()=>{state.excludedIngredient=ingredientExcludeInput.value.trim(); ingredientExcludeInput.value=state.excludedIngredient; ingredientExcludeBox.classList.add("is-active"); renderCurrentView(); closeIngredientExcludeSuggestions()});
+      ingredientExcludeSuggestions.appendChild(button);
     }
     function isRealDish(dish){return !!(dish&&(cleanCell(dish.rawTitle)||cleanCell(dish.code)||(Array.isArray(dish.details)&&dish.details.some(item=>cleanCell(item)))||(Array.isArray(dish.allergenEntries)&&dish.allergenEntries.length)))}
     function realDishes(items){return (items||[]).filter(isRealDish)}
     function renderPendingState(target){target.innerHTML=`<div class="pending-state" role="status"><div class="pending-icon" aria-hidden="true">i</div><h3 class="pending-title">${t("pendingDataTitle")}</h3><p class="pending-copy">${t("pendingDataCopy")}</p><p class="pending-warning">${t("pendingDataWarning")}</p></div>`}
-    function filteredItems(items,groupKey=currentGroupKey()){const q=normalizeText(searchInput.value).toLowerCase(); const selectedGroup=normalizeText(state.selectedGroups[groupKey]||"").toUpperCase(); return items.filter(d=>(!selectedGroup||normalizeText(dishGroupLabel(d)).toUpperCase()===selectedGroup)&&(!q||dishSearchText(d).includes(q)))}
+    function filteredItems(items,groupKey=currentGroupKey()){const q=normalizeText(searchInput.value).toLowerCase(); const selectedGroup=normalizeText(state.selectedGroups[groupKey]||"").toUpperCase(); return items.filter(d=>(q||!selectedGroup||normalizeText(dishGroupLabel(d)).toUpperCase()===selectedGroup)&&(!q||dishSearchText(d).includes(q))&&!dishHasExcludedIngredient(d))}
     function filteredDishes(){return filteredItems(state.dishes)}
     function filteredPintxos(){return filteredItems(state.pintxosDishes)}
     function filteredAlertas(){return filteredItems(state.alertasDishes)}
@@ -2049,7 +2124,7 @@
         const isExpanded=!!state.expandedIngredients[dishId];
         const icons=(dish.allergenEntries||[]).map(entry=>{const meta=allergenMeta(entry.key); return `<span class="dish-icon${entry.type==="trace"?" trace":""}" title="${meta.label}${entry.type==="trace"?" - "+t("traceLabel"):""}">${meta.icon}</span>`}).join("");
         const metaBlock=RUNTIME.mode==="staff"?`<div class="meta"><span class="pill">${t("code")} ${dish.code}</span></div>`:"";
-        const ingredientsBlock=ingredientLines.length?`<button class="ingredients-toggle" type="button" data-dish-id="${dishId}">${isExpanded?t("hideIngredients"):t("showIngredients")}</button><div class="ingredients-block" ${isExpanded?"":"hidden"}><p class="section-label">${t("ingredientsLabel")}</p>${ingredientLines.map(item=>`<div class="language-line"><span class="language-code">${item.code}</span><p class="dish-detail">${item.text}</p></div>`).join("")}</div>`:"";
+        const ingredientsBlock=ingredientLines.length?`<button class="ingredients-toggle" type="button" data-dish-id="${dishId}">${isExpanded?t("hideIngredients"):t("showIngredients")}</button><div class="ingredients-block" ${isExpanded?"":"hidden"}><p class="section-label">${t("ingredientsLabel")}</p>${ingredientLines.map(item=>`<div class="language-line"><span class="language-code">${item.code}</span><p class="dish-detail">${highlightIngredientText(item.text)}</p></div>`).join("")}</div>`:"";
         const article=document.createElement("article");
         article.className="card";
         article.innerHTML=`<div class="card-title-row"><div class="dish-name-block">${titleLines.map((item,index)=>`<div class="language-line"><span class="language-code">${item.code}</span><p class="dish-name-line${index===0?" primary":""}">${item.text}</p></div>`).join("")}</div><div class="dish-icons">${icons}</div></div>${metaBlock}<div class="detail-block"><p class="section-label">${t("allergensLabel")}</p>${renderAllergenGroups(dish)}</div>${ingredientsBlock}`;
@@ -2059,7 +2134,45 @@
       if(RUNTIME.showIngredients){target.querySelectorAll(".ingredients-toggle").forEach(button=>button.addEventListener("click",()=>{const id=button.dataset.dishId; state.expandedIngredients[id]=!state.expandedIngredients[id]; renderCurrentView()}))}
     }
     function selectedAvoidAllergens(){return Array.isArray(state.allergensToAvoid)?state.allergensToAvoid:[]}
+    function selectedDietaryFilters(){return Array.isArray(state.dietaryFilters)?state.dietaryFilters:[]}
     function dishContainsAvoidedAllergen(dish,key){return (dish.positiveAllergens||[]).includes(key)||(dish.allergenEntries||[]).some(entry=>entry.key===key&&entry.type==="positive")}
+    function dishMatchesDietaryFilter(dish,key){return !!(dish&&dish.dietary&&dish.dietary[key])}
+    function dishMatchesSelectedDietaryFilters(dish){return selectedDietaryFilters().every(key=>dishMatchesDietaryFilter(dish,key))}
+    function dietaryLabel(key){const meta=DIETARY_META[key]||DIETARY_META.VEGETARIAN; return t(meta.labelKey)}
+    function dietaryStyle(key){const color=(DIETARY_META[key]||DIETARY_META.VEGETARIAN).color; return `background:linear-gradient(135deg,${color},${color}dd);border-color:${color};color:#fff`}
+    const INGREDIENT_HIGHLIGHT_TERMS={
+      GLUTEN:["gluten","trigo","blat","wheat","harina","farina","flour","pan","pa","bread","masa madre","massa mare","sourdough","cebada","ordi","barley","malta","malt","pasta","hojaldre","pasta de full","puff pastry","pan rallado","pa ratllat","breadcrumbs","coca","croqueta","croquetes","croquetas","rebozado"],
+      FISH:["pescado","peix","fish","atun","atún","tonyina","tuna","bonito","bonítol","anchoa","anxova","anchovy","anchovies","bacalao","bacallà","cod","merluza","lluç","hake","salmon","salmón","salmo","sardina","sardine","lubina","llobarro","seabass","dorada","orada","bream","rape","rap","monkfish","rodaballo","turbot","txitxarro","ventresca"],
+      "MILK AND DAIRY PRODUCTS":["leche","llet","milk","nata","cream","mantequilla","mantega","butter","queso","formatge","cheese","yogur","yoghurt","yogurt","crema","lactosa","lactose","cuajada","quallada","idiazabal","parmesano","parmesan"],
+      EGG:["huevo","ou","egg","yema","rovell","yolk","clara","egg white","mayonesa","maionesa","mayonnaise","alioli","allioli","tortilla"],
+      SOY:["soja","soy","soya","salsa soja","soy sauce","edamame","tofu","lecitina de soja","soy lecithin"],
+      NUTS:["nuez","nueces","nou","nous","walnut","walnuts","almendra","ametlla","almond","avellana","hazelnut","pistacho","pistachio","piñon","piñones","pinyons","pine nut","anacardo","cashew","castaña","chestnut"],
+      SESAME:["sesamo","sésamo","sesam","sèsam","sesame","tahini","aceite de sésamo","oli de sèsam","sesame oil"],
+      SULPHITE:["sulfito","sulfitos","sulphite","sulphites","sulfits","vino","vi","wine","vinagre","vinegar","sidra","cider","txakoli","e220","e221","e222","e223","e224","e226","e227","e228"],
+      MUSTARD:["mostaza","mostassa","mustard"],
+      CELERY:["apio","api","celery","celeri"],
+      CRUSTACEAN:["gamba","prawn","langostino","cigala","bogavante","lobster","cangrejo","crab","centollo","necora","nécora","camaron","camarón","shrimp"],
+      MOLUSCS:["mejillon","mejillón","musclo","mussel","almeja","clam","ostra","oyster","calamar","squid","pulpo","pop","octopus","sepia","cuttlefish","vieira","scallop","chipiron","chipirón"]
+    };
+    function shouldHighlightSagardiBcnCartaIngredients(){
+      return state.view==="allergens"&&allergenSourceKey()==="dishes"&&normalizeRestaurantParam(restaurantSheetName(state.restaurant)||restaurantDisplayName(state.restaurant))==="SAGARDI BCN"&&selectedAvoidAllergens().length>0;
+    }
+    function escapeHtml(text){return String(text||"").replace(/[&<>"']/g,char=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[char]))}
+    function escapeRegExp(text){return String(text).replace(/[.*+?^${}()|[\]\\]/g,"\\$&")}
+    function highlightIngredientText(text){
+      if(!shouldHighlightSagardiBcnCartaIngredients()) return text;
+      let html=escapeHtml(text);
+      const selected=selectedAvoidAllergens().filter(key=>INGREDIENT_HIGHLIGHT_TERMS[key]);
+      selected.forEach(key=>{
+        const color=ALLERGEN_BASE_COLORS[key]||"#8f6b2d";
+        const terms=[...INGREDIENT_HIGHLIGHT_TERMS[key]].sort((a,b)=>b.length-a.length);
+        terms.forEach(term=>{
+          const pattern=new RegExp(`(^|[^\\p{L}\\p{N}])(${escapeRegExp(term)})(?=$|[^\\p{L}\\p{N}])`,"giu");
+          html=html.replace(pattern,(_,prefix,match)=>`${prefix}<span class="ingredient-highlight" style="background:${color}">${match}</span>`);
+        });
+      });
+      return html;
+    }
     function allergenSourceKey(){return state.allergenSourceView==="pintxos"?"pintxos":state.allergenSourceView==="alertas"?"alertas":"dishes"}
     function allergenSourceItems(){const key=allergenSourceKey(); return key==="pintxos"?state.pintxosDishes:key==="alertas"?state.alertasDishes:state.dishes}
     function allergenSourceLabel(){const key=allergenSourceKey(); return key==="pintxos"?t("pintxos"):key==="alertas"?restaurantAlertasLabel(state.restaurant):t("dishes")}
@@ -2067,10 +2180,11 @@
     function renderAllergenButtons(){
       allergenButtons.innerHTML="";
       const selected=new Set(selectedAvoidAllergens());
+      const selectedDietary=new Set(selectedDietaryFilters());
       const sourceItems=allergenSourceItems();
       state.allergenNames.forEach(key=>{
         const meta=allergenMeta(key);
-        const count=sourceItems.filter(dish=>!dishContainsAvoidedAllergen(dish,key)).length;
+        const count=sourceItems.filter(dish=>!dishContainsAvoidedAllergen(dish,key)&&dishMatchesSelectedDietaryFilters(dish)).length;
         const button=document.createElement("button");
         button.type="button";
         button.className="allergen-button";
@@ -2082,13 +2196,30 @@
         button.addEventListener("click",()=>{state.allergensToAvoid=selected.has(key)?selectedAvoidAllergens().filter(item=>item!==key):[...selectedAvoidAllergens(),key]; renderAllergenButtons(); renderCurrentView()});
         allergenButtons.appendChild(button);
       });
+      const dietaryRow=document.createElement("div");
+      dietaryRow.className="dietary-filter-row";
+      DIETARY_FILTERS.forEach(key=>{
+        const meta=DIETARY_META[key];
+        const count=sourceItems.filter(dish=>!selectedAvoidAllergens().some(allergenKey=>dishContainsAvoidedAllergen(dish,allergenKey))&&dishMatchesDietaryFilter(dish,key)).length;
+        const button=document.createElement("button");
+        button.type="button";
+        button.className="allergen-button dietary-button";
+        button.dataset.key=key;
+        button.classList.toggle("active",selectedDietary.has(key));
+        button.setAttribute("aria-pressed",String(selectedDietary.has(key)));
+        button.setAttribute("style",dietaryStyle(key));
+        button.innerHTML=`<span class="allergen-name"><span>${meta.icon}</span><span>${dietaryLabel(key)}</span></span><span class="allergen-count">${t("dishCount",{count})}</span>`;
+        button.addEventListener("click",()=>{state.dietaryFilters=selectedDietary.has(key)?selectedDietaryFilters().filter(item=>item!==key):[...selectedDietaryFilters(),key]; renderAllergenButtons(); renderCurrentView()});
+        dietaryRow.appendChild(button);
+      });
+      allergenButtons.prepend(dietaryRow);
     }
     function renderDishesView(){const items=filteredDishes(); if(state.restaurant&&!state.dishes.length){resultsTitle.textContent=t("pendingDataTitle"); resultsMeta.textContent=t("pendingDataCopy"); renderPendingState(dishesList); return} resultsTitle.textContent=t("resultsTitleDishes"); resultsMeta.textContent=t("resultsMetaDishes",{count:items.length}); renderDishCards(items,dishesList)}
     function renderPintxosView(){const items=filteredPintxos(); if(state.restaurant&&!state.pintxosDishes.length){resultsTitle.textContent=t("pendingDataTitle"); resultsMeta.textContent=t("pendingDataCopy"); renderPendingState(dishesList); return} resultsTitle.textContent=t("resultsTitlePintxos"); resultsMeta.textContent=t("resultsMetaPintxos",{count:items.length}); renderDishCards(items,dishesList)}
     function renderAlertasView(){const items=filteredAlertas(); const section=restaurantAlertasLabel(state.restaurant); if(state.restaurant&&!state.alertasDishes.length){resultsTitle.textContent=t("pendingDataTitle"); resultsMeta.textContent=t("pendingDataCopy"); renderPendingState(dishesList); return} resultsTitle.textContent=section; resultsMeta.textContent=t("resultsMetaAlertas",{count:items.length,section}); renderDishCards(items,dishesList)}
-    function renderAllergensView(){resultsTitle.textContent=t("resultsTitleAllergens"); const sourceKey=allergenSourceKey(); const sourceItems=allergenSourceItems(); if(state.restaurant&&!sourceItems.length){resultsTitle.textContent=t("pendingDataTitle"); resultsMeta.textContent=t("pendingDataCopy"); renderPendingState(allergenResults); return} const avoid=selectedAvoidAllergens(); const items=filteredItems(sourceItems,sourceKey).filter(dish=>!avoid.some(key=>dishContainsAvoidedAllergen(dish,key))); resultsMeta.textContent=avoid.length?t("resultsMetaAllergens",{count:items.length}):t("resultsMetaAllergensAll",{count:items.length}); renderDishCards(items,allergenResults)}
+    function renderAllergensView(){resultsTitle.textContent=t("resultsTitleAllergens"); const sourceItems=allergenSourceItems(); if(state.restaurant&&!sourceItems.length){resultsTitle.textContent=t("pendingDataTitle"); resultsMeta.textContent=t("pendingDataCopy"); renderPendingState(allergenResults); return} const avoid=selectedAvoidAllergens(); const hasDietaryFilters=selectedDietaryFilters().length>0; const hasIngredientFilter=!!normalizeText(state.excludedIngredient); const items=filteredItems(sourceItems,"").filter(dish=>!avoid.some(key=>dishContainsAvoidedAllergen(dish,key))).filter(dish=>dishMatchesSelectedDietaryFilters(dish)); resultsMeta.textContent=(avoid.length||hasDietaryFilters||hasIngredientFilter)?t("resultsMetaAllergens",{count:items.length}):t("resultsMetaAllergensAll",{count:items.length}); renderDishCards(items,allergenResults)}
     function activeViewLabel(){if(state.view==="pintxos") return t("pintxos"); if(state.view==="alertas") return restaurantAlertasLabel(state.restaurant); if(state.view==="allergens") return allergenViewButtonLabel(); return t("dishes")}
-    function renderCurrentView(){const hasRestaurant=!!state.restaurant; const hasMainData=hasRestaurant&&state.dishes.length>0; const hasPintxos=hasMainData&&restaurantHasPintxos(state.restaurant)&&state.pintxosDishes.length>0; const hasAlertas=hasMainData&&restaurantHasAlertas(state.restaurant)&&state.alertasDishes.length>0; if(!hasMainData){state.view="dishes"; state.allergenSourceView="dishes"; state.hasOpenedFoodView=false; state.allergensToAvoid=[]} if(state.view==="pintxos"&&!hasPintxos){state.view="dishes"; state.allergenSourceView="dishes"} if(state.allergenSourceView==="pintxos"&&!hasPintxos) state.allergenSourceView="dishes"; if(state.view==="alertas"&&!hasAlertas){state.view="dishes"; state.allergenSourceView="dishes"} if(state.allergenSourceView==="alertas"&&!hasAlertas) state.allergenSourceView="dishes"; if(state.view==="allergens"&&!state.hasOpenedFoodView) state.view="dishes"; viewEmptyNotice.hidden=hasRestaurant; viewActiveNotice.hidden=!hasRestaurant; if(hasRestaurant){viewActiveNotice.innerHTML=`<span class="view-active-label">${t("activeViewing")}</span><span class="view-active-restaurant">"${restaurantDisplayName(state.restaurant)}"</span><span class="view-active-mode">${activeViewLabel()}</span>`}else{viewActiveNotice.textContent=""} if(searchPanel) searchPanel.hidden=hasRestaurant&&!hasMainData; if(resultsHeader) resultsHeader.hidden=hasRestaurant&&!hasMainData; if(compactSearch) compactSearch.hidden=!hasMainData; dishesViewButton.hidden=!hasMainData; allergensViewButton.hidden=!hasMainData; allergensPintxosViewButton.hidden=!hasPintxos; allergensViewButton.textContent=t("allergenViewScoped",{section:t("dishes")}); allergensPintxosViewButton.textContent=t("allergenViewScoped",{section:t("pintxos")}); dishesView.hidden=!(state.view==="dishes"||state.view==="pintxos"||state.view==="alertas"); allergensView.hidden=state.view!=="allergens"; pintxosViewButton.hidden=!hasPintxos; alertasViewButton.hidden=!hasAlertas; alertasViewButton.textContent=hasAlertas?restaurantAlertasLabel(state.restaurant):t("alertasCarta"); dishesViewButton.classList.toggle("active",state.view==="dishes"); pintxosViewButton.classList.toggle("active",state.view==="pintxos"); alertasViewButton.classList.toggle("active",state.view==="alertas"); allergensViewButton.classList.toggle("active",state.view==="allergens"&&allergenSourceKey()==="dishes"); allergensPintxosViewButton.classList.toggle("active",state.view==="allergens"&&allergenSourceKey()==="pintxos"); if(hasMainData&&(state.view==="dishes"||state.view==="pintxos"||state.view==="alertas")){renderGroupFilter(currentGroupSource())}else{groupFilter.hidden=true; closeGroupMenu()} state.view==="alertas"?renderAlertasView():(state.view==="pintxos"?renderPintxosView():(state.view==="dishes"?renderDishesView():renderAllergensView())); renderSearchSuggestions()}
+    function renderCurrentView(){const hasRestaurant=!!state.restaurant; const hasMainData=hasRestaurant&&state.dishes.length>0; const hasPintxos=hasMainData&&restaurantHasPintxos(state.restaurant)&&state.pintxosDishes.length>0; const hasAlertas=hasMainData&&restaurantHasAlertas(state.restaurant)&&state.alertasDishes.length>0; if(!hasMainData){state.view="dishes"; state.allergenSourceView="dishes"; state.hasOpenedFoodView=false; state.allergensToAvoid=[]; state.dietaryFilters=[]; state.excludedIngredient=""; if(ingredientExcludeInput) ingredientExcludeInput.value=""} if(state.view==="pintxos"&&!hasPintxos){state.view="dishes"; state.allergenSourceView="dishes"} if(state.allergenSourceView==="pintxos"&&!hasPintxos) state.allergenSourceView="dishes"; if(state.view==="alertas"&&!hasAlertas){state.view="dishes"; state.allergenSourceView="dishes"} if(state.allergenSourceView==="alertas"&&!hasAlertas) state.allergenSourceView="dishes"; if(state.view==="allergens"&&!state.hasOpenedFoodView) state.view="dishes"; viewEmptyNotice.hidden=hasRestaurant; viewActiveNotice.hidden=!hasRestaurant; if(hasRestaurant){viewActiveNotice.innerHTML=`<span class="view-active-label">${t("activeViewing")}</span><span class="view-active-restaurant">"${restaurantDisplayName(state.restaurant)}"</span><span class="view-active-mode">${activeViewLabel()}</span>`}else{viewActiveNotice.textContent=""} if(searchPanel) searchPanel.hidden=hasRestaurant&&!hasMainData; if(resultsHeader) resultsHeader.hidden=hasRestaurant&&!hasMainData; if(compactSearch) compactSearch.hidden=!hasMainData; if(ingredientExcludeBox){ingredientExcludeBox.hidden=!hasMainData; ingredientExcludeBox.classList.toggle("is-active",!!normalizeText(state.excludedIngredient))} dishesViewButton.hidden=!hasMainData; allergensViewButton.hidden=!hasMainData; allergensPintxosViewButton.hidden=!hasPintxos; allergensAlertasViewButton.hidden=!hasAlertas; allergensViewButton.textContent=t("allergenViewScoped",{section:t("dishes")}); allergensPintxosViewButton.textContent=t("allergenViewScoped",{section:t("pintxos")}); allergensAlertasViewButton.textContent=t("allergenViewScoped",{section:hasAlertas?restaurantAlertasLabel(state.restaurant):t("alertasCarta")}); dishesView.hidden=!(state.view==="dishes"||state.view==="pintxos"||state.view==="alertas"); allergensView.hidden=state.view!=="allergens"; pintxosViewButton.hidden=!hasPintxos; alertasViewButton.hidden=!hasAlertas; alertasViewButton.textContent=hasAlertas?restaurantAlertasLabel(state.restaurant):t("alertasCarta"); dishesViewButton.classList.toggle("active",state.view==="dishes"); pintxosViewButton.classList.toggle("active",state.view==="pintxos"); alertasViewButton.classList.toggle("active",state.view==="alertas"); allergensViewButton.classList.toggle("active",state.view==="allergens"&&allergenSourceKey()==="dishes"); allergensPintxosViewButton.classList.toggle("active",state.view==="allergens"&&allergenSourceKey()==="pintxos"); allergensAlertasViewButton.classList.toggle("active",state.view==="allergens"&&allergenSourceKey()==="alertas"); if(hasMainData&&(state.view==="dishes"||state.view==="pintxos"||state.view==="alertas")){renderGroupFilter(currentGroupSource())}else{groupFilter.hidden=true; closeGroupMenu()} state.view==="alertas"?renderAlertasView():(state.view==="pintxos"?renderPintxosView():(state.view==="dishes"?renderDishesView():renderAllergensView())); renderSearchSuggestions()}
     function closeLangMenu(){langSwitch.classList.remove("is-open"); langToggle.setAttribute("aria-expanded","false"); langMenu.hidden=true}
     function toggleLangMenu(){const isOpen=langSwitch.classList.toggle("is-open"); langToggle.setAttribute("aria-expanded",String(isOpen)); langMenu.hidden=!isOpen}
     function langDisplayLabel(){return state.lang==="en"?"ENG":state.lang==="cat"?"CAT":state.lang==="pt"?"PT":"ES"}
@@ -2099,7 +2230,7 @@
       return "🌐";
     }
     function updateHeaderMeta(){const hasRestaurant=!!state.restaurant; const label=restaurantDisplayName(state.restaurant); const heroMeta=hasRestaurant?label:t("noRestaurantSelected"); const dishWord=state.dishes.length===1?t("dishSingular"):t("dishPlural"); const listMeta=hasRestaurant?`${state.dishes.length} ${dishWord}`:t("noRestaurantSelected"); heroRestaurantMeta.textContent=heroMeta; heroRestaurantMeta.classList.toggle("is-empty",!hasRestaurant); restaurantMeta.textContent=listMeta; restaurantSelect.classList.toggle("is-loaded",hasRestaurant); if(restaurantPickerField) restaurantPickerField.classList.toggle("is-loaded",hasRestaurant); updateRestaurantPickerInput()} 
-    function applyTranslations(){document.documentElement.lang=state.lang; document.title=t("heroTitle"); const setText=(selector,key)=>{const el=document.querySelector(selector); if(el) el.textContent=t(key)}; brandLabel.textContent=t("brandLabel"); heroEyebrow.textContent=RUNTIME.mode==="public"?t("publicHero"):t("heroEyebrow"); heroTitle.textContent=t("heroTitle"); heroLead.textContent=RUNTIME.mode==="public"?t("publicLead"):t("heroLead"); heroAlert.textContent=t("heroAlert"); summaryLabel.textContent=t("summaryLabel"); modeChip.textContent=RUNTIME.mode==="public"?t("modePublic"):t("modeStaff"); publicNotice.textContent=t("publicNotice"); restaurantPanelTitle.textContent=t("restaurantPanelTitle"); restaurantPanelCopy.textContent=t("restaurantPanelCopy"); restaurantLabel.textContent=t("restaurantLabel"); loadRestaurantButton.textContent=t("loadRestaurant"); viewPanelTitle.textContent=t("viewPanelTitle"); viewPanelCopy.textContent=t("viewPanelCopy"); viewEmptyNotice.textContent=t("viewEmptyNotice"); dishesViewButton.textContent=t("dishes"); pintxosViewButton.textContent=t("pintxos"); alertasViewButton.textContent=t("alertasCarta"); allergensViewButton.textContent=t("allergenViewScoped",{section:t("dishes")}); allergensPintxosViewButton.textContent=t("allergenViewScoped",{section:t("pintxos")}); searchPanelTitle.textContent=t("searchPanelTitle"); searchPanelCopy.textContent=t("searchPanelCopy"); searchLabel.textContent=t("searchLabel"); searchInput.placeholder=t("searchPlaceholder"); setText("#allergenAvoidHelp","allergenAvoidHelp"); setText("#allergenTraceHelp","allergenTraceHelp"); setText(".login-brand span:last-child","loginBrand"); setText(".login-title","loginTitle"); setText(".login-subtitle","loginSubtitle"); setText('label[for="loginLocalToggle"]',"loginProfileLabel"); setText('label[for="loginUser"]',"loginUserLabel"); setText('label[for="loginPassword"]',"loginPasswordLabel"); loginLocalSearch.placeholder=t("loginProfileSearchPlaceholder"); if(restaurantSearchInput) restaurantSearchInput.placeholder=t("restaurantSearchPlaceholder"); if(!loginButton.disabled) loginButton.textContent=t("loginSubmit"); logoutButton.textContent=t("logout"); if(!safetyNotice.hidden) renderSafetyNotice(); langSwitch.setAttribute("aria-label",t("languageSelector")); langCurrentIcon.innerHTML=langIconMarkup(); langCurrent.textContent=langDisplayLabel(); langEs.classList.toggle("active",state.lang==="es"); langEn.classList.toggle("active",state.lang==="en"); langCat.classList.toggle("active",state.lang==="cat"); langPt.classList.toggle("active",state.lang==="pt"); setStatus(state.statusKey,state.statusValues); updateHeaderMeta(); renderAllergenButtons(); renderCurrentView(); if(RUNTIME.mode==="public"&&!state.restaurant&&requestedRestaurant){resultsTitle.textContent=t("resultsTitleDishes"); resultsMeta.textContent=t("statusPublicMissing"); publicNotice.textContent=t("statusPublicMissing")}}
+    function applyTranslations(){document.documentElement.lang=state.lang; document.title=t("heroTitle"); const setText=(selector,key)=>{const el=document.querySelector(selector); if(el) el.textContent=t(key)}; brandLabel.textContent=t("brandLabel"); heroEyebrow.textContent=RUNTIME.mode==="public"?t("publicHero"):t("heroEyebrow"); heroTitle.textContent=t("heroTitle"); heroLead.textContent=RUNTIME.mode==="public"?t("publicLead"):t("heroLead"); heroAlert.textContent=t("heroAlert"); summaryLabel.textContent=t("summaryLabel"); modeChip.textContent=RUNTIME.mode==="public"?t("modePublic"):t("modeStaff"); publicNotice.textContent=t("publicNotice"); restaurantPanelTitle.textContent=t("restaurantPanelTitle"); restaurantPanelCopy.textContent=t("restaurantPanelCopy"); restaurantLabel.textContent=t("restaurantLabel"); loadRestaurantButton.textContent=t("loadRestaurant"); viewPanelTitle.textContent=t("viewPanelTitle"); viewPanelCopy.textContent=t("viewPanelCopy"); viewEmptyNotice.textContent=t("viewEmptyNotice"); dishesViewButton.textContent=t("dishes"); pintxosViewButton.textContent=t("pintxos"); alertasViewButton.textContent=t("alertasCarta"); allergensViewButton.textContent=t("allergenViewScoped",{section:t("dishes")}); allergensPintxosViewButton.textContent=t("allergenViewScoped",{section:t("pintxos")}); allergensAlertasViewButton.textContent=t("allergenViewScoped",{section:restaurantAlertasLabel(state.restaurant)}); searchPanelTitle.textContent=t("searchPanelTitle"); searchPanelCopy.textContent=t("searchPanelCopy"); searchLabel.textContent=t("searchLabel"); searchInput.placeholder=t("searchPlaceholder"); if(ingredientExcludeInput) ingredientExcludeInput.placeholder=state.excludedIngredient?t("ingredientExcludeActive",{ingredient:state.excludedIngredient}):t("ingredientExcludePlaceholder"); setText("#allergenAvoidHelp","allergenAvoidHelp"); setText("#allergenTraceHelp","allergenTraceHelp"); setText(".login-brand span:last-child","loginBrand"); setText(".login-title","loginTitle"); setText(".login-subtitle","loginSubtitle"); setText('label[for="loginLocalToggle"]',"loginProfileLabel"); setText('label[for="loginUser"]',"loginUserLabel"); setText('label[for="loginPassword"]',"loginPasswordLabel"); loginLocalSearch.placeholder=t("loginProfileSearchPlaceholder"); if(restaurantSearchInput) restaurantSearchInput.placeholder=t("restaurantSearchPlaceholder"); if(!loginButton.disabled) loginButton.textContent=t("loginSubmit"); logoutButton.textContent=t("logout"); if(!safetyNotice.hidden) renderSafetyNotice(); langSwitch.setAttribute("aria-label",t("languageSelector")); langCurrentIcon.innerHTML=langIconMarkup(); langCurrent.textContent=langDisplayLabel(); langEs.classList.toggle("active",state.lang==="es"); langEn.classList.toggle("active",state.lang==="en"); langCat.classList.toggle("active",state.lang==="cat"); langPt.classList.toggle("active",state.lang==="pt"); setStatus(state.statusKey,state.statusValues); updateHeaderMeta(); renderAllergenButtons(); renderCurrentView(); if(RUNTIME.mode==="public"&&!state.restaurant&&requestedRestaurant){resultsTitle.textContent=t("resultsTitleDishes"); resultsMeta.textContent=t("statusPublicMissing"); publicNotice.textContent=t("statusPublicMissing")}}
     function findRestaurantByParam(value){if(!value) return null; return RESTAURANTS.find(restaurant=>normalizeRestaurantParam(restaurant.name)===value||normalizeRestaurantParam(restaurantDisplayName(restaurant))===value)||null}
     function restaurantPickerCurrentRestaurant(){return RESTAURANTS.find(item=>restaurantKey(item)===restaurantSelect.value)||state.restaurant||null}
     function updateRestaurantPickerInput(){
@@ -2177,6 +2308,8 @@
       const preserveState=sameRestaurant&&options.preserveState!==false;
       const nextSearchValue=preserveState?searchInput.value:"";
       const nextAllergensToAvoid=preserveState?[...selectedAvoidAllergens()]:[];
+      const nextDietaryFilters=preserveState?[...selectedDietaryFilters()]:[];
+      const nextExcludedIngredient=preserveState?state.excludedIngredient:"";
       const nextSelectedGroups=preserveState?{...state.selectedGroups}:{dishes:"",pintxos:"",alertas:""};
       const nextHasOpenedFoodView=preserveState?state.hasOpenedFoodView:false;
       const nextAllergenSourceView=preserveState?state.allergenSourceView:"dishes";
@@ -2186,6 +2319,8 @@
       state.restaurant=restaurant;
       if(!preserveState){
         state.allergensToAvoid=[];
+        state.dietaryFilters=[];
+        state.excludedIngredient="";
         state.dishes=[];
         state.updateDate="";
         state.pintxosDishes=[];
@@ -2196,6 +2331,7 @@
         state.allergenSourceView="dishes";
         state.expandedIngredients={};
         searchInput.value="";
+        if(ingredientExcludeInput) ingredientExcludeInput.value="";
       }
       if(!options.silent) setStatus("statusLoading",{restaurant:restaurantDisplayName(restaurant)});
       try{
@@ -2210,6 +2346,8 @@
         state.alertasDishes=realDishes(sanitizeDishGroups(alertasParsed.dishes,restaurant));
         state.allergenNames=parsed.allergenNames;
         state.allergensToAvoid=nextAllergensToAvoid;
+        state.dietaryFilters=nextDietaryFilters;
+        state.excludedIngredient=nextExcludedIngredient;
         state.selectedGroups=nextSelectedGroups;
         state.hasOpenedFoodView=nextHasOpenedFoodView;
         state.allergenSourceView=nextAllergenSourceView;
@@ -2217,6 +2355,7 @@
         if(state.view==="pintxos"&&!restaurantHasPintxos(restaurant)){state.view="dishes"; state.allergenSourceView="dishes";}
         if(state.view==="alertas"&&!restaurantHasAlertas(restaurant)) state.view="dishes";
         searchInput.value=nextSearchValue;
+        if(ingredientExcludeInput) ingredientExcludeInput.value=state.excludedIngredient;
         searchPanel.classList.add("active");
         updateHeaderMeta();
         lastAutomaticRefreshAt=Date.now();
@@ -2239,10 +2378,12 @@
     alertasViewButton.addEventListener("click",()=>{state.view="alertas"; state.allergenSourceView="alertas"; state.hasOpenedFoodView=true; renderCurrentView()});
     allergensViewButton.addEventListener("click",()=>{state.view="allergens"; state.allergenSourceView="dishes"; state.hasOpenedFoodView=true; renderAllergenButtons(); renderCurrentView()});
     allergensPintxosViewButton.addEventListener("click",()=>{state.view="allergens"; state.allergenSourceView="pintxos"; state.hasOpenedFoodView=true; renderAllergenButtons(); renderCurrentView()});
+    allergensAlertasViewButton.addEventListener("click",()=>{state.view="allergens"; state.allergenSourceView="alertas"; state.hasOpenedFoodView=true; renderAllergenButtons(); renderCurrentView()});
     searchInput.addEventListener("input",renderCurrentView);
     searchInput.addEventListener("focus",renderSearchSuggestions);
-    document.addEventListener("click",event=>{if(!event.target.closest(".compact-search")) closeSearchSuggestions()});
-    document.addEventListener("keydown",event=>{if(event.key==="Escape") closeSearchSuggestions()});
+    if(ingredientExcludeInput){ingredientExcludeInput.addEventListener("input",()=>{if(!ingredientExcludeInput.value.trim()){state.excludedIngredient=""; renderCurrentView(); closeIngredientExcludeSuggestions(); return} renderIngredientExcludeSuggestions()}); ingredientExcludeInput.addEventListener("focus",renderIngredientExcludeSuggestions); ingredientExcludeInput.addEventListener("keydown",event=>{if(event.key==="Enter"){event.preventDefault(); if(ingredientExcludeInput.value.trim()){state.excludedIngredient=ingredientExcludeInput.value.trim(); renderCurrentView(); closeIngredientExcludeSuggestions()}} if(event.key==="Escape") closeIngredientExcludeSuggestions()})}
+    document.addEventListener("click",event=>{if(!event.target.closest(".compact-search")){closeSearchSuggestions(); closeIngredientExcludeSuggestions()}});
+    document.addEventListener("keydown",event=>{if(event.key==="Escape"){closeSearchSuggestions(); closeIngredientExcludeSuggestions()}});
     groupToggle.addEventListener("click",toggleGroupMenu);
     document.addEventListener("click",event=>{if(!groupFilter.hidden&&!groupFilter.contains(event.target)) closeGroupMenu()});
     document.addEventListener("keydown",event=>{if(event.key==="Escape") closeGroupMenu()});
