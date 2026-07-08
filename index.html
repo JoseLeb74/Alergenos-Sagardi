@@ -1038,12 +1038,27 @@
     function allergenMarkType(v){if(isTraceValue(v)) return "trace"; if(isAllergenPresent(v)) return "positive"; return false}
     function isIngredientContinuationText(title){
       const normalized=normalizeSearchText(title);
-      return /^(opcion|opcio|option|opcao)\s*\d*\s*[:.-]/.test(normalized);
+      return /^(opcion|opcio|option|opcao)\s*\d*\s*[:.-]/.test(normalized)||/^\d+\s*(er|on|a|o|st|nd|rd|th)?\s+[^:\n]{1,60}:/.test(normalized);
+    }
+    function isAuxiliaryIngredientCode(code){
+      return /^\d+([,.]0+)?$/.test(cleanCell(code));
+    }
+    function hasIngredientContinuationShape(title){
+      const text=cleanCell(title);
+      return text.length>35||/[,:;()]/.test(text);
     }
     function shouldTreatAsIngredientContinuation(code,title,allergenEntries){
       const hasAllergens=Array.isArray(allergenEntries)&&allergenEntries.length>0;
       const cleanCode=cleanCell(code);
-      return !hasAllergens&&isIngredientContinuationText(title)&&/^\d+$/.test(cleanCode);
+      return !hasAllergens&&isAuxiliaryIngredientCode(cleanCode)&&(isIngredientContinuationText(title)||hasIngredientContinuationShape(title));
+    }
+    function appendDishDetails(dish,text){
+      if(!dish||!cleanCell(text)) return;
+      dish.details=Array.isArray(dish.details)?dish.details:[];
+      cleanCell(text).split("\n").map(line=>cleanCell(line)).filter(Boolean).forEach(line=>dish.details.push(line));
+    }
+    function sameDishCode(a,b){
+      return !!cleanCell(a)&&normalizeText(a).toUpperCase()===normalizeText(b).toUpperCase();
     }
     function isLikelySectionRow(row){
       const code=cleanCell(row.c[0]&&(row.c[0].f!=null?row.c[0].f:row.c[0].v));
@@ -1376,8 +1391,7 @@
         const built=buildDishRecord(dish.code,dish.rawTitle,dish.allergenEntries||[],includeIngredients?dish.details||[]:null,cleanRestaurantGroupLabel(dish.group||"",restaurant),dish.dietary||{});
         if(includeIngredients&&dishes.length&&shouldTreatAsIngredientContinuation(built.code,built.rawTitle,built.allergenEntries)){
           const previous=dishes[dishes.length-1];
-          previous.details=Array.isArray(previous.details)?previous.details:[];
-          previous.details.push(built.rawTitle);
+          appendDishDetails(previous,built.rawTitle);
           return;
         }
         dishes.push(built);
@@ -1484,6 +1498,7 @@
       const allergenColumns=liveAllergenColumns(payload.table);
       const groupColumn=liveGroupColumn(payload.table);
       let currentDish=null;
+      let lastRealDish=null;
       let currentGroup=cleanRestaurantGroupLabel(payload.table.cols&&payload.table.cols[1]&&payload.table.cols[1].label,restaurant)||"";
       (payload.table.rows||[]).forEach(row=>{
         if(!row||!Array.isArray(row.c)) return;
@@ -1499,16 +1514,21 @@
           return type?{key,type}:null;
         }).filter(Boolean);
         if(shouldTreatAsIngredientContinuation(code,title,allergenEntries)){
-          if(currentDish&&includeIngredients&&Array.isArray(currentDish.details)) currentDish.details.push(title);
+          if(includeIngredients) appendDishDetails(currentDish||lastRealDish,title);
+          return;
+        }
+        if(!allergenEntries.length&&hasIngredientContinuationShape(title)&&(sameDishCode(code,currentDish&&currentDish.code)||sameDishCode(code,lastRealDish&&lastRealDish.code))){
+          if(includeIngredients) appendDishDetails(currentDish||lastRealDish,title);
           return;
         }
         if((code&&title)||isPintxosDishWithoutCode){
           currentDish=buildDishRecord(code||`${dishes.length+1}`,title,allergenEntries,includeIngredients?[]:null,currentGroup,readDietaryFlags(row));
+          lastRealDish=currentDish;
           dishes.push(currentDish);
           return;
         }
         if(!currentDish||!title||!includeIngredients||!Array.isArray(currentDish.details)) return;
-        currentDish.details.push(title);
+        appendDishDetails(currentDish,title);
       });
       return {
         dishes,
@@ -2066,8 +2086,16 @@
         groupMenu.appendChild(button);
       });
     }
-    function dishSearchText(dish){return normalizeText([dish.rawTitle,...(Array.isArray(dish.details)?dish.details:[])].join(" ")).toLowerCase()}
-    function dishIngredientText(dish){return normalizeText([dish.rawTitle,...(Array.isArray(dish.details)?dish.details:[])].join(" ")).toLowerCase()}
+    function embeddedDetailsForDish(dish){
+      if(!dish||Array.isArray(dish.details)&&dish.details.length) return Array.isArray(dish&&dish.details)?dish.details:[];
+      const restaurantKey=normalizeRestaurantParam(state.restaurant&&state.restaurant.name);
+      const restaurantRecord=(EMBEDDED_DATA.restaurants||[]).find(record=>normalizeRestaurantParam(record.name)===restaurantKey||String(record.gid||"")===String(state.restaurant&&state.restaurant.gid||""));
+      const embeddedDish=restaurantRecord&&(restaurantRecord.dishes||[]).find(item=>cleanCell(item.code)===cleanCell(dish.code)||normalizeText(item.rawTitle)===normalizeText(dish.rawTitle));
+      return embeddedDish&&Array.isArray(embeddedDish.details)?embeddedDish.details.map(cleanCell).filter(Boolean):[];
+    }
+    function dishDetailsForDisplay(dish){return Array.isArray(dish&&dish.details)&&dish.details.length?dish.details:embeddedDetailsForDish(dish)}
+    function dishSearchText(dish){return normalizeText([dish.rawTitle,...dishDetailsForDisplay(dish)].join(" ")).toLowerCase()}
+    function dishIngredientText(dish){return normalizeText([dish.rawTitle,...dishDetailsForDisplay(dish)].join(" ")).toLowerCase()}
     function excludedIngredientInfo(){
       const raw=normalizeText(state.excludedIngredient).toLowerCase();
       if(!raw) return {raw:"",key:"",terms:[]};
@@ -2135,7 +2163,7 @@
       button.addEventListener("click",()=>{state.excludedIngredient=ingredientExcludeInput.value.trim(); ingredientExcludeInput.value=state.excludedIngredient; ingredientExcludeBox.classList.add("is-active"); renderCurrentView(); closeIngredientExcludeSuggestions()});
       ingredientExcludeSuggestions.appendChild(button);
     }
-    function isRealDish(dish){return !!(dish&&(cleanCell(dish.rawTitle)||cleanCell(dish.code)||(Array.isArray(dish.details)&&dish.details.some(item=>cleanCell(item)))||(Array.isArray(dish.allergenEntries)&&dish.allergenEntries.length)))}
+    function isRealDish(dish){return !!(dish&&!shouldTreatAsIngredientContinuation(dish.code,dish.rawTitle,dish.allergenEntries)&&(cleanCell(dish.rawTitle)||cleanCell(dish.code)||(Array.isArray(dish.details)&&dish.details.some(item=>cleanCell(item)))||(Array.isArray(dish.allergenEntries)&&dish.allergenEntries.length)))}
     function realDishes(items){return (items||[]).filter(isRealDish)}
     function renderPendingState(target){target.innerHTML=`<div class="pending-state" role="status"><div class="pending-icon" aria-hidden="true">i</div><h3 class="pending-title">${t("pendingDataTitle")}</h3><p class="pending-copy">${t("pendingDataCopy")}</p><p class="pending-warning">${t("pendingDataWarning")}</p></div>`}
     function filteredItems(items,groupKey=currentGroupKey()){const q=normalizeText(searchInput.value).toLowerCase(); const selectedGroup=normalizeText(state.selectedGroups[groupKey]||"").toUpperCase(); return items.filter(d=>(q||!selectedGroup||normalizeText(dishGroupLabel(d)).toUpperCase()===selectedGroup)&&(!q||dishSearchText(d).includes(q))&&!dishHasExcludedIngredient(d))}
@@ -2170,7 +2198,8 @@
       items.forEach(dish=>{
         const dishId=`${state.restaurant?state.restaurant.gid:"global"}-${dish.code}`;
         const titleLines=buildLanguageLines(dish.rawTitle);
-        const ingredientLines=RUNTIME.showIngredients&&Array.isArray(dish.details)?dish.details.map((item,index)=>({code:detectIngredientLanguage(item,index),text:item.trim(),index})).filter(item=>item.text).sort((a,b)=>languageOrderIndex(a.code,expectedOrder)-languageOrderIndex(b.code,expectedOrder)):[];
+        const detailsForDish=dishDetailsForDisplay(dish);
+        const ingredientLines=RUNTIME.showIngredients&&detailsForDish.length?detailsForDish.map((item,index)=>({code:detectIngredientLanguage(item,index),text:item.trim(),index})).filter(item=>item.text).sort((a,b)=>languageOrderIndex(a.code,expectedOrder)-languageOrderIndex(b.code,expectedOrder)):[];
         const isExpanded=!!state.expandedIngredients[dishId];
         const icons=(dish.allergenEntries||[]).map(entry=>{const meta=allergenMeta(entry.key); return `<span class="dish-icon${entry.type==="trace"?" trace":""}" title="${meta.label}${entry.type==="trace"?" - "+t("traceLabel"):""}">${meta.icon}</span>`}).join("");
         const metaBlock=RUNTIME.mode==="staff"?`<div class="meta"><span class="pill">${t("code")} ${dish.code}</span></div>`:"";
