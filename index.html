@@ -1036,6 +1036,15 @@
     function isDietaryMarked(v){const n=normalizeText(v).toUpperCase(); if(!n||["NO","FALSE","0","FALSO","N"].includes(n)) return false; const tokens=n.split(/[^A-Z0-9]+/).filter(Boolean); return ["SI","YES","TRUE","VERDADERO","VERDADEIRO","1","X","OK","APTO","APTA","VEGETARIANO","VEGETARIANA","VEGETARIAN","VEGANO","VEGANA","VEGAN"].some(value=>tokens.includes(value))||/^[✓✔☑]$/.test(cleanCell(v))}
     function readDietaryFlags(row){return DIETARY_FILTERS.reduce((flags,key)=>{flags[key]=isDietaryMarked(gvizCellValue(row,DIETARY_COLUMN_INDEXES[key])); return flags},{})}
     function allergenMarkType(v){if(isTraceValue(v)) return "trace"; if(isAllergenPresent(v)) return "positive"; return false}
+    function isIngredientContinuationText(title){
+      const normalized=normalizeSearchText(title);
+      return /^(opcion|opcio|option|opcao)\s*\d*\s*[:.-]/.test(normalized);
+    }
+    function shouldTreatAsIngredientContinuation(code,title,allergenEntries){
+      const hasAllergens=Array.isArray(allergenEntries)&&allergenEntries.length>0;
+      const cleanCode=cleanCell(code);
+      return !hasAllergens&&isIngredientContinuationText(title)&&/^\d+$/.test(cleanCode);
+    }
     function isLikelySectionRow(row){
       const code=cleanCell(row.c[0]&&(row.c[0].f!=null?row.c[0].f:row.c[0].v));
       const text=cleanCell(row.c[1]&&(row.c[1].f!=null?row.c[1].f:row.c[1].v));
@@ -1118,7 +1127,8 @@
       const sample=sampleWords.join(" ");
       const wordCount=sampleWords.length;
       const expectedOrder=restaurantExpectedLanguages();
-      const scores=DISPLAY_LANGUAGE_ORDER.map(code=>{
+      const languageCodes=Array.from(new Set(DISPLAY_LANGUAGE_ORDER.concat(expectedOrder)));
+      const scores=languageCodes.map(code=>{
         const hints=LANGUAGE_HINTS[code];
         let score=0;
         hints.strong.forEach(token=>{if(sample.includes(token)) score+=wordCount>=10?3:2;});
@@ -1157,8 +1167,8 @@
     const LANGUAGE_CONTEXT_HINTS={
       ES:{
         functionWords:["del","con","sin","para","al","los","las","unos","unas","que"],
-        strongWords:["aceite","cebolla","harina","levadura","pimienta","queso","mantequilla","huevo","huevos","pan","rallado","trigo","cerdo","cebollino","plato","ingredientes","salsa","liquido","liquidos"],
-        phrasePatterns:[/\bharina de trigo\b/g,/\baceite de girasol\b/g,/\bpan rallado\b/g,/\bhuevos? liquidos?\b/g,/\bgelatina de cerdo\b/g,/\bmantequilla\b/g,/\bagente de tratamiento\b/g,/\bregulador de acidez\b/g,/\bconservante\b/g,/\bcebollino\b/g]
+        strongWords:["aceite","cebolla","harina","levadura","pimienta","queso","mantequilla","huevo","huevos","pan","rallado","trigo","cerdo","cebollino","plato","ingredientes","salsa","liquido","liquidos","horno","lena","campana","calamar","rabas","como"],
+        phrasePatterns:[/\bharina de trigo\b/g,/\baceite de girasol\b/g,/\bpan rallado\b/g,/\bhuevos? liquidos?\b/g,/\bgelatina de cerdo\b/g,/\bmantequilla\b/g,/\bagente de tratamiento\b/g,/\bregulador de acidez\b/g,/\bconservante\b/g,/\bcebollino\b/g,/\bhorno de lena\b/g,/\bcomo en\b/g,/\bpate de campana\b/g]
       },
       ENG:{
         functionWords:["with","from","and","without","served","for","the","of"],
@@ -1167,17 +1177,23 @@
       },
       CAT:{
         functionWords:["amb","sense","dels","els","les","pel","pels","per","una","unes"],
-        strongWords:["aigua","farina","blat","llevat","pebre","ceba","oli","plat","ingredients","mantega","ou","ous","porc","ceballot","massa","mare"],
-        phrasePatterns:[/\bfarina de blat\b/g,/\boli de gira sol\b/g,/\bou liquid\b/g,/\bous liquids\b/g,/\bmassa mare\b/g,/\bferments lactics\b/g,/\bceba tendra\b/g,/\bregulador d acidesa\b/g,/\baigua\b/g]
+        strongWords:["aigua","farina","blat","llevat","pebre","ceba","oli","plat","ingredients","mantega","ou","ous","porc","ceballot","massa","mare","forn","llenya","campanya","calamar","rabas","com"],
+        phrasePatterns:[/\bfarina de blat\b/g,/\boli de gira sol\b/g,/\bou liquid\b/g,/\bous liquids\b/g,/\bmassa mare\b/g,/\bferments lactics\b/g,/\bceba tendra\b/g,/\bregulador d acidesa\b/g,/\baigua\b/g,/\bforn de llenya\b/g,/\bcom a\b/g,/\bpate de campanya\b/g]
       },
       PT:{
         functionWords:["com","sem","dos","das","uma","umas","ao","aos","pelas","pelos","para","do","da"],
         strongWords:["presunto","leite","pao","ralado","farinha","fermento","pimenta","cebola","azeite","manteiga","ovos","liquidos","creme","gordo","cebolinho","girassol","tratamento","porco","prato","ingredientes","natas","coentros","massa","mae","fermentacao","vinho","sumo","acucar","limao","alho","queijo","rebentos","grelha","amendoa","maca","cidra","alheira","ameijoas","corvina","atum","queijos","rabanada","abobora","tarte","arroz","batata","salada","lima","laranja","tartaro","polvo","bacalhau","cogumelos"],
         phrasePatterns:[/\bpao ralado\b/g,/\bleite gordo\b/g,/\bfarinha de trigo\b/g,/\boleo de girassol\b/g,/\bovos liquidos\b/g,/\bcreme pasteurizado\b/g,/\bfermentos lacteos\b/g,/\bgelatina de porco\b/g,/\bagente de tratamento da farinha\b/g,/\bregulador de acidez\b/g,/\bcebolinho\b/g,/\bazeite virgem\b/g,/\bazeite virgem extra\b/g,/\bvinagre de cidra\b/g,/\bmassa mae\b/g,/\brebentos de coentros\b/g,/\bsumo de\b/g,/\bnatas\b/g]
+      },
+      EUS:{
+        functionWords:["eta","bat","batzuk","gabe"],
+        strongWords:["antxoa","antxoak","txuleta","piperra","piperrak","bakailao","txipiroi","marmitako","idiazabal","sagardo"],
+        phrasePatterns:[/\beta\b/g]
       }
     };
     const RESTAURANT_LANGUAGE_GROUPS=[
-      {order:["CAT","ES","ENG","PT"],names:["SAGARDI BCN","VIDRIOS Y CRISTALES","SAGÀS","GOLFO BORN","KRESALA","IKOYA","CADAQUÉS BCN","EEBCN","MUSEO"]},
+      {order:["EUS","ES","ENG"],names:["KOFRADIA"]},
+      {order:["CAT","ES","ENG","PT"],names:["SAGARDI BCN","VIDRIOS Y CRISTALES","SAGÀS","GOLFO BORN","KRESALA","IKOYA","CADAQUÉS BCN","EEBCN","MUSEO","OAXACA BCN","OAXACA NL"]},
       {order:["ES","ENG","CAT","PT"],names:["CADAQUÉS MAD","SAGARDI MAD","TXOKOEEMAD","SAGARDI UK","SAGARDI NL"]},
       {order:["PT","ENG","ES","CAT"],names:["VINUM","SAGARDI OP"]}
     ].map(group=>({order:group.order,names:new Set(group.names.map(normalizeRestaurantParam))}));
@@ -1189,7 +1205,7 @@
     }
     function restaurantLanguageBias(){
       const order=restaurantExpectedLanguages();
-      const bias={ES:1.8,ENG:1.8,CAT:1.8,PT:1.8};
+      const bias={ES:1.8,ENG:1.8,CAT:1.8,PT:1.8,EUS:1.8};
       order.forEach((code,index)=>{bias[code]+=[4.2,2.6,1.4,.8][index]||0;});
       return bias;
     }
@@ -1198,6 +1214,16 @@
       if(index!==-1) return index;
       const fallback=DISPLAY_LANGUAGE_ORDER.indexOf(code);
       return fallback===-1?99:expectedOrder.length+fallback;
+    }
+    function allowedLanguageCodesForLines(lineCount,expectedOrder=restaurantExpectedLanguages()){
+      if(lineCount<=3&&expectedOrder[0]!=="PT") return expectedOrder.filter(code=>code!=="PT");
+      return expectedOrder.slice();
+    }
+    function fallbackLanguageCode(usedCodes,allowedCodes,index){
+      return allowedCodes.find(code=>!usedCodes.has(code))||DISPLAY_LANGUAGE_ORDER.find(code=>!usedCodes.has(code))||`L${index+1}`;
+    }
+    function languageCodeByPosition(index,expectedOrder=restaurantExpectedLanguages()){
+      return expectedOrder[index]||DISPLAY_LANGUAGE_ORDER[index]||`L${index+1}`;
     }
     function tokenizeWords(text){return normalizeText(text).toLowerCase().split(/[^a-z0-9]+/).filter(Boolean)}
     function collectLanguageScores(text){
@@ -1251,18 +1277,28 @@
     function buildLanguageLines(text){
       const lines=String(text||"").split("\n").map(line=>line.trim()).filter(Boolean);
       const expectedOrder=restaurantExpectedLanguages();
-      const classified=lines.map((line,index)=>({code:classifyLanguageBlock(line,index),text:line,index}));
-      const unique=[];
-      classified.forEach(item=>{
-        if(!unique.some(existing=>existing.code===item.code)){unique.push(item); return;}
-        item.code=expectedOrder.find(code=>!unique.some(existing=>existing.code===code))||DISPLAY_LANGUAGE_ORDER.find(code=>!unique.some(existing=>existing.code===code))||`L${item.index+1}`;
-        unique.push(item);
+      if(lines.length&&lines.length<=expectedOrder.length){
+        return lines.map((line,index)=>({code:languageCodeByPosition(index,expectedOrder),text:line}));
+      }
+      const allowedCodes=allowedLanguageCodesForLines(lines.length,expectedOrder);
+      const usedCodes=new Set();
+      const classified=lines.map((line,index)=>{
+        let code=classifyLanguageBlock(line,index);
+        if(!allowedCodes.includes(code)||usedCodes.has(code)) code=fallbackLanguageCode(usedCodes,allowedCodes,index);
+        usedCodes.add(code);
+        return {code,text:line,index};
       });
-      return unique.sort((a,b)=>{
+      return classified.sort((a,b)=>{
         return languageOrderIndex(a.code,expectedOrder)-languageOrderIndex(b.code,expectedOrder);
       }).map(item=>({code:item.code,text:item.text}));
     }
-    function detectIngredientLanguage(text,fallbackIndex=0){return classifyLanguageBlock(text,fallbackIndex)}
+    function detectIngredientLanguage(text,fallbackIndex=0){
+      const expectedOrder=restaurantExpectedLanguages();
+      if(fallbackIndex<expectedOrder.length) return languageCodeByPosition(fallbackIndex,expectedOrder);
+      const allowedCodes=allowedLanguageCodesForLines(3,expectedOrder);
+      const code=classifyLanguageBlock(text,fallbackIndex);
+      return allowedCodes.includes(code)?code:(expectedOrder[fallbackIndex]||DISPLAY_LANGUAGE_ORDER[fallbackIndex]||code);
+    }
     function allergenMeta(key){const meta=ALLERGEN_META[key]||{icon:"&#9888;&#65039;",es:key,en:key,cat:key,pt:key}; return {icon:meta.icon,label:meta[state.lang]||meta.es||key}}
     function collectLanguageScores(text){
       const raw=String(text||"").trim();
@@ -1335,7 +1371,17 @@
       };
     }
     function parseEmbeddedRestaurant(record,includeIngredients,restaurant=null){
-      const dishes=(record&&record.dishes||[]).map(dish=>buildDishRecord(dish.code,dish.rawTitle,dish.allergenEntries||[],includeIngredients?dish.details||[]:null,cleanRestaurantGroupLabel(dish.group||"",restaurant),dish.dietary||{}));
+      const dishes=[];
+      (record&&record.dishes||[]).forEach(dish=>{
+        const built=buildDishRecord(dish.code,dish.rawTitle,dish.allergenEntries||[],includeIngredients?dish.details||[]:null,cleanRestaurantGroupLabel(dish.group||"",restaurant),dish.dietary||{});
+        if(includeIngredients&&dishes.length&&shouldTreatAsIngredientContinuation(built.code,built.rawTitle,built.allergenEntries)){
+          const previous=dishes[dishes.length-1];
+          previous.details=Array.isArray(previous.details)?previous.details:[];
+          previous.details.push(built.rawTitle);
+          return;
+        }
+        dishes.push(built);
+      });
       return {
         dishes,
         allergenNames:MASTER_ALLERGEN_KEYS.slice(),
@@ -1448,11 +1494,15 @@
         if(!groupColumn&&isLikelySectionRow(row)){currentGroup=cleanRestaurantGroupLabel(gvizCellValue(row,1),restaurant); currentDish=null; return;}
         const code=gvizCellValue(row,0);
         const isPintxosDishWithoutCode=currentGroup&&title&&title.includes("\n")&&!/^#N\/A$/i.test(title);
+        const allergenEntries=allergenColumns.map(({index,key})=>{
+          const type=allergenMarkType(gvizCellValue(row,index));
+          return type?{key,type}:null;
+        }).filter(Boolean);
+        if(shouldTreatAsIngredientContinuation(code,title,allergenEntries)){
+          if(currentDish&&includeIngredients&&Array.isArray(currentDish.details)) currentDish.details.push(title);
+          return;
+        }
         if((code&&title)||isPintxosDishWithoutCode){
-          const allergenEntries=allergenColumns.map(({index,key})=>{
-            const type=allergenMarkType(gvizCellValue(row,index));
-            return type?{key,type}:null;
-          }).filter(Boolean);
           currentDish=buildDishRecord(code||`${dishes.length+1}`,title,allergenEntries,includeIngredients?[]:null,currentGroup,readDietaryFlags(row));
           dishes.push(currentDish);
           return;
