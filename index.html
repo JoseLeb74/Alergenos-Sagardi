@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
@@ -36,6 +36,9 @@
     .login-password-toggle input{width:18px;height:18px;margin:0;accent-color:#ffd966;cursor:pointer}
     .login-password-toggle span{padding-top:1px}
     .login-language-field{padding:12px;border:1px solid rgba(201,181,155,.68);border-radius:18px;background:linear-gradient(135deg,#fffdf6,#f8efde)}
+    .login-hospitality-strip{display:flex;align-items:center;justify-content:center;gap:10px;margin:10px 0 11px;padding:8px 10px;border:1px solid rgba(187,159,112,.58);border-radius:16px;background:linear-gradient(135deg,rgba(255,255,255,.78),rgba(255,233,157,.58));box-shadow:inset 0 1px 0 rgba(255,255,255,.82),0 10px 20px rgba(70,45,18,.06)}
+    .login-hospitality-icon{width:42px;height:42px;display:grid;place-items:center;border-radius:15px;background:linear-gradient(180deg,#fffdfa,#f2eadf);border:1px solid rgba(201,181,155,.7);font-size:24px;box-shadow:0 8px 16px rgba(53,37,24,.08),inset 0 1px 0 rgba(255,255,255,.78)}
+    .login-hospitality-icon.is-highlight{background:linear-gradient(180deg,#ffe699,#ffd966);border-color:#d5aa19;box-shadow:0 10px 18px rgba(214,186,82,.18),inset 0 1px 0 rgba(255,255,255,.75)}
     .login-language-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
     .login-lang-option{min-height:42px;border:1px solid rgba(187,159,112,.74);border-radius:14px;background:linear-gradient(180deg,#fffdf8,#f3eadc);color:#5f4b00;font-size:13px;font-weight:950;letter-spacing:.06em;box-shadow:inset 0 1px 0 rgba(255,255,255,.8);transition:transform .14s ease,box-shadow .14s ease,background .14s ease}
     .login-lang-option:hover,.login-lang-option:focus-visible{outline:none;transform:translateY(-1px);background:linear-gradient(180deg,#fff8d8,#ffe699);box-shadow:0 10px 18px rgba(146,111,23,.12),inset 0 1px 0 rgba(255,255,255,.9)}
@@ -126,9 +129,17 @@
     .lang-button:hover,.lang-button:focus-visible{background:linear-gradient(180deg,#fff7d6,#ffec9e);border-color:rgba(232,205,121,.9);color:#5f4b00;outline:none;transform:translateY(-1px);box-shadow:0 12px 22px rgba(214,186,82,.2),inset 0 1px 0 rgba(255,255,255,.78)}
     .lang-button.active{background:linear-gradient(135deg,#ffd966,#f0b800);border-color:#c89400;color:#4f3d00;box-shadow:0 14px 26px rgba(193,139,0,.28),0 0 0 3px rgba(255,217,102,.18),inset 0 1px 0 rgba(255,255,255,.62)}
     .lang-button.active::after{content:"✓";margin-left:auto;width:24px;height:24px;display:grid;place-items:center;border-radius:999px;background:rgba(255,255,255,.82);color:#7f6500;font-weight:950;box-shadow:0 5px 12px rgba(95,75,0,.12)}
-    .scroll-top-button{position:fixed;right:18px;bottom:22px;z-index:700;width:52px;height:52px;border:1px solid rgba(187,159,112,.9);border-radius:999px;background:linear-gradient(135deg,#fff7cc,#ffd966 58%,#f0b800);color:#5f4b00;font-size:27px;font-weight:950;line-height:1;box-shadow:0 18px 36px rgba(53,37,24,.18),inset 0 1px 0 rgba(255,255,255,.82);cursor:pointer;transition:transform .16s ease,box-shadow .16s ease}
-    .scroll-top-button:hover,.scroll-top-button:focus-visible{outline:none;transform:translateY(-3px);box-shadow:0 24px 42px rgba(53,37,24,.24),0 0 0 4px rgba(255,217,102,.2),inset 0 1px 0 rgba(255,255,255,.9)}
+    .admin-top-button{min-height:34px;padding:7px 11px;border:1px solid #c89400;border-radius:999px;background:linear-gradient(180deg,#ffe699,#ffd966);color:#4f3d00;font-size:10px;font-weight:950;letter-spacing:.08em;text-transform:uppercase;box-shadow:0 10px 18px rgba(214,186,82,.2),inset 0 1px 0 rgba(255,255,255,.72)}
+    .admin-top-button:hover,.admin-top-button:focus-visible{outline:none;transform:translateY(-1px);box-shadow:0 16px 28px rgba(214,186,82,.3),0 0 0 3px rgba(255,217,102,.18)}
+    .admin-top-button[hidden]{display:none}
+    .scroll-top-button{position:fixed;right:max(9px,calc((100vw - 1220px)/2 + 9px));top:auto;bottom:24px;z-index:700;width:32px;height:38px;border:1px solid rgba(255,217,102,.55);border-radius:999px;background:linear-gradient(180deg,#20201f,#050505);color:#ffd966;font-size:17px;font-weight:950;line-height:1;box-shadow:0 12px 24px rgba(0,0,0,.26),0 0 0 3px rgba(255,217,102,.1),inset 0 1px 0 rgba(255,255,255,.18);cursor:pointer;transform:none;overflow:hidden;transition:transform .16s ease,box-shadow .16s ease,background .16s ease,border-color .16s ease}
+    .scroll-top-button::before{content:"";position:absolute;inset:-45% auto auto -70%;width:68%;height:190%;background:linear-gradient(100deg,transparent 0%,rgba(255,255,255,.42) 48%,transparent 100%);transform:rotate(18deg);animation:scrollTopShine 4.6s ease-in-out infinite;pointer-events:none}
+    .scroll-top-button::after{content:"";position:absolute;right:8px;top:8px;width:4px;height:4px;border-radius:999px;background:#fff3a8;box-shadow:-16px 16px 0 rgba(255,243,168,.55),-4px 22px 0 rgba(255,243,168,.35);animation:scrollTopSparkle 2.8s ease-in-out infinite;pointer-events:none}
+    .scroll-top-button:hover,.scroll-top-button:focus-visible{outline:none;transform:translateY(-2px);background:linear-gradient(180deg,#2a2a28,#080808);border-color:#ffd966;box-shadow:0 15px 28px rgba(0,0,0,.34),0 0 0 4px rgba(255,217,102,.14),inset 0 1px 0 rgba(255,255,255,.22)}
+    @keyframes scrollTopShine{0%,68%,100%{left:-78%;opacity:0}76%{opacity:.75}88%{left:112%;opacity:0}}
+    @keyframes scrollTopSparkle{0%,100%{opacity:.35;transform:scale(.88)}48%{opacity:.9;transform:scale(1.12)}}
     body.auth-pending .scroll-top-button{display:none}
+    @media (max-width:720px){.scroll-top-button{right:8px;bottom:18px;width:32px;height:38px;font-size:16px}.scroll-top-button:hover,.scroll-top-button:focus-visible{transform:translateY(-2px)}}
     .hero{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:18px;align-items:end;padding:8px 24px 18px}
     .hero-eyebrow{display:none}
     .hero-title{margin:0 0 8px;font-family:"Fraunces",serif;font-size:clamp(34px,5vw,56px);line-height:.98;letter-spacing:-.04em}
@@ -136,6 +147,46 @@
     .hero-alert{position:relative;isolation:isolate;overflow:hidden;margin:16px 0 0;max-width:74ch;padding:18px 20px;border:2px solid rgba(135,32,20,.42);border-radius:18px;background:linear-gradient(135deg,#ffe35f 0%,#ffc27a 34%,#ff9f8d 68%,#fff2c2 100%);background-size:180% 180%;box-shadow:0 18px 36px rgba(143,45,29,.18),inset 0 1px 0 rgba(255,255,255,.72);color:#7a1f16;font-size:15px;font-weight:900;line-height:1.6;letter-spacing:.01em;text-shadow:0 1px 0 rgba(255,255,255,.62);text-wrap:balance;animation:safetyTextPulse 1.65s ease-in-out infinite,safetyModalMove 2.8s ease-in-out infinite}
     .hero-alert::before{content:"";position:absolute;inset:-35% auto -35% -42%;z-index:-1;width:32%;background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.82),rgba(255,255,255,0));transform:rotate(18deg);animation:safetyTextShine 2.4s linear infinite;pointer-events:none}
     .hero-alert::after{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(circle at 16% 24%,rgba(255,217,102,.9) 0 2px,transparent 3px),radial-gradient(circle at 84% 20%,rgba(255,255,255,.9) 0 2px,transparent 3px),radial-gradient(circle at 76% 78%,rgba(255,217,102,.75) 0 2px,transparent 3px),radial-gradient(circle at 28% 82%,rgba(255,255,255,.75) 0 1px,transparent 3px);animation:safetyTextSparkle 1.25s steps(2,end) infinite;pointer-events:none}
+    .admin-panel{position:fixed;right:0;top:94px;bottom:18px;z-index:650;display:grid;grid-template-columns:52px minmax(0,460px);width:min(512px,calc(100vw - 14px));margin:0;padding:0;border:1px solid rgba(201,181,155,.88);border-right:0;border-radius:24px 0 0 24px;background:linear-gradient(135deg,rgba(255,253,248,.98),rgba(255,243,206,.94));box-shadow:0 24px 70px rgba(45,31,20,.24);overflow:hidden;transform:translateX(calc(100% - 52px));transition:transform .24s cubic-bezier(.2,.85,.2,1)}
+    .admin-panel.is-open{transform:translateX(0)}
+    .admin-panel[hidden]{display:none}
+    .admin-panel-toggle{width:52px;border:0;border-right:1px solid rgba(201,181,155,.8);background:linear-gradient(180deg,#ffd966,#f0b800);color:#4f3d00;font-size:12px;font-weight:950;letter-spacing:.12em;text-transform:uppercase;writing-mode:vertical-rl;text-orientation:mixed;box-shadow:inset -1px 0 0 rgba(255,255,255,.45)}
+    .admin-panel-toggle:hover,.admin-panel-toggle:focus-visible{outline:none;background:linear-gradient(180deg,#ffe98b,#ffd22e)}
+    .admin-panel-body{min-width:0;overflow:auto;padding:18px}
+    .admin-panel-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:12px}
+    .admin-kicker{display:block;margin-bottom:4px;color:#8c7413;font-size:11px;font-weight:950;letter-spacing:.16em;text-transform:uppercase}
+    .admin-title{margin:0;font-size:22px;font-weight:950;letter-spacing:-.03em}
+    .admin-copy{margin:4px 0 0;color:#6f665d;font-size:13px;line-height:1.55}
+    .admin-sheet-link{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:10px 14px;border:1px solid #c89400;border-radius:14px;background:linear-gradient(180deg,#ffe699,#ffd966);color:#4f3d00;font-size:13px;font-weight:950;text-decoration:none;box-shadow:0 12px 22px rgba(214,186,82,.2)}
+    .admin-profiles-list{display:grid;gap:12px}
+    .admin-local-index{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 12px;padding:10px;border:1px dashed rgba(201,181,155,.8);border-radius:16px;background:rgba(255,255,255,.58)}
+    .admin-local-chip{display:inline-flex;align-items:center;gap:7px;max-width:100%;padding:7px 10px;border-radius:999px;background:linear-gradient(180deg,#fffdfa,#f4ead7);border:1px solid rgba(201,181,155,.72);color:#4d4136;font-size:11px;font-weight:900;line-height:1.25}
+    .admin-local-chip strong{color:#8c7413;font-weight:950}
+    .admin-profile-card{padding:14px;border:1px solid rgba(201,181,155,.82);border-radius:18px;background:rgba(255,255,255,.72);box-shadow:inset 0 1px 0 rgba(255,255,255,.7)}
+    .admin-profile-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:10px}
+    .admin-profile-title{margin:0;font-size:16px;font-weight:950;color:#241a12}
+    .admin-profile-linked{display:inline-flex;align-items:center;max-width:100%;margin-top:4px;padding:5px 9px;border-radius:999px;background:#f4e8df;color:#8f452d;font-size:11px;font-weight:900;line-height:1.3}
+    .admin-profile-meta{display:flex;flex-wrap:wrap;gap:7px;justify-content:flex-end}
+    .admin-meta-pill{padding:5px 8px;border-radius:999px;background:#f2eadf;color:#6f6254;font-size:10px;font-weight:900;letter-spacing:.06em;text-transform:uppercase}
+    .admin-credentials{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:9px}
+    .admin-profile-edit-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:9px;margin:10px 0 12px}
+    .admin-edit-field{display:grid;gap:5px;color:#8c7413;font-size:10px;font-weight:950;letter-spacing:.12em;text-transform:uppercase}
+    .admin-input{width:100%;min-height:38px;border:1px solid rgba(201,181,155,.82);border-radius:12px;background:linear-gradient(180deg,#fffdfa,#f8f1e8);color:#1f1a15;padding:8px 10px;font-size:13px;font-weight:850;letter-spacing:0;text-transform:none}
+    .admin-input:focus-visible{outline:none;border-color:#c89400;box-shadow:0 0 0 3px rgba(255,217,102,.24)}
+    .admin-credential{display:grid;gap:7px;padding:10px;border:1px solid rgba(201,181,155,.72);border-radius:14px;background:linear-gradient(180deg,#fffdfa,#f8f1e8)}
+    .admin-credential.is-disabled{opacity:.58;background:#eee7dd}
+    .admin-credential-line{display:grid;grid-template-columns:82px minmax(0,1fr);gap:8px;align-items:center;font-size:12px}
+    .admin-credential-label{color:#8c7413;font-weight:950;letter-spacing:.12em;text-transform:uppercase}
+    .admin-credential-value{min-width:0;overflow-wrap:anywhere;color:#1f1a15;font-weight:850}
+    .admin-status{width:max-content;padding:5px 8px;border-radius:999px;font-size:10px;font-weight:950;letter-spacing:.08em;text-transform:uppercase}
+    .admin-status.is-active{background:#dff3c6;color:#35551d;border:1px solid #9ac56f}
+    .admin-status.is-disabled{background:#f0d6d0;color:#8f452d;border:1px solid #c78b7d}
+    .admin-active-field{display:inline-flex;align-items:center;gap:8px;width:max-content;color:#5f4b00;font-size:12px;font-weight:950}
+    .admin-active-field input{width:18px;height:18px;margin:0;accent-color:#9ac56f}
+    .admin-actions{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin-top:12px}
+    .admin-save-button{min-height:40px;padding:9px 12px;border:1px solid #c89400;border-radius:13px;background:linear-gradient(180deg,#fff1a6,#ffd966);color:#4f3d00;font-size:12px;font-weight:950}
+    .admin-save-message{color:#6f665d;font-size:12px;font-weight:850;line-height:1.45}.admin-save-message.is-warning{color:#8f452d}.admin-save-message.is-ok{color:#31591f}
+    @media (max-width:720px){.admin-panel{left:8px;right:8px;top:auto;bottom:8px;width:auto;max-height:82vh;grid-template-columns:1fr;border:1px solid rgba(201,181,155,.88);border-radius:24px;transform:translateY(calc(100% - 52px))}.admin-panel.is-open{transform:translateY(0)}.admin-panel-toggle{width:100%;min-height:52px;border-right:0;border-bottom:1px solid rgba(201,181,155,.8);writing-mode:horizontal-tb}.admin-panel-body{padding:15px}.admin-panel-head{display:grid}.admin-sheet-link{width:100%}}
     @keyframes heroAlertGlow{0%{transform:translateX(-18%) rotate(18deg);opacity:0}12%{opacity:.95}55%{opacity:.95}100%{transform:translateX(430%) rotate(18deg);opacity:0}}
     .hero-summary{min-width:260px;display:grid;gap:10px;padding:18px;border:1px solid #e8cd79;border-radius:20px;background:linear-gradient(180deg,#fff1b8,#ffe699);box-shadow:0 12px 28px rgba(214,186,82,.22)}
     .hero-summary{display:none}
@@ -317,6 +368,11 @@
         </div>
         <div class="login-field login-language-field">
           <span class="login-label" id="loginLanguageLabel">Idioma del aviso</span>
+          <div class="login-hospitality-strip" aria-hidden="true">
+            <span class="login-hospitality-icon">👨‍🍳</span>
+            <span class="login-hospitality-icon is-highlight">🤵</span>
+            <span class="login-hospitality-icon">👩🏼‍⚕️</span>
+          </div>
           <div class="login-language-options" aria-labelledby="loginLanguageLabel">
             <button class="login-lang-option active" type="button" data-login-lang="es">ES</button>
             <button class="login-lang-option" type="button" data-login-lang="cat">CAT</button>
@@ -382,6 +438,7 @@
             <button class="lang-button" id="langNl" type="button"><span class="lang-flag-globe" aria-hidden="true">🇳🇱</span><span>NL</span></button>
           </div>
         </div>
+        <button class="admin-top-button" id="adminTopButton" type="button" hidden>Usuarios</button>
         <button class="logout-button" id="logoutButton" type="button" onclick="clearAccessSession()" hidden>Cerrar sesión</button>
       </header>
       <section class="hero">
@@ -395,6 +452,21 @@
           <span class="mode-chip" id="modeChip"></span>
           <span class="summary-label" id="summaryLabel"></span>
           <span class="summary-value" id="heroRestaurantMeta"></span>
+        </div>
+      </section>
+      <section class="admin-panel" id="adminPanel" hidden>
+        <button class="admin-panel-toggle" id="adminPanelToggle" type="button" aria-expanded="false">Usuarios</button>
+        <div class="admin-panel-body" id="adminPanelBody">
+          <div class="admin-panel-head">
+            <div>
+              <span class="admin-kicker">Solo administrador</span>
+              <h2 class="admin-title">Administración de accesos</h2>
+              <p class="admin-copy">Visible solo con el usuario adminalergenos. Puedes revisar y preparar cambios de perfiles, usuarios, contraseñas y estado Act.</p>
+            </div>
+            <a class="admin-sheet-link" id="adminSheetLink" href="#" target="_blank" rel="noopener">Abrir hoja para gestionar</a>
+          </div>
+          <div class="admin-local-index" id="adminLocalIndex" aria-label="Números de restaurantes"></div>
+          <div class="admin-profiles-list" id="adminProfilesList"></div>
         </div>
       </section>
       <div class="main">
@@ -474,6 +546,29 @@
     const TRANSLATIONS={es:{brandLabel:"Consulta gastronomica",heroEyebrow:"Consulta rapida para sala y cliente",heroTitle:"Informacion de Alergenos",heroLead:"Consulta rapida de alergenos e ingredientes de nuestros platos con una interfaz clara, compacta y lista para uso real en restaurante.",summaryLabel:"Restaurante activo",restaurantPanelTitle:"Restaurante",restaurantPanelCopy:"Carga una sola carta cada vez para mantener la consulta rapida, ordenada y precisa.",restaurantLabel:"Seleccionar restaurante",loadRestaurant:"Cargar restaurante",viewPanelTitle:"Modo de consulta",viewPanelCopy:"Alterna entre listado de platos o exploracion directa por alergeno.",dishes:"Platos",allergenView:"Ver alergenos",searchPanelTitle:"Buscador",searchPanelCopy:"Encuentra un plato por nombre en segundos.",searchLabel:"Buscar plato",searchPlaceholder:"Escribe el nombre del plato, un ingrediente o una referencia...",statusIdle:"Selecciona un restaurante para cargar solo su pestana y consultar platos, alergenos e ingredientes sin ruido.",statusLoading:"Cargando {restaurant}...",statusLoaded:"Se han cargado {count} platos de {restaurant}.",statusError:"No se pudo cargar {restaurant}. Comprueba que la hoja sea publica.",resultsTitleDishes:"Carta de platos",resultsTitleAllergens:"Consulta por alergeno",resultsMetaDishes:"{count} coincidencias en la carta activa.",resultsMetaAllergens:"{count} platos contienen {allergen}.",restaurantMeta:"{restaurant} · {count} platos",heroRestaurantMeta:"{restaurant} · {count} platos",noRestaurantSelected:"Ningun restaurante cargado",chooseAllergen:"Selecciona un alergeno para ver los platos relacionados dentro del restaurante activo.",noMatches:"No hay resultados para la busqueda o filtro actual.",noMarkedAllergens:"Sin alergenos marcados",allergensLabel:"Alergenos",ingredientsLabel:"Ingredientes",showIngredients:"Ver ingredientes ▼",hideIngredients:"Ocultar ingredientes ▲",traceLabel:"TRAZAS",code:"Codigo",dishCount:"{count} platos"},en:{brandLabel:"Hospitality lookup",heroEyebrow:"Fast access for staff and guests",heroTitle:"Allergen Information",heroLead:"Quick access to allergens and ingredients with a compact, polished interface designed for real restaurant service.",summaryLabel:"Active restaurant",restaurantPanelTitle:"Restaurant",restaurantPanelCopy:"Load one worksheet at a time to keep the experience precise, fast and easy to scan.",restaurantLabel:"Select restaurant",loadRestaurant:"Load restaurant",viewPanelTitle:"Browse mode",viewPanelCopy:"Switch between dish list mode and allergen-led exploration.",dishes:"Dishes",allergenView:"View allergens",searchPanelTitle:"Search",searchPanelCopy:"Find a dish by name in seconds.",searchLabel:"Search dish",searchPlaceholder:"Type a dish name, ingredient, or reference...",statusIdle:"Select a restaurant to load only its worksheet and review dishes, allergens, and ingredients without extra noise.",statusLoading:"Loading {restaurant}...",statusLoaded:"Loaded {count} dishes from {restaurant}.",statusError:"Could not load {restaurant}. Make sure the sheet is public.",resultsTitleDishes:"Dish list",resultsTitleAllergens:"Browse by allergen",resultsMetaDishes:"{count} matches in the active menu.",resultsMetaAllergens:"{count} dishes contain {allergen}.",restaurantMeta:"{restaurant} · {count} dishes",heroRestaurantMeta:"{restaurant} · {count} dishes",noRestaurantSelected:"No restaurant loaded",chooseAllergen:"Select an allergen to see matching dishes within the active restaurant.",noMatches:"No dishes matched the current search or filter.",noMarkedAllergens:"No marked allergens",allergensLabel:"Allergens",ingredientsLabel:"Ingredients",showIngredients:"Show ingredients ▼",hideIngredients:"Hide ingredients ▲",traceLabel:"TRACE",code:"Code",dishCount:"{count} dishes"},cat:{brandLabel:"Consulta gastronomica",heroEyebrow:"Consulta rapida per a sala i client",heroTitle:"Informacio d'Alergens",heroLead:"Consulta rapida d'alergens i ingredients dels nostres plats amb una interficie clara, compacta i preparada per a un us real en restaurant.",summaryLabel:"Restaurant actiu",restaurantPanelTitle:"Restaurant",restaurantPanelCopy:"Carrega una sola carta cada vegada per mantenir la consulta rapida, ordenada i precisa.",restaurantLabel:"Seleccionar restaurant",loadRestaurant:"Carregar restaurant",viewPanelTitle:"Mode de consulta",viewPanelCopy:"Alterna entre el llistat de plats i l'exploracio directa per alergens.",dishes:"Plats",allergenView:"Veure alergens",searchPanelTitle:"Cercador",searchPanelCopy:"Troba un plat pel nom en segons.",searchLabel:"Buscar plat",searchPlaceholder:"Escriu el nom del plat, un ingredient o una referencia...",statusIdle:"Selecciona un restaurant per carregar nomes la seva pestanya i consultar plats, alergens i ingredients sense soroll.",statusLoading:"Carregant {restaurant}...",statusLoaded:"S'han carregat {count} plats de {restaurant}.",statusError:"No s'ha pogut carregar {restaurant}. Comprova que el full sigui public.",resultsTitleDishes:"Carta de plats",resultsTitleAllergens:"Consulta per alergen",resultsMetaDishes:"{count} coincidencies a la carta activa.",resultsMetaAllergens:"{count} plats contenen {allergen}.",restaurantMeta:"{restaurant} · {count} plats",heroRestaurantMeta:"{restaurant} · {count} plats",noRestaurantSelected:"Cap restaurant carregat",chooseAllergen:"Selecciona un alergen per veure els plats relacionats dins del restaurant actiu.",noMatches:"No hi ha resultats per a la cerca o filtre actual.",noMarkedAllergens:"Sense alergens marcats",allergensLabel:"Alergens",ingredientsLabel:"Ingredients",showIngredients:"Veure ingredients ▼",hideIngredients:"Ocultar ingredients ▲",traceLabel:"TRACES",code:"Codi",dishCount:"{count} plats"}};
     const ALLERGEN_META={GLUTEN:{icon:"🌾",es:"Gluten",en:"Gluten",cat:"Gluten",pt:"Glúten"},CRUSTACEAN:{icon:"🦐",es:"Crustáceos",en:"Crustaceans",cat:"Crustacis",pt:"Crustáceos"},EGG:{icon:"🥚",es:"Huevo",en:"Egg",cat:"Ou",pt:"Ovo"},FISH:{icon:"🐟",es:"Pescado",en:"Fish",cat:"Peix",pt:"Peixe"},PEANUTS:{icon:"🥜",es:"Cacahuetes",en:"Peanuts",cat:"Cacauets",pt:"Amendoins"},SOYA:{icon:"🫘",es:"Soja",en:"Soy",cat:"Soja",pt:"Soja"},SOY:{icon:"🫘",es:"Soja",en:"Soy",cat:"Soja",pt:"Soja"},"MILK AND DAIRY PRODUCTS":{icon:"🥛",es:"Lácteos",en:"Milk and dairy",cat:"Làctics",pt:"Leite e derivados"},NUTS:{icon:"🌰",es:"Frutos secos",en:"Nuts",cat:"Fruits amb closca",pt:"Frutos de casca rija"},CELERY:{icon:"🥬",es:"Apio",en:"Celery",cat:"Api",pt:"Aipo"},MUSTARD:{icon:"🟡",es:"Mostaza",en:"Mustard",cat:"Mostassa",pt:"Mostarda"},SESAME:{icon:"⚪",es:"Sésamo",en:"Sesame",cat:"Sèsam",pt:"Sésamo"},GARLIC:{icon:"🧄",es:"Ajo",en:"Garlic",cat:"All",pt:"Alho"},PORK:{icon:"🐖",es:"Cerdo",en:"Pork",cat:"Porc",pt:"Porco"},SULPHITE:{icon:"🍷",es:"Sulfitos",en:"Sulphites",cat:"Sulfits",pt:"Sulfitos"},LUPINS:{icon:"🌱",es:"Altramuces",en:"Lupins",cat:"Tramussos",pt:"Tremoços"},MOLLUSCS:{icon:"🐚",es:"Moluscos",en:"Moluscs",cat:"Mol\u00b7luscs",pt:"Moluscos"},MOLUSCS:{icon:"🐚",es:"Moluscos",en:"Moluscs",cat:"Mol\u00b7luscs",pt:"Moluscos"}};
     const ALLERGEN_BASE_COLORS={GLUTEN:"#D86A61",CRUSTACEAN:"#F39A72",EGG:"#B894D3",FISH:"#6598C5",PEANUTS:"#C28A45",SOYA:"#7A4EB3",SOY:"#7A4EB3","MILK AND DAIRY PRODUCTS":"#A8CBD3",NUTS:"#997455",CELERY:"#7E9989",MUSTARD:"#DABE34",SESAME:"#A0A7AC",GARLIC:"#B6A15A",PORK:"#B86F79",SULPHITE:"#4B4D4C",LUPINS:"#A997B8",MOLLUSCS:"#58A79B",MOLUSCS:"#58A79B"};
+    const EXTRA_ALLERGEN_TRANSLATIONS={
+      GLUTEN:{eus:"Glutena",nl:"Gluten"},
+      CRUSTACEAN:{eus:"Krustazeoak",nl:"Schaaldieren"},
+      EGG:{eus:"Arrautza",nl:"Ei"},
+      FISH:{eus:"Arraina",nl:"Vis"},
+      PEANUTS:{eus:"Kakahueteak",nl:"Pinda's"},
+      SOYA:{eus:"Soja",nl:"Soja"},
+      SOY:{eus:"Soja",nl:"Soja"},
+      "MILK AND DAIRY PRODUCTS":{eus:"Esnea eta esnekiak",nl:"Melk en zuivel"},
+      NUTS:{eus:"Fruitu lehorrak",nl:"Noten"},
+      CELERY:{eus:"Apioa",nl:"Selderij"},
+      MUSTARD:{eus:"Mostaza",nl:"Mosterd"},
+      SESAME:{eus:"Sesamoa",nl:"Sesam"},
+      GARLIC:{eus:"Baratxuria",nl:"Knoflook"},
+      PORK:{eus:"Txerria",nl:"Varkensvlees"},
+      SULPHITE:{eus:"Sulfitoak",nl:"Sulfieten"},
+      LUPINS:{eus:"Lupinuak",nl:"Lupine"},
+      MOLLUSCS:{eus:"Moluskuak",nl:"Weekdieren"},
+      MOLUSCS:{eus:"Moluskuak",nl:"Weekdieren"}
+    };
+    Object.entries(EXTRA_ALLERGEN_TRANSLATIONS).forEach(([key,labels])=>{
+      if(ALLERGEN_META[key]) Object.assign(ALLERGEN_META[key],labels);
+    });
     RESTAURANTS[5].name="SAGÀS";
     RESTAURANTS[6].name="CADAQUÉS MAD";
     RESTAURANTS[7].name="CADAQUÉS BCN";
@@ -984,6 +1079,15 @@
     Object.assign(TRANSLATIONS.pt,{loginLanguageLabel:"Idioma do aviso",advisoryTitle:"Gestão de alergénios:",advisorySubtitle:"A verificação constante e a comunicação interna.",advisoryConsultTitle:"Consulta sempre a informação de ingredientes.",advisoryConsultBody:"Acede à ferramenta interna para rever pratos, alergénios e possíveis contactos cruzados.",advisoryAlertTitle:"Alerta: os dados podem mudar repentinamente.",advisoryAlertBody:"Os fornecedores podem alterar produtos sem aviso prévio, invalidando a informação anterior.",advisoryCommunicationTitle:"Comunicação obrigatória entre sala e cozinha.",advisoryCommunicationBody:"O fluxo de informação entre ambas as equipas é crítico para a segurança do cliente.",advisoryNotifyTitle:"Verifica e notifica qualquer anomalia.",advisoryNotifyBody:"Informa imediatamente Gastronomia e Qualidade perante qualquer dúvida.",safetyEarlyPrefix:"ATENÇÃO: a mensagem anterior era importante e não teve tempo de a ler"});
     Object.assign(TRANSLATIONS.eus,{brandLabel:"Kontsulta gastronomikoa",loginBrand:"Kontsulta gastronomikoa",loginTitle:"Alergenoen barne-kontsulta",loginSubtitle:"Sartu plateren, osagaien, alergenoen eta kontaktu gurutzatuaren informazioa berrikusteko.",loginProfileLabel:"Jatetxea / profila",loginProfileSearchPlaceholder:"Bilatu jatetxea edo profila...",loginUserLabel:"Erabiltzailea",loginPasswordLabel:"Pasahitza",loginSubmit:"Sartu",loginLoading:"Kargatzen...",loginValidating:"Balidatzen...",logout:"Saioa itxi",loginErrorInvalid:"Erabiltzailea edo pasahitza okerra da.",loginErrorDisabled:"Sarbide hau desgaituta dago.",loginErrorNoAccessFile:"Ezin izan da sarbideen fitxategia kargatu.",loginErrorNoLinked:"Jatetxe honek oraindik ez du daturik lotuta.",loginErrorNoAllowed:"Profil honek ez du baimendutako jatetxerik.",noPermissionRestaurant:"Ez duzu jatetxe honetara sartzeko baimenik.",loginLanguageLabel:"Abisuaren hizkuntza",safetyTitle:"Ohar garrantzitsua:",safetyIntro:"Informazioa eguneratu gabe egon daiteke hornitzaileak produktuak aurrez abisatu gabe aldatzen baditu.",safetyMandatoryLead:"Derrigorrezkoa da sala eta sukaldearen arteko komunikazioa",safetyMandatoryRest:"etengabeko egiaztapena eta Gastronomia, Kalitatea eta Elikagaien Segurtasunari jakinaraztea.",safetyButtonReady:"OK",safetyTooSoon:"Ez duzu mezu hau irakurri. Oso garrantzitsua da.",safetyBlocked:"Aurreko oharra garrantzitsua zen eta ez duzu irakurri; irakurri ondo app-a ez blokeatzeko.",safetyEarlyPrefix:"KONTUZ: aurreko mezua garrantzitsua zen eta ez duzu irakurtzeko astirik izan",advisoryTitle:"Alergenoen kudeaketa:",advisorySubtitle:"Etengabeko egiaztapena eta barne-komunikazioa.",advisoryConsultTitle:"Kontsultatu beti osagaien informazioa.",advisoryConsultBody:"Sartu barne-tresnara platerak, alergenoak eta kontaktu gurutzatu posibleak berrikusteko.",advisoryAlertTitle:"Alerta: datuak bat-batean alda daitezke.",advisoryAlertBody:"Hornitzaileek produktuak aurrez abisatu gabe alda ditzakete, aurreko informazioa baliogabetuz.",advisoryCommunicationTitle:"Derrigorrezko komunikazioa sala eta sukaldearen artean.",advisoryCommunicationBody:"Bi taldeen arteko informazio-fluxua kritikoa da bezeroaren segurtasunerako.",advisoryNotifyTitle:"Egiaztatu eta jakinarazi edozein anomalia.",advisoryNotifyBody:"Edozein zalantza izanez gero, jakinarazi berehala Gastronomiari eta Kalitateari."});
     Object.assign(TRANSLATIONS.nl,{brandLabel:"Gastronomische raadpleging",loginBrand:"Gastronomische raadpleging",loginTitle:"Interne allergenenraadpleging",loginSubtitle:"Log in om informatie over gerechten, ingrediënten, allergenen en kruiscontact te controleren.",loginProfileLabel:"Restaurant / profiel",loginProfileSearchPlaceholder:"Zoek restaurant of profiel...",loginUserLabel:"Gebruiker",loginPasswordLabel:"Wachtwoord",loginSubmit:"Inloggen",loginLoading:"Laden...",loginValidating:"Controleren...",logout:"Uitloggen",loginErrorInvalid:"Gebruiker of wachtwoord onjuist.",loginErrorDisabled:"Deze toegang is gedeactiveerd.",loginErrorNoAccessFile:"Het toegangsbestand kon niet worden geladen.",loginErrorNoLinked:"Dit restaurant heeft nog geen gekoppelde gegevens.",loginErrorNoAllowed:"Dit profiel heeft geen geautoriseerde restaurants.",noPermissionRestaurant:"Je hebt geen toestemming voor dit restaurant.",loginLanguageLabel:"Taal van de waarschuwing",safetyTitle:"Belangrijke waarschuwing:",safetyIntro:"De informatie is mogelijk niet actueel door productwijzigingen zonder voorafgaande melding van de leverancier.",safetyMandatoryLead:"Communicatie tussen bediening en keuken is verplicht",safetyMandatoryRest:"continue controle en melding aan Gastronomie, Kwaliteit en Voedselveiligheid.",safetyButtonReady:"OK",safetyTooSoon:"Je hebt dit bericht niet gelezen. Het is zeer belangrijk.",safetyBlocked:"De vorige waarschuwing was belangrijk en je hebt die niet gelezen, dus lees goed om blokkering van de app te voorkomen.",safetyEarlyPrefix:"LET OP: het vorige bericht was belangrijk en je had geen tijd om het te lezen",advisoryTitle:"Allergenenbeheer:",advisorySubtitle:"Constante controle en interne communicatie.",advisoryConsultTitle:"Controleer altijd de ingrediënteninformatie.",advisoryConsultBody:"Gebruik de interne tool om gerechten, allergenen en mogelijke kruiscontacten te controleren.",advisoryAlertTitle:"Alert: gegevens kunnen plotseling veranderen.",advisoryAlertBody:"Leveranciers kunnen producten zonder voorafgaande melding wijzigen, waardoor eerdere informatie ongeldig wordt.",advisoryCommunicationTitle:"Verplichte communicatie tussen bediening en keuken.",advisoryCommunicationBody:"De informatiestroom tussen beide teams is cruciaal voor de veiligheid van de gast.",advisoryNotifyTitle:"Controleer en meld elke afwijking.",advisoryNotifyBody:"Informeer Gastronomie en Kwaliteit onmiddellijk bij twijfel."});
+    const SAFETY_ADVISORY_TEXT={
+      es:{advisoryTitle:"GESTIÓN DE ALÉRGENOS: SEGURIDAD DEL CLIENTE",advisorySubtitle:"La correcta gestión de los alérgenos depende del cumplimiento riguroso de estos principios:",advisoryConsultTitle:"CONSULTA SIEMPRE LA INFORMACIÓN DE INGREDIENTES",advisoryConsultBody:"Verifica en la herramienta corporativa los ingredientes, alérgenos y posibles contaminaciones cruzadas antes de facilitar cualquier información al cliente.",advisoryAlertTitle:"LA INFORMACIÓN PUEDE CAMBIAR",advisoryAlertBody:"La composición de los productos puede modificarse por parte de los proveedores. Nunca des información sin comprobar previamente la versión vigente.",advisoryCommunicationTitle:"COORDINACIÓN ENTRE SALA Y COCINA",advisoryCommunicationBody:"Toda solicitud relacionada con alergias o intolerancias debe comunicarse y confirmarse entre ambos equipos antes del servicio.",advisoryNotifyTitle:"COMUNICA CUALQUIER INCIDENCIA",advisoryNotifyBody:"Ante cualquier duda, discrepancia o anomalía, contacta inmediatamente con Gastronomía y con el Departamento de Calidad y Seguridad Alimentaria."},
+      en:{advisoryTitle:"ALLERGEN MANAGEMENT: CUSTOMER SAFETY",advisorySubtitle:"Correct allergen management depends on strict compliance with these principles:",advisoryConsultTitle:"ALWAYS CHECK INGREDIENT INFORMATION",advisoryConsultBody:"Verify ingredients, allergens and possible cross-contact in the corporate tool before providing any information to the customer.",advisoryAlertTitle:"INFORMATION MAY CHANGE",advisoryAlertBody:"Product composition may be changed by suppliers. Never provide information without first checking the current version.",advisoryCommunicationTitle:"COORDINATION BETWEEN FRONT OF HOUSE AND KITCHEN",advisoryCommunicationBody:"Any request related to allergies or intolerances must be communicated and confirmed between both teams before service.",advisoryNotifyTitle:"REPORT ANY INCIDENT",advisoryNotifyBody:"If you have any doubt, discrepancy or anomaly, contact Gastronomy and the Quality and Food Safety Department immediately."},
+      cat:{advisoryTitle:"GESTIÓ D'AL·LÈRGENS: SEGURETAT DEL CLIENT",advisorySubtitle:"La correcta gestió dels al·lèrgens depèn del compliment rigorós d'aquests principis:",advisoryConsultTitle:"CONSULTA SEMPRE LA INFORMACIÓ D'INGREDIENTS",advisoryConsultBody:"Verifica a l'eina corporativa els ingredients, al·lèrgens i possibles contactes creuats abans de facilitar qualsevol informació al client.",advisoryAlertTitle:"LA INFORMACIÓ POT CANVIAR",advisoryAlertBody:"La composició dels productes pot ser modificada pels proveïdors. No donis mai informació sense comprovar prèviament la versió vigent.",advisoryCommunicationTitle:"COORDINACIÓ ENTRE SALA I CUINA",advisoryCommunicationBody:"Qualsevol sol·licitud relacionada amb al·lèrgies o intoleràncies s'ha de comunicar i confirmar entre tots dos equips abans del servei.",advisoryNotifyTitle:"COMUNICA QUALSEVOL INCIDÈNCIA",advisoryNotifyBody:"Davant qualsevol dubte, discrepància o anomalia, contacta immediatament amb Gastronomia i amb el Departament de Qualitat i Seguretat Alimentària."},
+      pt:{advisoryTitle:"GESTÃO DE ALERGÉNIOS: SEGURANÇA DO CLIENTE",advisorySubtitle:"A gestão correta dos alergénios depende do cumprimento rigoroso destes princípios:",advisoryConsultTitle:"CONSULTA SEMPRE A INFORMAÇÃO DE INGREDIENTES",advisoryConsultBody:"Verifica na ferramenta corporativa os ingredientes, alergénios e possíveis contactos cruzados antes de fornecer qualquer informação ao cliente.",advisoryAlertTitle:"A INFORMAÇÃO PODE MUDAR",advisoryAlertBody:"A composição dos produtos pode ser modificada pelos fornecedores. Nunca forneças informação sem verificar previamente a versão em vigor.",advisoryCommunicationTitle:"COORDENAÇÃO ENTRE SALA E COZINHA",advisoryCommunicationBody:"Qualquer pedido relacionado com alergias ou intolerâncias deve ser comunicado e confirmado entre ambas as equipas antes do serviço.",advisoryNotifyTitle:"COMUNICA QUALQUER INCIDÊNCIA",advisoryNotifyBody:"Perante qualquer dúvida, discrepância ou anomalia, contacta imediatamente Gastronomia e o Departamento de Qualidade e Segurança Alimentar."},
+      eus:{advisoryTitle:"ALERGENOEN KUDEAKETA: BEZEROAREN SEGURTASUNA",advisorySubtitle:"Alergenoen kudeaketa zuzena printzipio hauek zorrotz betetzearen araberakoa da:",advisoryConsultTitle:"KONTSULTATU BETI OSAGAIEN INFORMAZIOA",advisoryConsultBody:"Egiaztatu tresna korporatiboan osagaiak, alergenoak eta balizko kontaktu gurutzatuak bezeroari edozein informazio eman aurretik.",advisoryAlertTitle:"INFORMAZIOA ALDA DAITEKE",advisoryAlertBody:"Hornitzaileek produktuen osaera alda dezakete. Ez eman inoiz informaziorik indarrean dagoen bertsioa aurretik egiaztatu gabe.",advisoryCommunicationTitle:"SALA ETA SUKALDEAREN ARTEKO KOORDINAZIOA",advisoryCommunicationBody:"Alergiei edo intolerantziei buruzko eskaera oro bi taldeen artean komunikatu eta berretsi behar da zerbitzua baino lehen.",advisoryNotifyTitle:"JAKINARAZI EDOZEIN GORABEHERAREN BERRI",advisoryNotifyBody:"Zalantza, desadostasun edo anomaliaren bat izanez gero, jarri berehala harremanetan Gastronomiarekin eta Kalitate eta Elikagaien Segurtasun Sailarekin."},
+      nl:{advisoryTitle:"ALLERGENENBEHEER: VEILIGHEID VAN DE KLANT",advisorySubtitle:"Correct allergenenbeheer hangt af van het strikt naleven van deze principes:",advisoryConsultTitle:"CONTROLEER ALTIJD DE INGREDIËNTENINFORMATIE",advisoryConsultBody:"Controleer in de bedrijfstool de ingrediënten, allergenen en mogelijke kruisbesmetting voordat je informatie aan de klant geeft.",advisoryAlertTitle:"INFORMATIE KAN VERANDEREN",advisoryAlertBody:"Leveranciers kunnen de samenstelling van producten wijzigen. Geef nooit informatie zonder eerst de actuele versie te controleren.",advisoryCommunicationTitle:"AFSTEMMING TUSSEN BEDIENING EN KEUKEN",advisoryCommunicationBody:"Elke vraag over allergieën of intoleranties moet vóór de service tussen beide teams worden gecommuniceerd en bevestigd.",advisoryNotifyTitle:"MELD ELK INCIDENT",advisoryNotifyBody:"Neem bij twijfel, afwijkingen of onregelmatigheden onmiddellijk contact op met Gastronomie en de afdeling Kwaliteit en Voedselveiligheid."}
+    };
+    Object.keys(SAFETY_ADVISORY_TEXT).forEach(lang=>Object.assign(TRANSLATIONS[lang],SAFETY_ADVISORY_TEXT[lang]));
     Object.assign(TRANSLATIONS.es,{resultsMetaAllergens:"{count} platos aptos según los alérgenos seleccionados.",resultsMetaAllergensAll:"{count} platos disponibles. Selecciona alérgenos para evitarlos.",chooseAllergen:"Selecciona el o los alérgenos para quitar los platos que lo contengan.",allergenAvoidHelp:"Selecciona el o los alérgenos para quitar los platos que lo contengan.",allergenTraceHelp:"Las trazas no se excluyen y seguirán apareciendo marcadas.",allergenViewScoped:"Alérgenos por {section}"});
     Object.assign(TRANSLATIONS.en,{resultsMetaAllergens:"{count} suitable dishes according to the selected allergens.",resultsMetaAllergensAll:"{count} available dishes. Select allergens to avoid them.",chooseAllergen:"Select one or more allergens to remove dishes that contain them.",allergenAvoidHelp:"Select one or more allergens to remove dishes that contain them.",allergenTraceHelp:"Traces are not excluded and will remain visibly marked.",allergenViewScoped:"Allergens for {section}"});
     Object.assign(TRANSLATIONS.cat,{resultsMetaAllergens:"{count} plats aptes segons els al·lèrgens seleccionats.",resultsMetaAllergensAll:"{count} plats disponibles. Selecciona al·lèrgens per evitar-los.",chooseAllergen:"Selecciona un o més al·lèrgens per treure els plats que els continguin.",allergenAvoidHelp:"Selecciona un o més al·lèrgens per treure els plats que els continguin.",allergenTraceHelp:"Les traces no s'exclouen i continuaran apareixent marcades.",allergenViewScoped:"Al·lèrgens per {section}"});
@@ -1003,6 +1107,214 @@
     Object.assign(TRANSLATIONS.en,{loginNoResults:"No restaurants found.",loginSelectProfile:"Select restaurant or profile",loginNoProfiles:"No access profiles available",restaurantSearchPlaceholder:"Search restaurant...",restaurantNoResults:"No restaurants found."});
     Object.assign(TRANSLATIONS.cat,{loginNoResults:"No s\u2019han trobat restaurants.",loginSelectProfile:"Selecciona restaurant o perfil",loginNoProfiles:"No hi ha accessos disponibles",restaurantSearchPlaceholder:"Buscar restaurant...",restaurantNoResults:"No s\u2019han trobat restaurants."});
     Object.assign(TRANSLATIONS.pt,{loginNoResults:"Não foram encontrados restaurantes.",loginSelectProfile:"Seleciona restaurante ou perfil",loginNoProfiles:"Não há acessos disponíveis",restaurantSearchPlaceholder:"Buscar restaurante...",restaurantNoResults:"Não foram encontrados restaurantes."});
+    Object.assign(TRANSLATIONS.eus,{
+      brandLabel:"Kontsulta gastronomikoa",
+      heroEyebrow:"Barne-kontsulta",
+      heroTitle:"Alergenoen eta Osagaien Kontsulta",
+      heroLead:"Plateren eta osagaien informazioa",
+      heroAlert:"Informazioa eguneratu gabe egon daiteke hornitzaileak produktuak aurrez abisatu gabe aldatzen baditu. Derrigorrezkoa da sala eta sukaldearen arteko komunikazioa, etengabeko egiaztapena eta Gastronomia, Kalitatea eta Elikagaien Segurtasunari jakinaraztea.",
+      summaryLabel:"Jatetxe aktiboa",
+      restaurantPanelTitle:"Jatetxea",
+      restaurantPanelCopy:"Kargatu karta bakarra aldiro kontsulta azkarra, ordenatua eta zehatza mantentzeko.",
+      restaurantLabel:"Hautatu jatetxea",
+      loadRestaurant:"Kargatu jatetxea",
+      viewPanelTitle:"Kontsulta modua",
+      viewPanelCopy:"Aldatu kartaren, pintxoen eta alergenoen kontsulta zuzenaren artean.",
+      dishes:"Karta",
+      pintxos:"Pintxoak",
+      alertasCarta:"Kartako alertak",
+      allergenView:"Ikusi alergenoak",
+      allergenViewScoped:"Alergenoak {section} atalean",
+      searchPanelTitle:"Bilatzailea",
+      searchPanelCopy:"Aurkitu plater bat izenaren arabera segundo gutxitan.",
+      searchLabel:"Bilatu platera",
+      searchPlaceholder:"Idatzi plateraren izena, osagai bat edo erreferentzia bat...",
+      statusIdle:"",
+      statusLoading:"Informazioa kargatzen...",
+      statusLoaded:"{updateDateLine}{count} plater kargatu dira {restaurant} jatetxetik.",
+      statusError:"Ezin izan da informazioa kargatu. Egiaztatu konexioa edo datuen fitxategia.",
+      statusNoData:"Informazioa kargatzeke",
+      resultsTitleDishes:"Plateren karta",
+      resultsTitlePintxos:"Pintxoak",
+      resultsTitleAlertas:"Kartako alertak",
+      resultsTitleAllergens:"Alergenoen kontsulta",
+      resultsMetaDishes:"{count} bat-etortze karta aktiboan.",
+      resultsMetaPintxos:"{count} pintxo jatetxe aktiboan.",
+      resultsMetaAlertas:"{count} erregistro {section} atalean.",
+      resultsMetaAllergens:"{count} plater egoki hautatutako alergenoen arabera.",
+      resultsMetaAllergensAll:"{count} plater erabilgarri. Hautatu saihestu nahi dituzun alergenoak.",
+      noRestaurantSelected:"Ez dago jatetxerik kargatuta",
+      viewEmptyNotice:"Kargatu eta kontsultatu alergenoak",
+      activeViewing:"Ikusten ari zara",
+      chooseAllergen:"Hautatu alergeno bat edo gehiago alergeno hori duten platerak kentzeko.",
+      allergenAvoidHelp:"Hautatu alergeno bat edo gehiago alergeno hori duten platerak kentzeko.",
+      allergenTraceHelp:"Arrastoek ez dute platera baztertzen eta markatuta agertzen jarraituko dute.",
+      noMatches:"Ez dago emaitzarik bilaketa edo iragazki honetarako.",
+      noMarkedAllergens:"Ez dago alergeno markaturik",
+      allergensLabel:"Alergenoak",
+      ingredientsLabel:"Osagaiak",
+      showIngredients:"Ikusi osagaiak ▼",
+      hideIngredients:"Ezkutatu osagaiak ▲",
+      traceLabel:"ARRASTOAK",
+      containsLabel:"DAUKA",
+      code:"Kodea",
+      dishSingular:"platera",
+      dishPlural:"plater",
+      groupLabel:"Taldea",
+      allGroups:"Talde guztiak",
+      searchNoSuggestions:"Iradokizunik ez",
+      modeStaff:"LANGILEAK",
+      modePublic:"Bezero modua",
+      publicNotice:"Osagaiei edo arrastoei buruzko informazio gehiago behar baduzu, galdetu gure taldeari.",
+      publicHero:"Bezeroentzako kontsulta publikoa",
+      publicLead:"Kontsultatu karta honetako alergenoak argi eta azkar.",
+      statusPublicMissing:"Ez da aurkitu eskatutako jatetxe publikoa.",
+      loginBrand:"Kontsulta gastronomikoa",
+      loginTitle:"Alergenoen barne-kontsulta",
+      loginSubtitle:"Sartu plateren, osagaien, alergenoen eta kontaktu gurutzatuaren informazioa berrikusteko.",
+      loginProfileLabel:"Jatetxea / profila",
+      loginProfileSearchPlaceholder:"Bilatu jatetxea edo profila...",
+      loginUserLabel:"Erabiltzailea",
+      loginPasswordLabel:"Pasahitza",
+      loginSubmit:"Sartu",
+      loginLoading:"Kargatzen...",
+      loginValidating:"Balidatzen...",
+      logout:"Saioa itxi",
+      languageSelector:"Hizkuntza hautatzailea",
+      loginLanguageLabel:"Abisuaren hizkuntza",
+      loginErrorInvalid:"Erabiltzailea edo pasahitza okerra da.",
+      loginErrorDisabled:"Sarbide hau desgaituta dago.",
+      loginErrorNoAccessFile:"Ezin izan da sarbideen fitxategia kargatu.",
+      loginErrorNoLinked:"Jatetxe honek oraindik ez du lotutako daturik.",
+      loginErrorNoAllowed:"Profil honek ez du baimendutako jatetxerik.",
+      noPermissionRestaurant:"Ez duzu jatetxe honetara sartzeko baimenik.",
+      pendingDataTitle:"Informazioa kargatzeke",
+      pendingDataCopy:"Jatetxe honek oraindik ez du alergenoen informaziorik aplikazioan.",
+      pendingDataWarning:"Kontsultatu Gastronomia, Kalitatea eta Elikagaien Segurtasunarekin informazio hau zerbitzuan erabili aurretik.",
+      updateDateStatus:"Eguneratze-data {date}",
+      loginNoResults:"Ez da jatetxerik aurkitu.",
+      loginSelectProfile:"Hautatu jatetxea edo profila",
+      loginNoProfiles:"Ez dago sarbiderik erabilgarri",
+      restaurantSearchPlaceholder:"Bilatu jatetxea...",
+      restaurantNoResults:"Ez da jatetxerik aurkitu.",
+      vegetarianFilter:"Begetarianoa",
+      veganFilter:"Beganoa",
+      ingredientExcludePlaceholder:"Bilatu osagaia kentzeko...",
+      ingredientExcludeActive:"Iragazkia: {ingredient}",
+      safetyTitle:"Ohar garrantzitsua:",
+      safetyIntro:"Informazioa eguneratu gabe egon daiteke hornitzaileak produktuak aurrez abisatu gabe aldatzen baditu.",
+      safetyMandatoryLead:"Derrigorrezkoa da sala eta sukaldearen arteko komunikazioa",
+      safetyMandatoryRest:"etengabeko egiaztapena eta Gastronomia, Kalitatea eta Elikagaien Segurtasunari jakinaraztea.",
+      safetyButtonWait:"OK erabilgarri {seconds}s barru",
+      safetyButtonReady:"OK",
+      safetyTooSoon:"Ez duzu mezu hau irakurri. Oso garrantzitsua da.",
+      safetyBlocked:"Aurreko oharra garrantzitsua zen eta ez duzu irakurri; irakurri ondo app-a ez blokeatzeko.",
+      safetyEarlyPrefix:"KONTUZ: aurreko mezua garrantzitsua zen eta ez duzu irakurtzeko astirik izan"
+    });
+    Object.assign(TRANSLATIONS.nl,{
+      brandLabel:"Gastronomische raadpleging",
+      heroEyebrow:"Interne raadpleging",
+      heroTitle:"Allergenen- en Ingrediëntenraadpleging",
+      heroLead:"Informatie over gerechten en ingrediënten",
+      heroAlert:"De informatie is mogelijk niet actueel door productwijzigingen zonder voorafgaande melding van de leverancier. Communicatie tussen bediening en keuken, voortdurende controle en melding aan Gastronomie, Kwaliteit en Voedselveiligheid zijn verplicht.",
+      summaryLabel:"Actief restaurant",
+      restaurantPanelTitle:"Restaurant",
+      restaurantPanelCopy:"Laad één kaart tegelijk om de raadpleging snel, overzichtelijk en nauwkeurig te houden.",
+      restaurantLabel:"Selecteer restaurant",
+      loadRestaurant:"Restaurant laden",
+      viewPanelTitle:"Raadpleegmodus",
+      viewPanelCopy:"Wissel tussen kaart, pintxos en directe allergenenraadpleging.",
+      dishes:"Kaart",
+      pintxos:"Pintxos",
+      alertasCarta:"Kaartmeldingen",
+      allergenView:"Allergenen bekijken",
+      allergenViewScoped:"Allergenen voor {section}",
+      searchPanelTitle:"Zoeken",
+      searchPanelCopy:"Vind een gerecht op naam in enkele seconden.",
+      searchLabel:"Gerecht zoeken",
+      searchPlaceholder:"Typ de naam van het gerecht, een ingrediënt of een referentie...",
+      statusIdle:"",
+      statusLoading:"Informatie laden...",
+      statusLoaded:"{updateDateLine}{count} gerechten geladen van {restaurant}.",
+      statusError:"De informatie kon niet worden geladen. Controleer de verbinding of het databestand.",
+      statusNoData:"Informatie moet nog worden geladen",
+      resultsTitleDishes:"Gerechtenkaart",
+      resultsTitlePintxos:"Pintxos",
+      resultsTitleAlertas:"Kaartmeldingen",
+      resultsTitleAllergens:"Allergenenraadpleging",
+      resultsMetaDishes:"{count} resultaten in de actieve kaart.",
+      resultsMetaPintxos:"{count} pintxos in het actieve restaurant.",
+      resultsMetaAlertas:"{count} records in {section}.",
+      resultsMetaAllergens:"{count} geschikte gerechten volgens de geselecteerde allergenen.",
+      resultsMetaAllergensAll:"{count} beschikbare gerechten. Selecteer allergenen om ze te vermijden.",
+      noRestaurantSelected:"Geen restaurant geladen",
+      viewEmptyNotice:"Laad en raadpleeg je allergenen",
+      activeViewing:"Je bekijkt",
+      chooseAllergen:"Selecteer één of meer allergenen om gerechten die ze bevatten te verwijderen.",
+      allergenAvoidHelp:"Selecteer één of meer allergenen om gerechten die ze bevatten te verwijderen.",
+      allergenTraceHelp:"Sporen sluiten het gerecht niet uit en blijven gemarkeerd zichtbaar.",
+      noMatches:"Geen resultaten voor de huidige zoekopdracht of filter.",
+      noMarkedAllergens:"Geen gemarkeerde allergenen",
+      allergensLabel:"Allergenen",
+      ingredientsLabel:"Ingrediënten",
+      showIngredients:"Ingrediënten bekijken ▼",
+      hideIngredients:"Ingrediënten verbergen ▲",
+      traceLabel:"SPOREN",
+      containsLabel:"BEVAT",
+      code:"Code",
+      dishSingular:"gerecht",
+      dishPlural:"gerechten",
+      groupLabel:"Groep",
+      allGroups:"Alle groepen",
+      searchNoSuggestions:"Geen suggesties",
+      modeStaff:"MEDEWERKERS",
+      modePublic:"Klantmodus",
+      publicNotice:"Vraag ons team om extra informatie over ingrediënten of sporen.",
+      publicHero:"Publieke raadpleging voor klanten",
+      publicLead:"Bekijk de allergenen van deze kaart duidelijk en snel.",
+      statusPublicMissing:"Het gevraagde publieke restaurant is niet gevonden.",
+      loginBrand:"Gastronomische raadpleging",
+      loginTitle:"Interne allergenenraadpleging",
+      loginSubtitle:"Log in om informatie over gerechten, ingrediënten, allergenen en kruiscontact te controleren.",
+      loginProfileLabel:"Restaurant / profiel",
+      loginProfileSearchPlaceholder:"Zoek restaurant of profiel...",
+      loginUserLabel:"Gebruiker",
+      loginPasswordLabel:"Wachtwoord",
+      loginSubmit:"Inloggen",
+      loginLoading:"Laden...",
+      loginValidating:"Controleren...",
+      logout:"Uitloggen",
+      languageSelector:"Taalkeuze",
+      loginLanguageLabel:"Taal van de waarschuwing",
+      loginErrorInvalid:"Gebruiker of wachtwoord onjuist.",
+      loginErrorDisabled:"Deze toegang is gedeactiveerd.",
+      loginErrorNoAccessFile:"Het toegangsbestand kon niet worden geladen.",
+      loginErrorNoLinked:"Dit restaurant heeft nog geen gekoppelde gegevens.",
+      loginErrorNoAllowed:"Dit profiel heeft geen geautoriseerde restaurants.",
+      noPermissionRestaurant:"Je hebt geen toestemming voor dit restaurant.",
+      pendingDataTitle:"Informatie moet nog worden geladen",
+      pendingDataCopy:"Dit restaurant heeft nog geen allergeneninformatie beschikbaar in de app.",
+      pendingDataWarning:"Raadpleeg Gastronomie, Kwaliteit en Voedselveiligheid voordat je deze informatie tijdens de service gebruikt.",
+      updateDateStatus:"Datum bijgewerkt {date}",
+      loginNoResults:"Geen restaurants gevonden.",
+      loginSelectProfile:"Selecteer restaurant of profiel",
+      loginNoProfiles:"Geen toegangen beschikbaar",
+      restaurantSearchPlaceholder:"Zoek restaurant...",
+      restaurantNoResults:"Geen restaurants gevonden.",
+      vegetarianFilter:"Vegetarisch",
+      veganFilter:"Veganistisch",
+      ingredientExcludePlaceholder:"Zoek ingrediënt om uit te sluiten...",
+      ingredientExcludeActive:"Filter: {ingredient}",
+      safetyTitle:"Belangrijke waarschuwing:",
+      safetyIntro:"De informatie is mogelijk niet actueel door productwijzigingen zonder voorafgaande melding van de leverancier.",
+      safetyMandatoryLead:"Communicatie tussen bediening en keuken is verplicht",
+      safetyMandatoryRest:"voortdurende controle en melding aan Gastronomie, Kwaliteit en Voedselveiligheid.",
+      safetyButtonWait:"OK beschikbaar over {seconds}s",
+      safetyButtonReady:"OK",
+      safetyTooSoon:"Je hebt dit bericht niet gelezen. Het is zeer belangrijk.",
+      safetyBlocked:"De vorige waarschuwing was belangrijk en je hebt die niet gelezen; lees goed om blokkering van de app te voorkomen.",
+      safetyEarlyPrefix:"LET OP: het vorige bericht was belangrijk en je had geen tijd om het te lezen"
+    });
     const MASTER_ALLERGEN_KEYS=["GLUTEN","CRUSTACEAN","EGG","FISH","PEANUTS","SOY","MILK AND DAIRY PRODUCTS","NUTS","CELERY","MUSTARD","SESAME","GARLIC","PORK","SULPHITE","LUPINS","MOLUSCS"];
     const ALLERGEN_KEY_ALIASES={GLUTEN:"GLUTEN",CRUSTACEAN:"CRUSTACEAN",CRUSTACEANS:"CRUSTACEAN",CRUSTACEOS:"CRUSTACEAN",CRUSTACIS:"CRUSTACEAN",EGG:"EGG",HUEVO:"EGG",OU:"EGG",OVO:"EGG",FISH:"FISH",PESCADO:"FISH",PEIX:"FISH",PEIXE:"FISH",PEANUT:"PEANUTS",PEANUTS:"PEANUTS",CACAHUETE:"PEANUTS",CACAHUETES:"PEANUTS",CACAUETS:"PEANUTS",AMENDOINS:"PEANUTS",SOYA:"SOY",SOY:"SOY",SOJA:"SOY","MILK AND DAIRY PRODUCTS":"MILK AND DAIRY PRODUCTS","MILK PRODUCTS":"MILK AND DAIRY PRODUCTS",DAIRY:"MILK AND DAIRY PRODUCTS",LACTEOS:"MILK AND DAIRY PRODUCTS",LACTICS:"MILK AND DAIRY PRODUCTS","LECHE Y DERIVADOS":"MILK AND DAIRY PRODUCTS","LLET I DERIVATS":"MILK AND DAIRY PRODUCTS","LEITE E DERIVADOS":"MILK AND DAIRY PRODUCTS",NUT:"NUTS",NUTS:"NUTS","FRUTOS SECOS":"NUTS","FRUTOS CON CASCARA":"NUTS","FRUITS AMB CLOSCA":"NUTS",CELERY:"CELERY",APIO:"CELERY",API:"CELERY",AIPO:"CELERY",MUSTARD:"MUSTARD",MOSTAZA:"MUSTARD",MOSTASSA:"MUSTARD",MOSTARDA:"MUSTARD",SESAME:"SESAME",SESAMO:"SESAME",SESAM:"SESAME",GARLIC:"GARLIC",AJO:"GARLIC",ALL:"GARLIC",ALHO:"GARLIC",PORK:"PORK",CERDO:"PORK",PORC:"PORK",PORCO:"PORK",SULPHITE:"SULPHITE",SULPHITES:"SULPHITE",SULFITO:"SULPHITE",SULFITOS:"SULPHITE",SULFITS:"SULPHITE",LUPIN:"LUPINS",LUPINS:"LUPINS",ALTRAMUCES:"LUPINS",TRAMUSSOS:"LUPINS",TREMOCOS:"LUPINS",MOLLUSCS:"MOLUSCS",MOLLUSC:"MOLUSCS",MOLUSCS:"MOLUSCS",MOLUSCOS:"MOLUSCS"};
     const KNOWN_ALLERGEN_KEYS=[...new Set([...MASTER_ALLERGEN_KEYS,...Object.keys(ALLERGEN_KEY_ALIASES),...Object.keys(ALLERGEN_META)])];
@@ -1018,6 +1330,7 @@
     const loginScreen=$("loginScreen"),loginForm=$("loginForm"),loginLocalPicker=$("loginLocalPicker"),loginLocalToggle=$("loginLocalToggle"),loginLocalSelected=$("loginLocalSelected"),loginLocalMenu=$("loginLocalMenu"),loginLocalSearch=$("loginLocalSearch"),loginLocalSearchClear=$("loginLocalSearchClear"),loginLocalOptions=$("loginLocalOptions"),loginUser=$("loginUser"),loginPassword=$("loginPassword"),loginPasswordToggle=$("loginPasswordToggle"),loginButton=$("loginButton"),loginError=$("loginError"),logoutButton=$("logoutButton"),safetyNotice=$("safetyNotice"),safetyTitle=$("safetyTitle"),safetyIntro=$("safetyIntro"),safetyMandatory=$("safetyMandatory"),safetyButton=$("safetyButton"),safetyWarning=$("safetyWarning");
     const langEus=$("langEus"),langNl=$("langNl"),loginLanguageLabel=$("loginLanguageLabel"),loginLanguageOptions=[...document.querySelectorAll("[data-login-lang]")],scrollTopButton=$("scrollTopButton"),advisoryTitle=$("advisoryTitle"),advisorySubtitle=$("advisorySubtitle"),advisoryConsultTitle=$("advisoryConsultTitle"),advisoryConsultBody=$("advisoryConsultBody"),advisoryAlertTitle=$("advisoryAlertTitle"),advisoryAlertBody=$("advisoryAlertBody"),advisoryCommunicationTitle=$("advisoryCommunicationTitle"),advisoryCommunicationBody=$("advisoryCommunicationBody"),advisoryNotifyTitle=$("advisoryNotifyTitle"),advisoryNotifyBody=$("advisoryNotifyBody");
     const resultsHeader=document.querySelector(".results-header"),compactSearch=searchInput.closest(".compact-search");
+    const adminPanel=$("adminPanel"),adminPanelToggle=$("adminPanelToggle"),adminTopButton=$("adminTopButton"),adminLocalIndex=$("adminLocalIndex"),adminProfilesList=$("adminProfilesList"),adminSheetLink=$("adminSheetLink");
     const t=(k,v={})=>{
       const lang=state.lang||"es";
       const finalDict={...(TRANSLATIONS.es||{}),...(I18N_OVERRIDES.es||{}),...(I18N_OVERRIDES[lang]||{}),...(TRANSLATIONS[lang]||{})};
@@ -1412,6 +1725,7 @@
     const LIVE_SHEET_ID=String(EMBEDDED_DATA.sheetId||"").trim();
     const ACCESS_SHEET_ID="16gKW83htN0CKtwALtfjVY9F86fWslkTUGnQrQ5neIoU";
     const ACCESS_SHEET_GID="0";
+    const ACCESS_WRITE_WEBAPP_URL="";
     const ACCESS_SESSION_KEY="alergenosAccessSessionV1";
     const LIVE_LOAD_TIMEOUT_MS=12000;
     const LIVE_REFRESH_INTERVAL_MS=60000;
@@ -1840,7 +2154,179 @@
       return profile.credentials.find(credential=>normalizeAccessKey(credential.user)===userKey)||null;
     }
     function isAdminLogin(user,password){
-      return normalizeAccessKey(user)==="JOSELUIS"&&cleanCell(password)==="Joseluis";
+      const userKey=normalizeAccessKey(user);
+      const pass=cleanCell(password);
+      return (userKey==="JOSELUIS"&&pass==="Joseluis")||(userKey==="ADMINALERGENOS"&&pass==="Glutenfree");
+    }
+    function accessSheetEditUrl(){
+      return `https://docs.google.com/spreadsheets/d/${ACCESS_SHEET_ID}/edit?gid=${ACCESS_SHEET_GID}#gid=${ACCESS_SHEET_GID}`;
+    }
+    function isAdminManagerSession(){
+      return !!activeAccessSession&&(activeAccessSession.adminManager===true||activeAccessSession.profileId==="admin-alergenos"||normalizeAccessKey(activeAccessSession.user)==="ADMINALERGENOS");
+    }
+    function setAdminPanelOpen(open){
+      if(!adminPanel||!adminPanelToggle) return;
+      adminPanel.classList.toggle("is-open",!!open);
+      adminPanelToggle.setAttribute("aria-expanded",String(!!open));
+    }
+    function adminEditableField(label,value,field){
+      const wrap=document.createElement("label");
+      wrap.className="admin-edit-field";
+      const labelText=document.createElement("span");
+      labelText.textContent=label;
+      const input=document.createElement("input");
+      input.className="admin-input";
+      input.type="text";
+      input.value=value||"";
+      input.dataset.adminField=field;
+      wrap.append(labelText,input);
+      return wrap;
+    }
+    function adminCredentialInput(label,value,field){
+      return adminEditableField(label,value,field);
+    }
+    function collectAdminProfileDraft(card,profile){
+      const value=field=>cleanCell(card.querySelector(`[data-admin-field="${field}"]`)?.value||"");
+      return {
+        rowIndex:profile.rowIndex,
+        id:profile.id,
+        local:value("local"),
+        linked:value("linked"),
+        tipo:value("tipo"),
+        number:value("number"),
+        credentials:profile.credentials.map(credential=>({
+          slot:credential.slot,
+          user:value(`credential-${credential.slot}-user`),
+          pass:value(`credential-${credential.slot}-pass`),
+          active:!!card.querySelector(`[data-admin-field="credential-${credential.slot}-active"]`)?.checked
+        }))
+      };
+    }
+    async function handleAdminProfileSave(profile,card,message){
+      const draft=collectAdminProfileDraft(card,profile);
+      if(!ACCESS_WRITE_WEBAPP_URL){
+        message.className="admin-save-message is-warning";
+        message.textContent="Edición preparada. Para guardar desde la app en Google Sheets falta configurar el conector de escritura.";
+        return;
+      }
+      try{
+        message.className="admin-save-message";
+        message.textContent="Guardando cambios...";
+        const response=await fetch(ACCESS_WRITE_WEBAPP_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({type:"access-profile-update",profile:draft})});
+        if(!response.ok) throw new Error("Write request failed");
+        message.className="admin-save-message is-ok";
+        message.textContent="Cambios enviados. Recarga accesos para confirmar.";
+      }catch(error){
+        message.className="admin-save-message is-warning";
+        message.textContent="No se han podido guardar los cambios. Revisa el conector de escritura.";
+      }
+    }
+    function renderAdminPanel(){
+      if(!adminPanel||!adminProfilesList) return;
+      const canManage=isAdminManagerSession();
+      adminPanel.hidden=!canManage;
+      if(adminTopButton) adminTopButton.hidden=!canManage;
+      if(!canManage) setAdminPanelOpen(false);
+      if(adminSheetLink) adminSheetLink.href=accessSheetEditUrl();
+      if(adminLocalIndex) adminLocalIndex.innerHTML="";
+      adminProfilesList.innerHTML="";
+      if(!canManage) return;
+      if(adminLocalIndex){
+        const indexFragment=document.createDocumentFragment();
+        accessProfiles.forEach(profile=>{
+          const chip=document.createElement("span");
+          chip.className="admin-local-chip";
+          const number=document.createElement("strong");
+          number.textContent=profile.number?`Nº ${profile.number}`:"Sin Nº";
+          const name=document.createElement("span");
+          name.textContent=`${profile.local||profile.display}${profile.linked?` → ${profile.linked}`:""}`;
+          chip.append(number,name);
+          indexFragment.appendChild(chip);
+        });
+        adminLocalIndex.appendChild(indexFragment);
+      }
+      const fragment=document.createDocumentFragment();
+      accessProfiles.forEach(profile=>{
+        const card=document.createElement("article");
+        card.className="admin-profile-card";
+        const top=document.createElement("div");
+        top.className="admin-profile-top";
+        const main=document.createElement("div");
+        const title=document.createElement("h3");
+        title.className="admin-profile-title";
+        title.textContent=`${profile.number?`Nº ${profile.number} · `:""}${profile.display||profile.local||"Perfil"}`;
+        const linked=document.createElement("span");
+        linked.className="admin-profile-linked";
+        linked.textContent=`Vinculado a: ${profile.linked||"sin vincular"}`;
+        main.append(title,linked);
+        const meta=document.createElement("div");
+        meta.className="admin-profile-meta";
+        [["LOCAL",profile.local],["TIPO",profile.tipo],["Nº",profile.number],["Fila",String((profile.rowIndex||0)+1)]].filter(item=>item[1]).forEach(([label,value])=>{
+          const pill=document.createElement("span");
+          pill.className="admin-meta-pill";
+          pill.textContent=`${label}: ${value}`;
+          meta.appendChild(pill);
+        });
+        top.append(main,meta);
+        card.appendChild(top);
+        const editGrid=document.createElement("div");
+        editGrid.className="admin-profile-edit-grid";
+        editGrid.append(
+          adminEditableField("LOCAL",profile.local,"local"),
+          adminEditableField("VINCULADO A",profile.linked,"linked"),
+          adminEditableField("TIPO",profile.tipo,"tipo"),
+          adminEditableField("Nº",profile.number,"number")
+        );
+        card.appendChild(editGrid);
+        const credentials=document.createElement("div");
+        credentials.className="admin-credentials";
+        if(profile.credentials.length){
+          profile.credentials.forEach(credential=>{
+            const isActive=isActiveValue(credential.active);
+            const item=document.createElement("div");
+            item.className="admin-credential";
+            item.classList.toggle("is-disabled",!isActive);
+            item.append(
+              adminCredentialInput(`Usuario ${credential.slot+1}`,credential.user,`credential-${credential.slot}-user`),
+              adminCredentialInput("Contra",credential.pass,`credential-${credential.slot}-pass`)
+            );
+            const activeWrap=document.createElement("label");
+            activeWrap.className="admin-active-field";
+            const activeInput=document.createElement("input");
+            activeInput.type="checkbox";
+            activeInput.checked=isActive;
+            activeInput.dataset.adminField=`credential-${credential.slot}-active`;
+            const activeText=document.createElement("span");
+            activeText.textContent="Act";
+            activeWrap.append(activeInput,activeText);
+            const status=document.createElement("span");
+            status.className=`admin-status ${isActive?"is-active":"is-disabled"}`;
+            status.textContent=isActive?"Activo":"Desactivado";
+            activeInput.addEventListener("change",()=>{status.className=`admin-status ${activeInput.checked?"is-active":"is-disabled"}`; status.textContent=activeInput.checked?"Activo":"Desactivado"; item.classList.toggle("is-disabled",!activeInput.checked);});
+            item.append(activeWrap,status);
+            credentials.appendChild(item);
+          });
+        }else{
+          const empty=document.createElement("div");
+          empty.className="login-empty";
+          empty.textContent="Este perfil no tiene usuarios configurados.";
+          credentials.appendChild(empty);
+        }
+        card.appendChild(credentials);
+        const actions=document.createElement("div");
+        actions.className="admin-actions";
+        const saveButton=document.createElement("button");
+        saveButton.type="button";
+        saveButton.className="admin-save-button";
+        saveButton.textContent="Guardar cambios";
+        const saveMessage=document.createElement("span");
+        saveMessage.className="admin-save-message";
+        saveButton.addEventListener("click",()=>handleAdminProfileSave(profile,card,saveMessage));
+        actions.append(saveButton,saveMessage);
+        card.appendChild(actions);
+        fragment.appendChild(card);
+      });
+      adminProfilesList.appendChild(fragment);
     }
     function findRestaurantByAllowedName(name,source=allRestaurants){
       const key=normalizeRestaurantParam(name);
@@ -1894,16 +2380,19 @@
       };
     }
     function buildAdminSession(user){
+      const adminKey=normalizeAccessKey(user);
+      const isManager=adminKey==="ADMINALERGENOS";
       const linkedNames=allRestaurants.map(restaurant=>restaurantSheetName(restaurant)||restaurant.name);
       const restaurants=restaurantsForAllowedNames(linkedNames);
       return {
         session:{
           authenticated:true,
-          profileId:"admin-joseluis",
+          profileId:isManager?"admin-alergenos":"admin-joseluis",
           local:"Administrador",
           display:"Administrador",
           user:cleanCell(user),
           type:"total",
+          adminManager:isManager,
           allowedNames:linkedNames,
           allowedKeys:restaurants.map(restaurant=>normalizeRestaurantParam(restaurantSheetName(restaurant)||restaurant.name)),
           activeName:restaurants[0]?restaurantSheetName(restaurants[0])||restaurants[0].name:""
@@ -1926,7 +2415,7 @@
       return buildSessionFromProfile(profile,user,credential);
     }
     function validateStoredSession(stored){
-      if(stored&&stored.profileId==="admin-joseluis"&&normalizeAccessKey(stored.user)==="JOSELUIS") return buildAdminSession(stored.user);
+      if(stored&&["admin-joseluis","admin-alergenos"].includes(stored.profileId)&&["JOSELUIS","ADMINALERGENOS"].includes(normalizeAccessKey(stored.user))) return buildAdminSession(stored.user);
       const profile=accessProfiles.find(item=>item.id===stored.profileId);
       if(!profile) return null;
       const credential=findCredential(profile,stored.user);
@@ -1937,7 +2426,7 @@
       return result;
     }
     function persistSession(session){
-      const safeSession={authenticated:true,profileId:session.profileId,local:session.local,display:session.display,user:session.user,type:session.type,allowedNames:session.allowedNames,activeName:session.activeName};
+      const safeSession={authenticated:true,profileId:session.profileId,local:session.local,display:session.display,user:session.user,type:session.type,adminManager:!!session.adminManager,allowedNames:session.allowedNames,activeName:session.activeName};
       localStorage.setItem(ACCESS_SESSION_KEY,JSON.stringify(safeSession));
     }
     function applyAccessSession(session,restaurants){
@@ -1954,6 +2443,7 @@
       document.body.classList.remove("auth-pending");
       document.body.classList.add("is-authenticated");
       applyTranslations();
+      renderAdminPanel();
       if(active) loadSelectedRestaurant(active,{preserveState:false});
     }
     function clearAccessSession(){
@@ -1981,6 +2471,10 @@
       restaurantSelect.disabled=false;
       loadRestaurantButton.hidden=false;
       restaurantAccessPanel.hidden=false;
+      if(adminPanel) adminPanel.hidden=true;
+      if(adminTopButton) adminTopButton.hidden=true;
+      if(adminProfilesList) adminProfilesList.innerHTML="";
+      setAdminPanelOpen(false);
       restaurantAside.hidden=false;
       document.body.classList.add("auth-pending");
       document.body.classList.remove("is-authenticated");
@@ -2309,7 +2803,7 @@
     }
     function escapeHtml(text){return String(text||"").replace(/[&<>"']/g,char=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[char]))}
     function escapeRegExp(text){return String(text).replace(/[.*+?^${}()|[\]\\]/g,"\\$&")}
-    const INGREDIENT_ELABORATION_MARKER="(?:\\d+(?:er|on|st|nd|rd|th)?\\.?\\s+(?:Ostra|Oyster)|Parrillan|Parrilla|Graella|Grilled|Pil-pil|Arrautzaztatuak|Rebozada|Arrebossada|Fried|Salsa verde|Green sauce|saltsa berdea|Sojazko saltsaren ekoizpena|Producci[oó]n salsa de soja|Production of soya sauce)";
+    const INGREDIENT_ELABORATION_MARKER="(?:\\d+(?:er|on|st|nd|rd|th)?\\.?\\s+(?:Ostra|Oyster)|Opci[oó]n?\\s*\\d+|Option\\s*\\d+|Opção\\s*\\d+|Parrillan|Parrilla|Graella|Grilled|Pil-pil|Arrautzaztatuak|Rebozada|Arrebossada|Fried|Salsa verde|Green sauce|saltsa berdea|Sojazko saltsaren ekoizpena|Producci[oó]n salsa de soja|Production of soya sauce)";
     function normalizeIngredientElaborationBreaks(text){
       return cleanCell(text).replace(new RegExp(`\\s+\\/\\s+(?=${INGREDIENT_ELABORATION_MARKER}\\s*:)`,"giu"),"\n");
     }
@@ -2409,7 +2903,7 @@
       if(!safetyNotice.hidden) renderSafetyNotice();
     }
     function updateHeaderMeta(){const hasRestaurant=!!state.restaurant; const label=restaurantDisplayName(state.restaurant); const heroMeta=hasRestaurant?label:t("noRestaurantSelected"); const dishWord=state.dishes.length===1?t("dishSingular"):t("dishPlural"); const listMeta=hasRestaurant?`${state.dishes.length} ${dishWord}`:t("noRestaurantSelected"); heroRestaurantMeta.textContent=heroMeta; heroRestaurantMeta.classList.toggle("is-empty",!hasRestaurant); restaurantMeta.textContent=listMeta; restaurantSelect.classList.toggle("is-loaded",hasRestaurant); if(restaurantPickerField) restaurantPickerField.classList.toggle("is-loaded",hasRestaurant); updateRestaurantPickerInput()} 
-    function applyTranslations(){document.documentElement.lang=state.lang; document.title=t("heroTitle"); const setText=(selector,key)=>{const el=document.querySelector(selector); if(el) el.textContent=t(key)}; brandLabel.textContent=t("brandLabel"); heroEyebrow.textContent=RUNTIME.mode==="public"?t("publicHero"):t("heroEyebrow"); heroTitle.textContent=t("heroTitle"); heroLead.textContent=RUNTIME.mode==="public"?t("publicLead"):t("heroLead"); heroAlert.textContent=t("heroAlert"); summaryLabel.textContent=t("summaryLabel"); modeChip.textContent=RUNTIME.mode==="public"?t("modePublic"):t("modeStaff"); publicNotice.textContent=t("publicNotice"); restaurantPanelTitle.textContent=t("restaurantPanelTitle"); restaurantPanelCopy.textContent=t("restaurantPanelCopy"); restaurantLabel.textContent=t("restaurantLabel"); loadRestaurantButton.textContent=t("loadRestaurant"); viewPanelTitle.textContent=t("viewPanelTitle"); viewPanelCopy.textContent=t("viewPanelCopy"); viewEmptyNotice.textContent=t("viewEmptyNotice"); dishesViewButton.textContent=t("dishes"); pintxosViewButton.textContent=t("pintxos"); alertasViewButton.textContent=t("alertasCarta"); allergensViewButton.textContent=t("allergenViewScoped",{section:t("dishes")}); allergensPintxosViewButton.textContent=t("allergenViewScoped",{section:t("pintxos")}); allergensAlertasViewButton.textContent=t("allergenViewScoped",{section:restaurantAlertasLabel(state.restaurant)}); searchPanelTitle.textContent=t("searchPanelTitle"); searchPanelCopy.textContent=t("searchPanelCopy"); searchLabel.textContent=t("searchLabel"); searchInput.placeholder=t("searchPlaceholder"); if(ingredientExcludeInput) ingredientExcludeInput.placeholder=state.excludedIngredient?t("ingredientExcludeActive",{ingredient:state.excludedIngredient}):t("ingredientExcludePlaceholder"); setText("#allergenAvoidHelp","allergenAvoidHelp"); setText("#allergenTraceHelp","allergenTraceHelp"); setText(".login-brand span:last-child","loginBrand"); setText(".login-title","loginTitle"); setText(".login-subtitle","loginSubtitle"); setText('label[for="loginLocalToggle"]',"loginProfileLabel"); setText('label[for="loginUser"]',"loginUserLabel"); setText('label[for="loginPassword"]',"loginPasswordLabel"); loginLocalSearch.placeholder=t("loginProfileSearchPlaceholder"); if(restaurantSearchInput) restaurantSearchInput.placeholder=t("restaurantSearchPlaceholder"); if(!loginButton.disabled) loginButton.textContent=t("loginSubmit"); logoutButton.textContent=t("logout"); if(!safetyNotice.hidden) renderSafetyNotice(); langSwitch.setAttribute("aria-label",t("languageSelector")); langCurrentIcon.innerHTML=langIconMarkup(); langCurrent.textContent=langDisplayLabel(); langEs.classList.toggle("active",state.lang==="es"); langEn.classList.toggle("active",state.lang==="en"); langCat.classList.toggle("active",state.lang==="cat"); langPt.classList.toggle("active",state.lang==="pt"); setStatus(state.statusKey,state.statusValues); updateHeaderMeta(); renderAllergenButtons(); renderCurrentView(); if(RUNTIME.mode==="public"&&!state.restaurant&&requestedRestaurant){resultsTitle.textContent=t("resultsTitleDishes"); resultsMeta.textContent=t("statusPublicMissing"); publicNotice.textContent=t("statusPublicMissing")}}
+    function applyTranslations(){document.documentElement.lang=htmlLanguageCode(); document.title=t("heroTitle"); const setText=(selector,key)=>{const el=document.querySelector(selector); if(el) el.textContent=t(key)}; brandLabel.textContent=t("brandLabel"); heroEyebrow.textContent=RUNTIME.mode==="public"?t("publicHero"):t("heroEyebrow"); heroTitle.textContent=t("heroTitle"); heroLead.textContent=RUNTIME.mode==="public"?t("publicLead"):t("heroLead"); heroAlert.textContent=t("heroAlert"); summaryLabel.textContent=t("summaryLabel"); modeChip.textContent=RUNTIME.mode==="public"?t("modePublic"):t("modeStaff"); publicNotice.textContent=t("publicNotice"); restaurantPanelTitle.textContent=t("restaurantPanelTitle"); restaurantPanelCopy.textContent=t("restaurantPanelCopy"); restaurantLabel.textContent=t("restaurantLabel"); loadRestaurantButton.textContent=t("loadRestaurant"); viewPanelTitle.textContent=t("viewPanelTitle"); viewPanelCopy.textContent=t("viewPanelCopy"); viewEmptyNotice.textContent=t("viewEmptyNotice"); dishesViewButton.textContent=t("dishes"); pintxosViewButton.textContent=t("pintxos"); alertasViewButton.textContent=t("alertasCarta"); allergensViewButton.textContent=t("allergenViewScoped",{section:t("dishes")}); allergensPintxosViewButton.textContent=t("allergenViewScoped",{section:t("pintxos")}); allergensAlertasViewButton.textContent=t("allergenViewScoped",{section:restaurantAlertasLabel(state.restaurant)}); searchPanelTitle.textContent=t("searchPanelTitle"); searchPanelCopy.textContent=t("searchPanelCopy"); searchLabel.textContent=t("searchLabel"); searchInput.placeholder=t("searchPlaceholder"); if(ingredientExcludeInput) ingredientExcludeInput.placeholder=state.excludedIngredient?t("ingredientExcludeActive",{ingredient:state.excludedIngredient}):t("ingredientExcludePlaceholder"); setText("#allergenAvoidHelp","allergenAvoidHelp"); setText("#allergenTraceHelp","allergenTraceHelp"); setText(".login-brand span:last-child","loginBrand"); setText(".login-title","loginTitle"); setText(".login-subtitle","loginSubtitle"); setText('label[for="loginLocalToggle"]',"loginProfileLabel"); setText('label[for="loginUser"]',"loginUserLabel"); setText('label[for="loginPassword"]',"loginPasswordLabel"); loginLocalSearch.placeholder=t("loginProfileSearchPlaceholder"); if(restaurantSearchInput) restaurantSearchInput.placeholder=t("restaurantSearchPlaceholder"); if(!loginButton.disabled) loginButton.textContent=t("loginSubmit"); logoutButton.textContent=t("logout"); if(!safetyNotice.hidden) renderSafetyNotice(); langSwitch.setAttribute("aria-label",t("languageSelector")); langCurrentIcon.innerHTML=langIconMarkup(); langCurrent.textContent=langDisplayLabel(); langEs.classList.toggle("active",state.lang==="es"); langEn.classList.toggle("active",state.lang==="en"); langCat.classList.toggle("active",state.lang==="cat"); langPt.classList.toggle("active",state.lang==="pt"); setStatus(state.statusKey,state.statusValues); updateHeaderMeta(); renderAllergenButtons(); renderCurrentView(); if(RUNTIME.mode==="public"&&!state.restaurant&&requestedRestaurant){resultsTitle.textContent=t("resultsTitleDishes"); resultsMeta.textContent=t("statusPublicMissing"); publicNotice.textContent=t("statusPublicMissing")}}
     function findRestaurantByParam(value){if(!value) return null; return RESTAURANTS.find(restaurant=>normalizeRestaurantParam(restaurant.name)===value||normalizeRestaurantParam(restaurantDisplayName(restaurant))===value)||null}
     function restaurantPickerCurrentRestaurant(){return RESTAURANTS.find(item=>restaurantKey(item)===restaurantSelect.value)||state.restaurant||null}
     function updateRestaurantPickerInput(){
@@ -2578,6 +3072,8 @@
     if(loginPasswordToggle) loginPasswordToggle.addEventListener("change",()=>{loginPassword.type=loginPasswordToggle.checked?"text":"password";});
     safetyButton.addEventListener("click",handleSafetyNoticeClick);
     logoutButton.addEventListener("click",clearAccessSession);
+    if(adminPanelToggle) adminPanelToggle.addEventListener("click",()=>setAdminPanelOpen(!adminPanel.classList.contains("is-open")));
+    if(adminTopButton) adminTopButton.addEventListener("click",()=>setAdminPanelOpen(!adminPanel.classList.contains("is-open")));
     document.addEventListener("click",event=>{if(!loginLocalPicker.contains(event.target)) closeLoginPicker(); if(restaurantPicker&&!restaurantPicker.contains(event.target)) closeRestaurantPicker()});
     document.addEventListener("keydown",event=>{if(event.key==="Escape"){closeLoginPicker(); closeRestaurantPicker();}});
     if(RUNTIME.allowRestaurantSelection){loadRestaurantButton.addEventListener("click",()=>loadSelectedRestaurant()); if(restaurantPickerField&&restaurantPickerToggle&&restaurantSearchInput&&restaurantSearchClear&&restaurantPickerMenu){restaurantPickerField.addEventListener("click",event=>{if(event.target!==restaurantSearchClear) openRestaurantPicker()}); restaurantPickerToggle.addEventListener("click",event=>{event.stopPropagation(); restaurantPicker.classList.contains("is-open")?closeRestaurantPicker():openRestaurantPicker()}); restaurantSearchInput.addEventListener("input",()=>{openRestaurantPicker(); renderRestaurantPickerOptions()}); restaurantSearchInput.addEventListener("keydown",event=>{if(event.key==="Enter"){event.preventDefault(); selectFirstRestaurantPickerMatch()} if(event.key==="Escape") closeRestaurantPicker()}); restaurantSearchClear.addEventListener("click",event=>{event.stopPropagation(); restaurantSearchInput.value=""; renderRestaurantPickerOptions(); restaurantSearchInput.focus()}); restaurantPickerMenu.addEventListener("keydown",event=>{const options=[...restaurantPickerMenu.querySelectorAll(".restaurant-picker-option")]; const index=options.indexOf(document.activeElement); if(event.key==="ArrowDown"&&options[index+1]){event.preventDefault(); options[index+1].focus();} if(event.key==="ArrowUp"){event.preventDefault(); (options[index-1]||restaurantSearchInput).focus();}});}}
