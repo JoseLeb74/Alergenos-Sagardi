@@ -1047,10 +1047,16 @@
       const text=cleanCell(title);
       return text.length>35||/[,:;()]/.test(text);
     }
+    function looksLikeMultilingualDishTitle(title){
+      const text=cleanCell(title);
+      if(!text||/[,:;()]/.test(text)) return false;
+      const parts=text.split(/\s+\/\s+/).map(cleanCell).filter(Boolean);
+      return parts.length>=2&&parts.every(part=>part.length>=3);
+    }
     function shouldTreatAsIngredientContinuation(code,title,allergenEntries){
       const hasAllergens=Array.isArray(allergenEntries)&&allergenEntries.length>0;
       const cleanCode=cleanCell(code);
-      return !hasAllergens&&isAuxiliaryIngredientCode(cleanCode)&&(isIngredientContinuationText(title)||hasIngredientContinuationShape(title));
+      return !hasAllergens&&isAuxiliaryIngredientCode(cleanCode)&&!looksLikeMultilingualDishTitle(title)&&(isIngredientContinuationText(title)||hasIngredientContinuationShape(title));
     }
     function appendDishDetails(dish,text){
       if(!dish||!cleanCell(text)) return;
@@ -1059,6 +1065,12 @@
     }
     function sameDishCode(a,b){
       return !!cleanCell(a)&&normalizeText(a).toUpperCase()===normalizeText(b).toUpperCase();
+    }
+    function isIngredientContinuationRow(row,title,code,allergenEntries,restaurant){
+      if(!title||code||!Array.isArray(allergenEntries)||allergenEntries.length) return false;
+      if(isLikelySectionRow(row)) return false;
+      if(cleanRestaurantGroupLabel(title,restaurant)) return false;
+      return true;
     }
     function isLikelySectionRow(row){
       const code=cleanCell(row.c[0]&&(row.c[0].f!=null?row.c[0].f:row.c[0].v));
@@ -1208,7 +1220,8 @@
     };
     const RESTAURANT_LANGUAGE_GROUPS=[
       {order:["EUS","ES","ENG"],names:["KOFRADIA"]},
-      {order:["CAT","ES","ENG","PT"],names:["SAGARDI BCN","VIDRIOS Y CRISTALES","SAGÀS","GOLFO BORN","KRESALA","IKOYA","CADAQUÉS BCN","EEBCN","MUSEO","OAXACA BCN","OAXACA NL"]},
+      {order:["ENG","ES"],names:["OAXACA NL"]},
+      {order:["CAT","ES","ENG","PT"],names:["SAGARDI BCN","VIDRIOS Y CRISTALES","SAGÀS","GOLFO BORN","KRESALA","IKOYA","CADAQUÉS BCN","EEBCN","MUSEO","OAXACA BCN"]},
       {order:["ES","ENG","CAT","PT"],names:["CADAQUÉS MAD","SAGARDI MAD","TXOKOEEMAD","SAGARDI UK","SAGARDI NL"]},
       {order:["PT","ENG","ES","CAT"],names:["VINUM","SAGARDI OP"]}
     ].map(group=>({order:group.order,names:new Set(group.names.map(normalizeRestaurantParam))}));
@@ -1217,6 +1230,11 @@
       if(!name) return ["ES","ENG","CAT","PT"];
       const match=RESTAURANT_LANGUAGE_GROUPS.find(group=>group.names.has(name));
       return match?match.order.slice():["ES","ENG","CAT","PT"];
+    }
+    function restaurantSourceLanguages(){
+      const name=normalizeRestaurantParam(state.restaurant&&state.restaurant.name);
+      if(name==="OAXACA NL") return ["ES","ENG"];
+      return restaurantExpectedLanguages();
     }
     function restaurantLanguageBias(){
       const order=restaurantExpectedLanguages();
@@ -1292,8 +1310,11 @@
     function buildLanguageLines(text){
       const lines=String(text||"").split("\n").map(line=>line.trim()).filter(Boolean);
       const expectedOrder=restaurantExpectedLanguages();
-      if(lines.length&&lines.length<=expectedOrder.length){
-        return lines.map((line,index)=>({code:languageCodeByPosition(index,expectedOrder),text:line}));
+      const sourceOrder=restaurantSourceLanguages();
+      if(lines.length&&lines.length<=sourceOrder.length){
+        return lines.map((line,index)=>({code:languageCodeByPosition(index,sourceOrder),text:line})).sort((a,b)=>{
+          return languageOrderIndex(a.code,expectedOrder)-languageOrderIndex(b.code,expectedOrder);
+        });
       }
       const allowedCodes=allowedLanguageCodesForLines(lines.length,expectedOrder);
       const usedCodes=new Set();
@@ -1309,7 +1330,8 @@
     }
     function detectIngredientLanguage(text,fallbackIndex=0){
       const expectedOrder=restaurantExpectedLanguages();
-      if(fallbackIndex<expectedOrder.length) return languageCodeByPosition(fallbackIndex,expectedOrder);
+      const sourceOrder=restaurantSourceLanguages();
+      if(fallbackIndex<sourceOrder.length) return languageCodeByPosition(fallbackIndex,sourceOrder);
       const allowedCodes=allowedLanguageCodesForLines(3,expectedOrder);
       const code=classifyLanguageBlock(text,fallbackIndex);
       return allowedCodes.includes(code)?code:(expectedOrder[fallbackIndex]||DISPLAY_LANGUAGE_ORDER[fallbackIndex]||code);
@@ -1503,16 +1525,20 @@
       (payload.table.rows||[]).forEach(row=>{
         if(!row||!Array.isArray(row.c)) return;
         const title=gvizCellValue(row,1);
-        const explicitGroup=groupColumn?cleanRestaurantGroupLabel(gvizCellValue(row,groupColumn.index),restaurant):"";
-        const titleGroup=groupColumn?"":cleanRestaurantGroupLabel(title,restaurant);
-        if(explicitGroup||titleGroup){currentGroup=explicitGroup||titleGroup; currentDish=null; return;}
-        if(!groupColumn&&isLikelySectionRow(row)){currentGroup=cleanRestaurantGroupLabel(gvizCellValue(row,1),restaurant); currentDish=null; return;}
         const code=gvizCellValue(row,0);
-        const isPintxosDishWithoutCode=currentGroup&&title&&title.includes("\n")&&!/^#N\/A$/i.test(title);
         const allergenEntries=allergenColumns.map(({index,key})=>{
           const type=allergenMarkType(gvizCellValue(row,index));
           return type?{key,type}:null;
         }).filter(Boolean);
+        if(currentDish&&includeIngredients&&isIngredientContinuationRow(row,title,code,allergenEntries,restaurant)){
+          appendDishDetails(currentDish,title);
+          return;
+        }
+        const explicitGroup=groupColumn?cleanRestaurantGroupLabel(gvizCellValue(row,groupColumn.index),restaurant):"";
+        const titleGroup=groupColumn?"":cleanRestaurantGroupLabel(title,restaurant);
+        if(explicitGroup||titleGroup){currentGroup=explicitGroup||titleGroup; currentDish=null; return;}
+        if(!groupColumn&&isLikelySectionRow(row)){currentGroup=cleanRestaurantGroupLabel(gvizCellValue(row,1),restaurant); currentDish=null; return;}
+        const isPintxosDishWithoutCode=currentGroup&&title&&title.includes("\n")&&!/^#N\/A$/i.test(title);
         if(shouldTreatAsIngredientContinuation(code,title,allergenEntries)){
           if(includeIngredients) appendDishDetails(currentDish||lastRealDish,title);
           return;
