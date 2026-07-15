@@ -158,6 +158,7 @@
     .admin-title{margin:0;font-size:22px;font-weight:950;letter-spacing:-.03em}
     .admin-copy{margin:4px 0 0;color:#6f665d;font-size:13px;line-height:1.55}
     .admin-sheet-link{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:10px 14px;border:1px solid #c89400;border-radius:14px;background:linear-gradient(180deg,#ffe699,#ffd966);color:#4f3d00;font-size:13px;font-weight:950;text-decoration:none;box-shadow:0 12px 22px rgba(214,186,82,.2)}
+    .admin-sheet-link[hidden]{display:none}
     .admin-profiles-list{display:grid;gap:12px}
     .admin-local-index{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 12px;padding:10px;border:1px dashed rgba(201,181,155,.8);border-radius:16px;background:rgba(255,255,255,.58)}
     .admin-local-chip{display:inline-flex;align-items:center;gap:7px;max-width:100%;padding:7px 10px;border-radius:999px;background:linear-gradient(180deg,#fffdfa,#f4ead7);border:1px solid rgba(201,181,155,.72);color:#4d4136;font-size:11px;font-weight:900;line-height:1.25}
@@ -173,6 +174,16 @@
     .admin-edit-field{display:grid;gap:5px;color:#8c7413;font-size:10px;font-weight:950;letter-spacing:.12em;text-transform:uppercase}
     .admin-input{width:100%;min-height:38px;border:1px solid rgba(201,181,155,.82);border-radius:12px;background:linear-gradient(180deg,#fffdfa,#f8f1e8);color:#1f1a15;padding:8px 10px;font-size:13px;font-weight:850;letter-spacing:0;text-transform:none}
     .admin-input:focus-visible{outline:none;border-color:#c89400;box-shadow:0 0 0 3px rgba(255,217,102,.24)}
+    .admin-linked-field{grid-column:1/-1;display:grid;gap:6px;color:#8c7413;font-size:10px;font-weight:950;letter-spacing:.12em;text-transform:uppercase}
+    .admin-linked-toggle{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-height:44px;padding:9px 12px;border:1px solid rgba(201,181,155,.9);border-radius:13px;background:linear-gradient(180deg,#fffdfa,#f8f1e8);color:#2b2119;font-size:13px;font-weight:900;letter-spacing:0;text-align:left;text-transform:none}
+    .admin-linked-toggle:hover,.admin-linked-toggle:focus-visible{outline:none;border-color:#c89400;box-shadow:0 0 0 3px rgba(255,217,102,.2)}
+    .admin-linked-chevron{flex:0 0 auto;display:grid;place-items:center;width:28px;height:28px;border-radius:999px;background:#ffe16d;color:#6d5500;font-size:15px;transition:transform .18s ease}
+    .admin-linked-toggle[aria-expanded="true"] .admin-linked-chevron{transform:rotate(180deg)}
+    .admin-linked-menu{display:grid;gap:6px;max-height:240px;overflow:auto;padding:9px;border:1px solid rgba(201,181,155,.86);border-radius:14px;background:#fffdf8;box-shadow:0 15px 30px rgba(45,31,20,.12);letter-spacing:0;text-transform:none}
+    .admin-linked-menu[hidden]{display:none}
+    .admin-linked-option{display:grid;grid-template-columns:20px minmax(0,1fr);gap:9px;align-items:center;min-height:42px;padding:8px 10px;border-radius:11px;color:#3a3028;font-size:12px;font-weight:850;line-height:1.3;cursor:pointer}
+    .admin-linked-option:hover{background:#fff2bf}.admin-linked-option.is-selected{background:linear-gradient(180deg,#fff1a6,#ffe071);color:#4f3d00}
+    .admin-linked-option input{width:18px;height:18px;margin:0;accent-color:#9a7b00}
     .admin-credential{display:grid;gap:7px;padding:10px;border:1px solid rgba(201,181,155,.72);border-radius:14px;background:linear-gradient(180deg,#fffdfa,#f8f1e8)}
     .admin-credential.is-disabled{opacity:.58;background:#eee7dd}
     .admin-credential-line{display:grid;grid-template-columns:82px minmax(0,1fr);gap:8px;align-items:center;font-size:12px}
@@ -185,6 +196,10 @@
     .admin-active-field input{width:18px;height:18px;margin:0;accent-color:#9ac56f}
     .admin-actions{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin-top:12px}
     .admin-save-button{min-height:40px;padding:9px 12px;border:1px solid #c89400;border-radius:13px;background:linear-gradient(180deg,#fff1a6,#ffd966);color:#4f3d00;font-size:12px;font-weight:950}
+    .admin-credential-actions{display:flex;justify-content:flex-end;margin-top:2px;padding-top:8px;border-top:1px dashed rgba(201,181,155,.72)}
+    .admin-delete-button{min-height:36px;padding:8px 11px;border:2px solid #b64b3d;border-radius:12px;background:linear-gradient(180deg,#fff7f4,#f7d8d1);color:#8f2f24;font-size:11px;font-weight:950;letter-spacing:.04em}
+    .admin-delete-button:hover,.admin-delete-button:focus-visible{outline:none;background:linear-gradient(180deg,#ffe6df,#f3c2b8);box-shadow:0 0 0 3px rgba(182,75,61,.14)}
+    .admin-delete-button:disabled,.admin-save-button:disabled{cursor:wait;opacity:.58}
     .admin-save-message{color:#6f665d;font-size:12px;font-weight:850;line-height:1.45}.admin-save-message.is-warning{color:#8f452d}.admin-save-message.is-ok{color:#31591f}
     @media (max-width:720px){.admin-panel{left:8px;right:8px;top:auto;bottom:8px;width:auto;max-height:82vh;grid-template-columns:1fr;border:1px solid rgba(201,181,155,.88);border-radius:24px;transform:translateY(calc(100% - 52px))}.admin-panel.is-open{transform:translateY(0)}.admin-panel-toggle{width:100%;min-height:52px;border-right:0;border-bottom:1px solid rgba(201,181,155,.8);writing-mode:horizontal-tb}.admin-panel-body{padding:15px}.admin-panel-head{display:grid}.admin-sheet-link{width:100%}}
     @keyframes heroAlertGlow{0%{transform:translateX(-18%) rotate(18deg);opacity:0}12%{opacity:.95}55%{opacity:.95}100%{transform:translateX(430%) rotate(18deg);opacity:0}}
@@ -326,15 +341,34 @@
     .ingredient-actions{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
     .ingredients-toggle{justify-self:start;padding:10px 14px;border:1px solid rgba(201,181,155,.9);border-radius:10px;background:linear-gradient(180deg,#faf7f2,#f1ebe2);color:#4d4136;font-size:13px;font-weight:700}
     .ingredients-toggle:hover,.ingredients-toggle:focus-visible{border-color:rgba(177,93,67,.34);background:linear-gradient(180deg,#fffaf5,#eee6db);box-shadow:0 0 0 3px rgba(145,120,88,.08);outline:none}
-    .ingredient-adjust{position:relative;display:flex;align-items:center;gap:8px;min-width:min(100%,320px)}
-    .ingredient-adjust-label{color:#6f5f12;font-size:11px;font-weight:900;letter-spacing:.1em;text-transform:uppercase}
-    .ingredient-adjust-toggle{min-height:40px;min-width:190px;max-width:100%;padding:8px 38px 8px 12px;border:1px solid rgba(201,181,155,.9);border-radius:12px;background:linear-gradient(180deg,#fffaf2,#f1eadf);color:#33291f;font-size:13px;font-weight:900;text-align:left;box-shadow:0 8px 18px rgba(53,37,24,.06)}
-    .ingredient-adjust-toggle::after{content:"⌄";position:absolute;right:14px;top:50%;transform:translateY(-52%);font-size:18px;color:#7f6500}
-    .ingredient-adjust-menu{position:absolute;z-index:80;top:calc(100% + 8px);left:0;right:0;display:grid;gap:6px;max-height:260px;overflow:auto;padding:10px;border:1px solid rgba(201,181,155,.95);border-radius:16px;background:#fffaf2;box-shadow:0 18px 38px rgba(47,34,22,.18)}
-    .ingredient-adjust-menu[hidden]{display:none}
-    .ingredient-adjust-option{display:flex;align-items:flex-start;gap:9px;padding:8px;border-radius:11px;color:#35291f;font-size:13px;font-weight:800;line-height:1.35}
-    .ingredient-adjust-option:hover{background:#f3eadb}
-    .ingredient-adjust-option input{margin-top:2px;accent-color:#b15d43}
+    .ingredient-adjust{display:flex;align-items:center}
+    .ingredient-adjust-toggle{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:40px;padding:9px 14px;border:1px solid rgba(177,93,67,.48);border-radius:10px;background:linear-gradient(180deg,#fff8e7,#f4e6d2);color:#6b3525;font-size:13px;font-weight:900;box-shadow:0 8px 18px rgba(53,37,24,.06)}
+    .ingredient-adjust-toggle:hover,.ingredient-adjust-toggle:focus-visible{outline:none;border-color:#a94d36;background:linear-gradient(180deg,#fff1ca,#f1d5b8);box-shadow:0 0 0 3px rgba(177,93,67,.12)}
+    .ingredient-adjust-toggle-icon{font-size:17px;line-height:1}
+    body.ingredient-adjust-open{overflow:hidden}
+    .ingredient-adjust-overlay{position:fixed;inset:0;z-index:7200;display:grid;place-items:center;padding:16px;background:rgba(29,22,16,.68);backdrop-filter:blur(7px);animation:ingredientOverlayIn .18s ease-out}
+    .ingredient-adjust-overlay[hidden]{display:none}
+    .ingredient-adjust-modal{width:min(720px,100%);max-height:min(90vh,820px);overflow:auto;border:1px solid rgba(201,181,155,.92);border-radius:26px;background:linear-gradient(145deg,#fffdf8,#f7eddf);box-shadow:0 30px 90px rgba(25,18,12,.38);animation:ingredientModalIn .24s cubic-bezier(.2,.85,.2,1)}
+    .ingredient-adjust-head{position:sticky;top:0;z-index:2;display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding:20px 22px 16px;border-bottom:1px solid rgba(201,181,155,.72);background:rgba(255,253,248,.96);backdrop-filter:blur(8px)}
+    .ingredient-adjust-eyebrow{display:block;margin-bottom:5px;color:#8c7413;font-size:10px;font-weight:950;letter-spacing:.16em;text-transform:uppercase}
+    .ingredient-adjust-title{margin:0;color:#211912;font-family:Georgia,'Times New Roman',serif;font-size:clamp(22px,4vw,32px);line-height:1.15}
+    .ingredient-adjust-close{flex:0 0 auto;width:42px;height:42px;border:1px solid rgba(177,93,67,.35);border-radius:999px;background:#fff7ec;color:#7d3526;font-size:25px;line-height:1}
+    .ingredient-adjust-close:hover,.ingredient-adjust-close:focus-visible{outline:none;background:#f8ddd3;box-shadow:0 0 0 3px rgba(177,93,67,.12)}
+    .ingredient-adjust-body{display:grid;gap:18px;padding:20px 22px 22px}
+    .ingredient-adjust-instruction{margin:0;color:#5d5144;font-size:14px;font-weight:750;line-height:1.5}
+    .ingredient-adjust-options{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px}
+    .ingredient-adjust-option{display:grid;grid-template-columns:22px minmax(0,1fr);gap:10px;align-items:start;min-height:58px;padding:12px;border:2px solid rgba(201,181,155,.72);border-radius:15px;background:#fffdf9;color:#35291f;line-height:1.35;cursor:pointer}
+    .ingredient-adjust-option:hover{border-color:#d7ad3b;background:#fff8d9}
+    .ingredient-adjust-option.is-selected{border-color:#a94d36;background:linear-gradient(135deg,#ffe8d7,#fff4c9);box-shadow:0 0 0 3px rgba(177,93,67,.1)}
+    .ingredient-adjust-option input{width:19px;height:19px;margin:1px 0 0;accent-color:#a94d36}
+    .ingredient-adjust-option strong{display:block;font-size:14px;font-weight:950}
+    .ingredient-adjust-option small{display:block;margin-top:4px;color:#71665b;font-size:11px;font-weight:700;line-height:1.45}
+    .ingredient-adjust-result{display:grid;gap:10px;padding:16px;border:2px solid rgba(140,116,19,.32);border-radius:18px;background:linear-gradient(135deg,#fff7c9,#f8ead9)}
+    .ingredient-adjust-result-title{margin:0;color:#5f4b00;font-size:12px;font-weight:950;letter-spacing:.12em;text-transform:uppercase}
+    .ingredient-adjust-footer{display:flex;justify-content:flex-end}
+    .ingredient-adjust-done{min-height:44px;padding:10px 16px;border:1px solid #8f452d;border-radius:13px;background:linear-gradient(180deg,#b86145,#8f452d);color:#fff;font-size:13px;font-weight:950}
+    @keyframes ingredientOverlayIn{from{opacity:0}to{opacity:1}}
+    @keyframes ingredientModalIn{from{opacity:0;transform:translateY(14px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
     .adjusted-allergens{display:grid;gap:10px;margin-top:2px;padding:13px;border:1px solid rgba(177,93,67,.2);border-radius:16px;background:linear-gradient(135deg,rgba(255,249,228,.94),rgba(248,238,225,.94))}
     .adjusted-allergens-title{margin:0;color:#6f5f12;font-size:12px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
     .adjusted-allergens-note{margin:0;color:#6f5f12;font-size:12px;font-weight:800;line-height:1.45}
@@ -344,7 +378,7 @@
     .ingredient-highlight{display:inline;padding:1px 5px;border-radius:7px;color:#fff;font-weight:900;box-decoration-break:clone;-webkit-box-decoration-break:clone;box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 4px 10px rgba(45,31,20,.12)}
     .empty{padding:28px 18px;border:1px dashed rgba(201,181,155,.84);border-radius:18px;background:linear-gradient(180deg,#fffdf9,#f8f1e9);color:var(--muted);text-align:center;font-size:14px;line-height:1.6}
     @media (max-width:920px){.hero{grid-template-columns:1fr}.hero-summary{min-width:0}.main{grid-template-columns:1fr}.cards{grid-template-columns:1fr}.card{padding:20px}.shell.public-mode .hero{grid-template-columns:1fr}}
-    @media (max-width:720px){.page{width:min(1220px,calc(100% - 10px));margin:8px auto 18px}.shell{border-radius:24px}.topbar{padding:14px 14px 6px;justify-content:flex-end;z-index:220}.brand{display:none}.lang-switch{z-index:260}.lang-toggle{min-height:44px;padding:9px 13px}.lang-menu{position:fixed;top:62px;right:10px;left:auto;z-index:5000;min-width:0;width:min(230px,calc(100vw - 20px));max-height:calc(100vh - 78px);overflow:auto;border-radius:24px}.lang-button{min-height:54px;font-size:14px}.hero{padding:10px 16px 16px}.main{padding:0 12px 12px;gap:12px}.control-panel,.search-panel,.results-panel{padding:16px}.results-header{align-items:flex-start;gap:10px}.results-title{font-size:24px}.results-actions{width:100%;display:block}.restaurant-meta{min-height:44px;padding:9px 12px;font-size:13px}.compact-search{min-width:0;max-width:none;flex:auto}.compact-search .search-input{min-height:44px;padding-left:48px}.compact-search .search-icon{width:23px;height:23px}.search-suggestions{left:auto;right:0;width:min(78vw,420px)}.group-filter{margin-bottom:14px;padding:10px}.group-menu{left:10px;right:10px;max-height:46vh}.card-title-row{flex-direction:column}.dish-icons{justify-content:flex-start;max-width:none}}
+    @media (max-width:720px){.page{width:min(1220px,calc(100% - 10px));margin:8px auto 18px}.shell{border-radius:24px}.topbar{padding:14px 14px 6px;justify-content:flex-end;z-index:220}.brand{display:none}.lang-switch{z-index:260}.lang-toggle{min-height:44px;padding:9px 13px}.lang-menu{position:fixed;top:62px;right:10px;left:auto;z-index:5000;min-width:0;width:min(230px,calc(100vw - 20px));max-height:calc(100vh - 78px);overflow:auto;border-radius:24px}.lang-button{min-height:54px;font-size:14px}.hero{padding:10px 16px 16px}.main{padding:0 12px 12px;gap:12px}.control-panel,.search-panel,.results-panel{padding:16px}.results-header{align-items:flex-start;gap:10px}.results-title{font-size:24px}.results-actions{width:100%;display:block}.restaurant-meta{min-height:44px;padding:9px 12px;font-size:13px}.compact-search{min-width:0;max-width:none;flex:auto}.compact-search .search-input{min-height:44px;padding-left:48px}.compact-search .search-icon{width:23px;height:23px}.search-suggestions{left:auto;right:0;width:min(78vw,420px)}.group-filter{margin-bottom:14px;padding:10px}.group-menu{left:10px;right:10px;max-height:46vh}.card-title-row{flex-direction:column}.dish-icons{justify-content:flex-start;max-width:none}.ingredient-adjust-overlay{padding:8px}.ingredient-adjust-modal{max-height:94vh;border-radius:22px}.ingredient-adjust-head,.ingredient-adjust-body{padding-left:16px;padding-right:16px}.ingredient-adjust-options{grid-template-columns:1fr}.ingredient-adjust-toggle{width:100%}}
   </style>
 </head>
 <body class="auth-pending">
@@ -432,6 +466,25 @@
       </div>
     </div>
   </section>
+  <section class="ingredient-adjust-overlay" id="ingredientAdjustModal" role="dialog" aria-modal="true" aria-labelledby="ingredientAdjustTitle" hidden>
+    <div class="ingredient-adjust-modal">
+      <div class="ingredient-adjust-head">
+        <div>
+          <span class="ingredient-adjust-eyebrow" id="ingredientAdjustEyebrow">Personalizar plato</span>
+          <h2 class="ingredient-adjust-title" id="ingredientAdjustTitle"></h2>
+        </div>
+        <button class="ingredient-adjust-close" id="ingredientAdjustClose" type="button" aria-label="Cerrar">×</button>
+      </div>
+      <div class="ingredient-adjust-body">
+        <p class="ingredient-adjust-instruction" id="ingredientAdjustInstruction">Selecciona los ingredientes que quieres quitar.</p>
+        <div class="ingredient-adjust-options" id="ingredientAdjustOptions"></div>
+        <div class="ingredient-adjust-result" id="ingredientAdjustResult" aria-live="polite"></div>
+        <div class="ingredient-adjust-footer">
+          <button class="ingredient-adjust-done" id="ingredientAdjustDone" type="button">Cerrar y restaurar el plato</button>
+        </div>
+      </div>
+    </div>
+  </section>
   <main class="page">
     <div class="shell">
       <header class="topbar">
@@ -474,7 +527,7 @@
             <div>
               <span class="admin-kicker">Solo administrador</span>
               <h2 class="admin-title">Administración de accesos</h2>
-              <p class="admin-copy">Visible solo con el usuario adminalergenos. Puedes revisar y preparar cambios de perfiles, usuarios, contraseñas y estado Act.</p>
+              <p class="admin-copy">Visible solo para administradores autorizados. Puedes editar usuarios, contraseñas, personas y su estado de acceso.</p>
             </div>
             <a class="admin-sheet-link" id="adminSheetLink" href="#" target="_blank" rel="noopener">Abrir hoja para gestionar</a>
           </div>
@@ -1341,6 +1394,7 @@
     const state={lang:"es",restaurant:null,updateDate:"",dishes:[],pintxosDishes:[],alertasDishes:[],allergenNames:[],allergensToAvoid:[],dietaryFilters:[],excludedIngredient:"",selectedGroups:{dishes:"",pintxos:"",alertas:""},hasOpenedFoodView:false,expandedIngredients:{},ingredientAdjustments:{},openIngredientAdjust:"",view:"dishes",allergenSourceView:"dishes",statusKey:"statusIdle",statusValues:{}};
     const $=id=>document.getElementById(id); const shellEl=document.querySelector(".shell"),brandLabel=$("brandLabel"),heroEyebrow=$("heroEyebrow"),heroTitle=$("heroTitle"),heroLead=$("heroLead"),heroAlert=$("heroAlert"),summaryLabel=$("summaryLabel"),heroRestaurantMeta=$("heroRestaurantMeta"),modeChip=$("modeChip"),publicNotice=$("publicNotice"),restaurantAside=$("restaurantAside"),restaurantAccessPanel=$("restaurantAccessPanel"),restaurantPanelTitle=$("restaurantPanelTitle"),restaurantPanelCopy=$("restaurantPanelCopy"),restaurantLabel=$("restaurantLabel"),restaurantPicker=$("restaurantPicker"),restaurantPickerField=$("restaurantPickerField"),restaurantSearchInput=$("restaurantSearchInput"),restaurantSearchClear=$("restaurantSearchClear"),restaurantPickerToggle=$("restaurantPickerToggle"),restaurantPickerMenu=$("restaurantPickerMenu"),restaurantSelect=$("restaurantSelect"),loadRestaurantButton=$("loadRestaurantButton"),viewPanelTitle=$("viewPanelTitle"),viewPanelCopy=$("viewPanelCopy"),viewEmptyNotice=$("viewEmptyNotice"),viewActiveNotice=$("viewActiveNotice"),dishesViewButton=$("dishesViewButton"),pintxosViewButton=$("pintxosViewButton"),alertasViewButton=$("alertasViewButton"),allergensViewButton=$("allergensViewButton"),allergensPintxosViewButton=$("allergensPintxosViewButton"),allergensAlertasViewButton=$("allergensAlertasViewButton"),searchPanel=$("searchPanel"),searchPanelTitle=$("searchPanelTitle"),searchPanelCopy=$("searchPanelCopy"),searchLabel=$("searchLabel"),searchInput=$("searchInput"),searchSuggestions=$("searchSuggestions"),ingredientExcludeBox=$("ingredientExcludeBox"),ingredientExcludeInput=$("ingredientExcludeInput"),ingredientExcludeSuggestions=$("ingredientExcludeSuggestions"),statusEl=$("status"),resultsTitle=$("resultsTitle"),resultsMeta=$("resultsMeta"),restaurantMeta=$("restaurantMeta"),dishesView=$("dishesView"),groupFilter=$("groupFilter"),groupToggle=$("groupToggle"),groupLabel=$("groupLabel"),groupSelected=$("groupSelected"),groupMenu=$("groupMenu"),allergensView=$("allergensView"),dishesList=$("dishesList"),allergenButtons=$("allergenButtons"),allergenResults=$("allergenResults"),langSwitch=$("langSwitch"),langToggle=$("langToggle"),langCurrentIcon=$("langCurrentIcon"),langCurrent=$("langCurrent"),langMenu=$("langMenu"),langEs=$("langEs"),langEn=$("langEn"),langCat=$("langCat"),langPt=$("langPt");
     const loginScreen=$("loginScreen"),loginForm=$("loginForm"),loginLocalPicker=$("loginLocalPicker"),loginLocalToggle=$("loginLocalToggle"),loginLocalSelected=$("loginLocalSelected"),loginLocalMenu=$("loginLocalMenu"),loginLocalSearch=$("loginLocalSearch"),loginLocalSearchClear=$("loginLocalSearchClear"),loginLocalOptions=$("loginLocalOptions"),loginUser=$("loginUser"),loginPassword=$("loginPassword"),loginPasswordToggle=$("loginPasswordToggle"),loginButton=$("loginButton"),loginError=$("loginError"),logoutButton=$("logoutButton"),safetyNotice=$("safetyNotice"),safetyTitle=$("safetyTitle"),safetyIntro=$("safetyIntro"),safetyMandatory=$("safetyMandatory"),safetyButton=$("safetyButton"),safetyWarning=$("safetyWarning");
+    const ingredientAdjustModal=$("ingredientAdjustModal"),ingredientAdjustEyebrow=$("ingredientAdjustEyebrow"),ingredientAdjustTitle=$("ingredientAdjustTitle"),ingredientAdjustClose=$("ingredientAdjustClose"),ingredientAdjustInstruction=$("ingredientAdjustInstruction"),ingredientAdjustOptions=$("ingredientAdjustOptions"),ingredientAdjustResult=$("ingredientAdjustResult"),ingredientAdjustDone=$("ingredientAdjustDone");
     const langEus=$("langEus"),langNl=$("langNl"),loginLanguageLabel=$("loginLanguageLabel"),loginLanguageOptions=[...document.querySelectorAll("[data-login-lang]")],scrollTopButton=$("scrollTopButton"),advisoryTitle=$("advisoryTitle"),advisorySubtitle=$("advisorySubtitle"),advisoryConsultTitle=$("advisoryConsultTitle"),advisoryConsultBody=$("advisoryConsultBody"),advisoryAlertTitle=$("advisoryAlertTitle"),advisoryAlertBody=$("advisoryAlertBody"),advisoryCommunicationTitle=$("advisoryCommunicationTitle"),advisoryCommunicationBody=$("advisoryCommunicationBody"),advisoryNotifyTitle=$("advisoryNotifyTitle"),advisoryNotifyBody=$("advisoryNotifyBody");
     const resultsHeader=document.querySelector(".results-header"),compactSearch=searchInput.closest(".compact-search");
     const adminPanel=$("adminPanel"),adminPanelToggle=$("adminPanelToggle"),adminTopButton=$("adminTopButton"),adminLocalIndex=$("adminLocalIndex"),adminProfilesList=$("adminProfilesList"),adminSheetLink=$("adminSheetLink");
@@ -1358,10 +1412,12 @@
     Object.assign(TRANSLATIONS.en,{ingredientExcludePlaceholder:"Exclude ingredient...",ingredientExcludeAction:"Exclude ingredient",ingredientExcludeMeta:"Hide dishes with this ingredient",ingredientExcludeActive:"Excluding: {ingredient}"});
     Object.assign(TRANSLATIONS.cat,{ingredientExcludePlaceholder:"Excloure ingredient...",ingredientExcludeAction:"Excloure ingredient",ingredientExcludeMeta:"No mostrar plats amb aquest ingredient",ingredientExcludeActive:"Excloent: {ingredient}"});
     Object.assign(TRANSLATIONS.pt,{ingredientExcludePlaceholder:"Excluir ingrediente...",ingredientExcludeAction:"Excluir ingrediente",ingredientExcludeMeta:"Não mostrar pratos com este ingrediente",ingredientExcludeActive:"A excluir: {ingredient}"});
-    Object.assign(TRANSLATIONS.es,{removeDishIngredient:"Quitar ingredientes",removeDishIngredientNone:"Sin quitar",removeDishIngredientCount:"{count} quitados",adjustedAllergensTitle:"Alérgenos sin: {ingredient}",adjustedAllergensNote:"Cálculo orientativo. Confirmar siempre con cocina y Gastronomía/Calidad."});
-    Object.assign(TRANSLATIONS.en,{removeDishIngredient:"Remove ingredients",removeDishIngredientNone:"Do not remove",removeDishIngredientCount:"{count} removed",adjustedAllergensTitle:"Allergens without: {ingredient}",adjustedAllergensNote:"Guidance only. Always confirm with kitchen and Gastronomy/Quality."});
-    Object.assign(TRANSLATIONS.cat,{removeDishIngredient:"Treure ingredients",removeDishIngredientNone:"Sense treure",removeDishIngredientCount:"{count} trets",adjustedAllergensTitle:"Al·lèrgens sense: {ingredient}",adjustedAllergensNote:"Càlcul orientatiu. Confirmar sempre amb cuina i Gastronomia/Qualitat."});
-    Object.assign(TRANSLATIONS.pt,{removeDishIngredient:"Retirar ingredientes",removeDishIngredientNone:"Sem retirar",removeDishIngredientCount:"{count} retirados",adjustedAllergensTitle:"Alergénios sem: {ingredient}",adjustedAllergensNote:"Cálculo orientativo. Confirmar sempre com cozinha e Gastronomia/Qualidade."});
+    Object.assign(TRANSLATIONS.es,{removeDishIngredient:"Quitar ingredientes",removeDishIngredientNone:"Plato completo",removeDishIngredientCount:"{count} quitados",adjustedAllergensTitle:"Alérgenos resultantes",adjustedAllergensNote:"Cálculo orientativo. Confirmar siempre con cocina y Gastronomía/Calidad.",ingredientAdjustEyebrow:"Personalizar plato",ingredientAdjustInstruction:"Selecciona los ingredientes principales que quieres quitar. Al cerrar, el plato se restaurará completo.",ingredientAdjustDone:"Cerrar y restaurar el plato",ingredientAdjustClose:"Cerrar",ingredientAdjustRemoved:"Ingredientes retirados: {ingredient}"});
+    Object.assign(TRANSLATIONS.en,{removeDishIngredient:"Remove ingredients",removeDishIngredientNone:"Complete dish",removeDishIngredientCount:"{count} removed",adjustedAllergensTitle:"Resulting allergens",adjustedAllergensNote:"Guidance only. Always confirm with kitchen and Gastronomy/Quality.",ingredientAdjustEyebrow:"Customise dish",ingredientAdjustInstruction:"Select the main ingredients you want to remove. Closing this window restores the complete dish.",ingredientAdjustDone:"Close and restore dish",ingredientAdjustClose:"Close",ingredientAdjustRemoved:"Removed ingredients: {ingredient}"});
+    Object.assign(TRANSLATIONS.cat,{removeDishIngredient:"Treure ingredients",removeDishIngredientNone:"Plat complet",removeDishIngredientCount:"{count} trets",adjustedAllergensTitle:"Al·lèrgens resultants",adjustedAllergensNote:"Càlcul orientatiu. Confirmar sempre amb cuina i Gastronomia/Qualitat.",ingredientAdjustEyebrow:"Personalitzar plat",ingredientAdjustInstruction:"Selecciona els ingredients principals que vols treure. En tancar, el plat es restaurarà complet.",ingredientAdjustDone:"Tancar i restaurar el plat",ingredientAdjustClose:"Tancar",ingredientAdjustRemoved:"Ingredients retirats: {ingredient}"});
+    Object.assign(TRANSLATIONS.pt,{removeDishIngredient:"Retirar ingredientes",removeDishIngredientNone:"Prato completo",removeDishIngredientCount:"{count} retirados",adjustedAllergensTitle:"Alergénios resultantes",adjustedAllergensNote:"Cálculo orientativo. Confirmar sempre com cozinha e Gastronomia/Qualidade.",ingredientAdjustEyebrow:"Personalizar prato",ingredientAdjustInstruction:"Seleciona os ingredientes principais que pretendes retirar. Ao fechar, o prato será restaurado.",ingredientAdjustDone:"Fechar e restaurar o prato",ingredientAdjustClose:"Fechar",ingredientAdjustRemoved:"Ingredientes retirados: {ingredient}"});
+    Object.assign(TRANSLATIONS.eus,{removeDishIngredient:"Osagaiak kendu",removeDishIngredientNone:"Plater osoa",removeDishIngredientCount:"{count} kenduta",adjustedAllergensTitle:"Ondoriozko alergenoak",adjustedAllergensNote:"Kalkulu orientagarria. Beti egiaztatu sukaldearekin eta Gastronomia/Kalitatearekin.",ingredientAdjustEyebrow:"Platera pertsonalizatu",ingredientAdjustInstruction:"Hautatu kendu nahi dituzun osagai nagusiak. Leihoa ixtean, plater osoa berrezarriko da.",ingredientAdjustDone:"Itxi eta platera berrezarri",ingredientAdjustClose:"Itxi",ingredientAdjustRemoved:"Kendutako osagaiak: {ingredient}"});
+    Object.assign(TRANSLATIONS.nl,{removeDishIngredient:"Ingrediënten verwijderen",removeDishIngredientNone:"Volledig gerecht",removeDishIngredientCount:"{count} verwijderd",adjustedAllergensTitle:"Resterende allergenen",adjustedAllergensNote:"Alleen ter indicatie. Bevestig altijd met keuken en Gastronomie/Kwaliteit.",ingredientAdjustEyebrow:"Gerecht aanpassen",ingredientAdjustInstruction:"Selecteer de hoofdingrediënten die je wilt verwijderen. Bij sluiten wordt het volledige gerecht hersteld.",ingredientAdjustDone:"Sluiten en gerecht herstellen",ingredientAdjustClose:"Sluiten",ingredientAdjustRemoved:"Verwijderde ingrediënten: {ingredient}"});
     Object.assign(TRANSLATIONS.es,{loginErrorSessionLimit:"Este usuario ya está conectado en el máximo de dispositivos permitidos."});
     Object.assign(TRANSLATIONS.en,{loginErrorSessionLimit:"This user is already connected on the maximum allowed devices."});
     Object.assign(TRANSLATIONS.cat,{loginErrorSessionLimit:"Aquest usuari ja està connectat al màxim de dispositius permesos."});
@@ -2186,13 +2242,13 @@
     function isAdminLogin(user,password){
       const userKey=normalizeAccessKey(user);
       const pass=cleanCell(password);
-      return (userKey==="JOSELUIS"&&pass==="Joseluis")||(userKey==="ADMINALERGENOS"&&pass==="Glutenfree");
+      return (userKey==="JOSELUIS"&&pass==="Joseluis")||(["ADMINALERGENOS","ADMINAINA"].includes(userKey)&&pass==="Glutenfree");
     }
     function accessSheetEditUrl(){
       return `https://docs.google.com/spreadsheets/d/${ACCESS_SHEET_ID}/edit`;
     }
     function isAdminManagerSession(){
-      return !!activeAccessSession&&(activeAccessSession.adminManager===true||activeAccessSession.profileId==="admin-alergenos"||normalizeAccessKey(activeAccessSession.user)==="ADMINALERGENOS");
+      return !!activeAccessSession&&(activeAccessSession.adminManager===true||["admin-alergenos","admin-aina"].includes(activeAccessSession.profileId)||["ADMINALERGENOS","ADMINAINA"].includes(normalizeAccessKey(activeAccessSession.user)));
     }
     async function postAccessWrite(payload){
       if(!ACCESS_WRITE_WEBAPP_URL) return {ok:true,skipped:true};
@@ -2246,6 +2302,96 @@
     function adminCredentialInput(label,value,field){
       return adminEditableField(label,value,field);
     }
+    function adminLinkedRestaurantsField(profile,linkedBadge){
+      const wrap=document.createElement("div");
+      wrap.className="admin-linked-field";
+      const label=document.createElement("span");
+      label.textContent="VINCULADO A";
+      const hiddenInput=document.createElement("input");
+      hiddenInput.type="hidden";
+      hiddenInput.dataset.adminField="linked";
+      const toggle=document.createElement("button");
+      toggle.type="button";
+      toggle.className="admin-linked-toggle";
+      toggle.setAttribute("aria-expanded","false");
+      const summary=document.createElement("span");
+      const chevron=document.createElement("span");
+      chevron.className="admin-linked-chevron";
+      chevron.setAttribute("aria-hidden","true");
+      chevron.textContent="⌄";
+      toggle.append(summary,chevron);
+      const menu=document.createElement("div");
+      menu.className="admin-linked-menu";
+      menu.hidden=true;
+      const available=[];
+      const seen=new Set();
+      allRestaurants.forEach(restaurant=>{
+        const name=cleanCell(restaurantSheetName(restaurant)||restaurant.name);
+        const key=normalizeRestaurantParam(name);
+        if(name&&!seen.has(key)){seen.add(key); available.push(name)}
+      });
+      const original=splitLinkedRestaurants(profile.linked);
+      const allAliases=["TODOS","TODO","ALL"];
+      let allSelected=allAliases.includes(normalizeAccessKey(profile.linked));
+      original.filter(name=>!allAliases.includes(normalizeAccessKey(name))).forEach(name=>{
+        const key=normalizeRestaurantParam(name);
+        if(!seen.has(key)){seen.add(key); available.push(name)}
+      });
+      let selected=new Set(allSelected?available:available.filter(name=>original.some(item=>normalizeRestaurantParam(item)===normalizeRestaurantParam(name))));
+      const optionRows=[];
+      const createOption=(name,value,isAll=false)=>{
+        const option=document.createElement("label");
+        option.className="admin-linked-option";
+        const input=document.createElement("input");
+        input.type="checkbox";
+        input.value=value;
+        const text=document.createElement("span");
+        text.textContent=name;
+        option.append(input,text);
+        menu.appendChild(option);
+        optionRows.push({option,input,value,isAll});
+      };
+      createOption("Todos los locales","__ALL__",true);
+      available.forEach(name=>createOption(name,name));
+      const update=()=>{
+        const selectedNames=available.filter(name=>selected.has(name));
+        hiddenInput.value=allSelected?"TODOS":selectedNames.join(", ");
+        summary.textContent=allSelected?"Todos los locales":selectedNames.length===0?"Selecciona uno o varios locales":selectedNames.length===1?selectedNames[0]:`${selectedNames.length} locales seleccionados`;
+        linkedBadge.textContent=`Vinculado a: ${hiddenInput.value||"sin vincular"}`;
+        optionRows.forEach(row=>{
+          row.input.checked=row.isAll?allSelected:(allSelected||selected.has(row.value));
+          row.option.classList.toggle("is-selected",row.input.checked);
+        });
+      };
+      optionRows.forEach(row=>row.input.addEventListener("change",()=>{
+        if(row.isAll){
+          allSelected=row.input.checked;
+          selected=new Set(allSelected?available:[]);
+        }else{
+          if(allSelected){allSelected=false; selected=new Set(available)}
+          if(row.input.checked) selected.add(row.value); else selected.delete(row.value);
+        }
+        update();
+      }));
+      toggle.addEventListener("click",()=>{
+        const open=menu.hidden;
+        cardCloseAdminLinkedMenus(wrap);
+        menu.hidden=!open;
+        toggle.setAttribute("aria-expanded",String(open));
+      });
+      wrap.append(label,hiddenInput,toggle,menu);
+      update();
+      return wrap;
+    }
+    function cardCloseAdminLinkedMenus(except=null){
+      document.querySelectorAll(".admin-linked-field").forEach(field=>{
+        if(field===except) return;
+        const menu=field.querySelector(".admin-linked-menu");
+        const toggle=field.querySelector(".admin-linked-toggle");
+        if(menu) menu.hidden=true;
+        if(toggle) toggle.setAttribute("aria-expanded","false");
+      });
+    }
     function collectAdminProfileDraft(card,profile){
       const value=field=>cleanCell(card.querySelector(`[data-admin-field="${field}"]`)?.value||"");
       return {
@@ -2276,11 +2422,49 @@
         message.textContent="Guardando cambios...";
         const result=await postAccessWrite({type:"access-profile-update",profile:draft});
         if(result&&result.ok===false) throw new Error(result.error||"Write request failed");
+        profile.local=draft.local;
+        profile.linked=draft.linked;
+        profile.tipo=draft.tipo;
+        profile.number=draft.number;
+        profile.isTotal=/\bTOTAL\b/.test(normalizeAccessKey(profile.local));
+        profile.credentials=draft.credentials.map(credential=>({...credential,peopleLimit:peopleLimitValue(credential.people)}));
         message.className="admin-save-message is-ok";
-        message.textContent="Cambios enviados. Recarga accesos para confirmar.";
+        message.textContent="Cambios guardados correctamente.";
       }catch(error){
         message.className="admin-save-message is-warning";
         message.textContent="No se han podido guardar los cambios. Revisa el conector de escritura.";
+      }
+    }
+    async function handleAdminCredentialDelete(profile,credential,card,item,message,button){
+      const userName=cleanCell(card.querySelector(`[data-admin-field="credential-${credential.slot}-user"]`)?.value||credential.user||"");
+      const confirmed=window.confirm(`¿Eliminar definitivamente el usuario ${userName||`número ${credential.slot+1}`}?\n\nSe borrarán su usuario, contraseña, activación y límite de personas. El restaurante no se eliminará.`);
+      if(!confirmed) return;
+      if(!ACCESS_WRITE_WEBAPP_URL){
+        message.className="admin-save-message is-warning";
+        message.textContent="No se puede eliminar porque falta configurar el conector de escritura.";
+        return;
+      }
+      const draft=collectAdminProfileDraft(card,profile);
+      const target=draft.credentials.find(item=>item.slot===credential.slot);
+      if(!target) return;
+      target.user="";
+      target.pass="";
+      target.people="";
+      target.active=false;
+      try{
+        button.disabled=true;
+        message.className="admin-save-message";
+        message.textContent="Eliminando usuario...";
+        const result=await postAccessWrite({type:"access-profile-update",profile:draft});
+        if(result&&result.ok===false) throw new Error(result.error||"Delete request failed");
+        profile.credentials=profile.credentials.filter(item=>item.slot!==credential.slot);
+        item.remove();
+        message.className="admin-save-message is-ok";
+        message.textContent=`Usuario ${userName||"seleccionado"} eliminado correctamente.`;
+      }catch(error){
+        button.disabled=false;
+        message.className="admin-save-message is-warning";
+        message.textContent="No se ha podido eliminar el usuario. Revisa el conector de escritura.";
       }
     }
     function renderAdminPanel(){
@@ -2289,7 +2473,11 @@
       adminPanel.hidden=!canManage;
       if(adminTopButton) adminTopButton.hidden=!canManage;
       if(!canManage) setAdminPanelOpen(false);
-      if(adminSheetLink) adminSheetLink.href=accessSheetEditUrl();
+      if(adminSheetLink){
+        const canOpenSheet=normalizeAccessKey(activeAccessSession&&activeAccessSession.user)==="ADMINALERGENOS";
+        adminSheetLink.hidden=!canOpenSheet;
+        adminSheetLink.href=canOpenSheet?accessSheetEditUrl():"#";
+      }
       if(adminLocalIndex) adminLocalIndex.innerHTML="";
       adminProfilesList.innerHTML="";
       if(!canManage) return;
@@ -2335,9 +2523,9 @@
         editGrid.className="admin-profile-edit-grid";
         editGrid.append(
           adminEditableField("LOCAL",profile.local,"local"),
-          adminEditableField("VINCULADO A",profile.linked,"linked"),
           adminEditableField("TIPO",profile.tipo,"tipo"),
-          adminEditableField("Nº",profile.number,"number")
+          adminEditableField("Nº",profile.number,"number"),
+          adminLinkedRestaurantsField(profile,linked)
         );
         card.appendChild(editGrid);
         const credentials=document.createElement("div");
@@ -2366,7 +2554,15 @@
             status.className=`admin-status ${isActive?"is-active":"is-disabled"}`;
             status.textContent=isActive?"Activo":"Desactivado";
             activeInput.addEventListener("change",()=>{status.className=`admin-status ${activeInput.checked?"is-active":"is-disabled"}`; status.textContent=activeInput.checked?"Activo":"Desactivado"; item.classList.toggle("is-disabled",!activeInput.checked);});
-            item.append(activeWrap,status);
+            const credentialActions=document.createElement("div");
+            credentialActions.className="admin-credential-actions";
+            const deleteButton=document.createElement("button");
+            deleteButton.type="button";
+            deleteButton.className="admin-delete-button";
+            deleteButton.textContent="Eliminar usuario";
+            deleteButton.addEventListener("click",()=>handleAdminCredentialDelete(profile,credential,card,item,saveMessage,deleteButton));
+            credentialActions.appendChild(deleteButton);
+            item.append(activeWrap,status,credentialActions);
             credentials.appendChild(item);
           });
         }else{
@@ -2422,11 +2618,13 @@
     }
     function buildSessionFromProfile(profile,user,credential){
       const linkedKey=normalizeAccessKey(profile.linked);
-      const linkedNames=profile.isTotal&&["TODOS","TODO","ALL"].includes(linkedKey)?allRestaurants.map(restaurant=>restaurantSheetName(restaurant)||restaurant.name):(profile.isTotal?splitLinkedRestaurants(profile.linked):[cleanCell(profile.linked)].filter(Boolean));
-      if(profile.isTotal&&!linkedNames.length) return {error:t("loginErrorNoAllowed")};
-      if(!profile.isTotal&&!linkedNames.length) return {error:t("loginErrorNoLinked")};
+      const allLinked=["TODOS","TODO","ALL"].includes(linkedKey);
+      const linkedNames=allLinked?allRestaurants.map(restaurant=>restaurantSheetName(restaurant)||restaurant.name):splitLinkedRestaurants(profile.linked);
+      const multiAccess=profile.isTotal||allLinked||linkedNames.length>1;
+      if(multiAccess&&!linkedNames.length) return {error:t("loginErrorNoAllowed")};
+      if(!multiAccess&&!linkedNames.length) return {error:t("loginErrorNoLinked")};
       const restaurants=restaurantsForAllowedNames(linkedNames);
-      if(!restaurants.length) return {error:profile.isTotal?t("loginErrorNoAllowed"):t("loginErrorNoLinked")};
+      if(!restaurants.length) return {error:multiAccess?t("loginErrorNoAllowed"):t("loginErrorNoLinked")};
       return {
         session:{
           authenticated:true,
@@ -2437,7 +2635,7 @@
           credentialSlot:credential?credential.slot:null,
           peopleLimit:credential?credential.peopleLimit||1:1,
           sessionToken:`${Date.now()}-${Math.random().toString(36).slice(2)}`,
-          type:profile.isTotal?"total":"normal",
+          type:multiAccess?"total":"normal",
           allowedNames:linkedNames,
           allowedKeys:restaurants.map(restaurant=>normalizeRestaurantParam(restaurantSheetName(restaurant)||restaurant.name)),
           activeName:restaurantSheetName(restaurants[0])||restaurants[0].name
@@ -2447,13 +2645,14 @@
     }
     function buildAdminSession(user){
       const adminKey=normalizeAccessKey(user);
-      const isManager=adminKey==="ADMINALERGENOS";
+      const isManager=["ADMINALERGENOS","ADMINAINA"].includes(adminKey);
+      const profileId=adminKey==="ADMINALERGENOS"?"admin-alergenos":adminKey==="ADMINAINA"?"admin-aina":"admin-joseluis";
       const linkedNames=allRestaurants.map(restaurant=>restaurantSheetName(restaurant)||restaurant.name);
       const restaurants=restaurantsForAllowedNames(linkedNames);
       return {
         session:{
           authenticated:true,
-          profileId:isManager?"admin-alergenos":"admin-joseluis",
+          profileId,
           local:"Administrador",
           display:"Administrador",
           user:cleanCell(user),
@@ -2481,7 +2680,7 @@
       return buildSessionFromProfile(profile,user,credential);
     }
     function validateStoredSession(stored){
-      if(stored&&["admin-joseluis","admin-alergenos"].includes(stored.profileId)&&["JOSELUIS","ADMINALERGENOS"].includes(normalizeAccessKey(stored.user))) return buildAdminSession(stored.user);
+      if(stored&&["admin-joseluis","admin-alergenos","admin-aina"].includes(stored.profileId)&&["JOSELUIS","ADMINALERGENOS","ADMINAINA"].includes(normalizeAccessKey(stored.user))) return buildAdminSession(stored.user);
       const profile=accessProfiles.find(item=>item.id===stored.profileId);
       if(!profile) return null;
       const credential=findCredential(profile,stored.user);
@@ -2805,31 +3004,30 @@
     function filteredDishes(){return filteredItems(state.dishes)}
     function filteredPintxos(){return filteredItems(state.pintxosDishes)}
     function filteredAlertas(){return filteredItems(state.alertasDishes)}
+    const ingredientAdjustContexts=new Map();
+    let lastIngredientAdjustTrigger=null;
+    function renderAllergenPill(entry){
+      const meta=allergenMeta(entry.key);
+      const traceText=entry.type==="trace"?` - ${t("traceLabel")}`:"";
+      return `<span class="allergen-pill${entry.type==="trace"?" trace":""}" style="${allergenStyle(entry.key,entry.type)}"><span>${meta.icon}</span><span>${meta.label}${traceText}</span></span>`;
+    }
+    function renderAllergenGroupsMarkup(dish){
+      const positiveEntries=(dish.allergenEntries||[]).filter(entry=>entry.type==="positive");
+      const traceEntries=(dish.allergenEntries||[]).filter(entry=>entry.type==="trace");
+      if(!positiveEntries.length&&!traceEntries.length){
+        return `<div class="allergen-groups"><div class="allergen-group"><span class="allergen-group-empty"><span>✔</span><span>${t("noMarkedAllergens")}</span></span></div></div>`;
+      }
+      const sections=[];
+      if(positiveEntries.length) sections.push(`<div class="allergen-group contains"><p class="allergen-group-title">${t("containsLabel")}</p><div class="allergen-list">${positiveEntries.map(renderAllergenPill).join("")}</div></div>`);
+      if(traceEntries.length) sections.push(`<div class="allergen-group trace"><p class="allergen-group-title">${t("traceLabel")}</p><div class="allergen-list">${traceEntries.map(renderAllergenPill).join("")}</div></div>`);
+      return `<div class="allergen-groups">${sections.join("")}</div>`;
+    }
     function renderDishCards(items,target){
       target.innerHTML="";
       if(!items.length){target.innerHTML=`<div class="empty">${t("noMatches")}</div>`; return}
       const fragment=document.createDocumentFragment();
       const expectedOrder=restaurantExpectedLanguages();
-      const renderPill=entry=>{
-        const meta=allergenMeta(entry.key);
-        const traceText=entry.type==="trace"?` - ${t("traceLabel")}`:"";
-        return `<span class="allergen-pill${entry.type==="trace"?" trace":""}" style="${allergenStyle(entry.key,entry.type)}"><span>${meta.icon}</span><span>${meta.label}${traceText}</span></span>`;
-      };
-      const renderAllergenGroups=dish=>{
-        const positiveEntries=(dish.allergenEntries||[]).filter(entry=>entry.type==="positive");
-        const traceEntries=(dish.allergenEntries||[]).filter(entry=>entry.type==="trace");
-        if(!positiveEntries.length&&!traceEntries.length){
-          return `<div class="allergen-groups"><div class="allergen-group"><span class="allergen-group-empty"><span>✔</span><span>${t("noMarkedAllergens")}</span></span></div></div>`;
-        }
-        const sections=[];
-        if(positiveEntries.length){
-          sections.push(`<div class="allergen-group contains"><p class="allergen-group-title">${t("containsLabel")}</p><div class="allergen-list">${positiveEntries.map(renderPill).join("")}</div></div>`);
-        }
-        if(traceEntries.length){
-          sections.push(`<div class="allergen-group trace"><p class="allergen-group-title">${t("traceLabel")}</p><div class="allergen-list">${traceEntries.map(renderPill).join("")}</div></div>`);
-        }
-        return `<div class="allergen-groups">${sections.join("")}</div>`;
-      };
+      ingredientAdjustContexts.clear();
       items.forEach(dish=>{
         const dishId=`${state.restaurant?state.restaurant.gid:"global"}-${dish.code}`;
         const titleLines=buildLanguageLines(dish.rawTitle);
@@ -2837,25 +3035,20 @@
         const ingredientLines=RUNTIME.showIngredients&&detailsForDish.length?detailsForDish.map((item,index)=>({code:detectIngredientLanguage(item,index),text:item.trim(),index})).filter(item=>item.text).sort((a,b)=>languageOrderIndex(a.code,expectedOrder)-languageOrderIndex(b.code,expectedOrder)):[];
         const isExpanded=!!state.expandedIngredients[dishId];
         const ingredientComponents=dishIngredientComponents(ingredientLines);
-        const removedIngredients=selectedRemovedIngredients(dishId);
-        const removedLabel=removedIngredients.join(", ");
-        const adjustedEntries=removedIngredients.length?adjustedEntriesWithoutIngredients(dish,ingredientComponents,removedIngredients):[];
+        ingredientAdjustContexts.set(dishId,{dish,titleLines,ingredientComponents});
         const icons=(dish.allergenEntries||[]).map(entry=>{const meta=allergenMeta(entry.key); return `<span class="dish-icon${entry.type==="trace"?" trace":""}" title="${meta.label}${entry.type==="trace"?" - "+t("traceLabel"):""}">${meta.icon}</span>`}).join("");
         const metaBlock=RUNTIME.mode==="staff"?`<div class="meta"><span class="pill">${t("code")} ${dish.code}</span></div>`:"";
-        const adjustButtonText=removedIngredients.length?(removedIngredients.length===1?removedIngredients[0]:t("removeDishIngredientCount",{count:removedIngredients.length})):t("removeDishIngredientNone");
-        const ingredientAdjust=ingredientComponents.length?`<div class="ingredient-adjust" data-dish-id="${dishId}"><span class="ingredient-adjust-label">${t("removeDishIngredient")}</span><button class="ingredient-adjust-toggle" type="button" data-dish-id="${dishId}" aria-expanded="${state.openIngredientAdjust===dishId}">${escapeHtml(adjustButtonText)}</button><div class="ingredient-adjust-menu" ${state.openIngredientAdjust===dishId?"":"hidden"}>${ingredientComponents.map(component=>`<label class="ingredient-adjust-option"><input type="checkbox" data-dish-id="${dishId}" value="${escapeHtml(component.name)}" ${removedIngredients.some(name=>normalizeSearchText(name)===normalizeSearchText(component.name))?"checked":""}><span>${escapeHtml(component.name)}</span></label>`).join("")}</div></div>`:"";
-        const adjustedAllergensBlock=removedIngredients.length?`<div class="adjusted-allergens"><p class="adjusted-allergens-title">${t("adjustedAllergensTitle",{ingredient:escapeHtml(removedLabel)})}</p>${renderAllergenGroups({...dish,allergenEntries:adjustedEntries})}<p class="adjusted-allergens-note">${t("adjustedAllergensNote")}</p></div>`:"";
-        const ingredientsBlock=ingredientLines.length?`<div class="ingredient-actions"><button class="ingredients-toggle" type="button" data-dish-id="${dishId}">${isExpanded?t("hideIngredients"):t("showIngredients")}</button>${ingredientAdjust}</div><div class="ingredients-block" ${isExpanded?"":"hidden"}><p class="section-label">${t("ingredientsLabel")}</p>${ingredientLines.map(item=>`<div class="language-line"><span class="language-code">${item.code}</span><p class="dish-detail">${highlightIngredientText(item.text)}</p></div>`).join("")}</div>${adjustedAllergensBlock}`:"";
+        const ingredientAdjust=ingredientComponents.length?`<div class="ingredient-adjust"><button class="ingredient-adjust-toggle" type="button" data-dish-id="${dishId}"><span class="ingredient-adjust-toggle-icon" aria-hidden="true">−</span><span>${t("removeDishIngredient")}</span></button></div>`:"";
+        const ingredientsBlock=ingredientLines.length?`<div class="ingredient-actions"><button class="ingredients-toggle" type="button" data-dish-id="${dishId}">${isExpanded?t("hideIngredients"):t("showIngredients")}</button>${ingredientAdjust}</div><div class="ingredients-block" ${isExpanded?"":"hidden"}><p class="section-label">${t("ingredientsLabel")}</p>${ingredientLines.map(item=>`<div class="language-line"><span class="language-code">${item.code}</span><p class="dish-detail">${highlightIngredientText(item.text)}</p></div>`).join("")}</div>`:"";
         const article=document.createElement("article");
         article.className="card";
-        article.innerHTML=`<div class="card-title-row"><div class="dish-name-block">${titleLines.map((item,index)=>`<div class="language-line"><span class="language-code">${item.code}</span><p class="dish-name-line${index===0?" primary":""}">${item.text}</p></div>`).join("")}</div><div class="dish-icons">${icons}</div></div>${metaBlock}<div class="detail-block"><p class="section-label">${t("allergensLabel")}</p>${renderAllergenGroups(dish)}</div>${ingredientsBlock}`;
+        article.innerHTML=`<div class="card-title-row"><div class="dish-name-block">${titleLines.map((item,index)=>`<div class="language-line"><span class="language-code">${item.code}</span><p class="dish-name-line${index===0?" primary":""}">${item.text}</p></div>`).join("")}</div><div class="dish-icons">${icons}</div></div>${metaBlock}<div class="detail-block"><p class="section-label">${t("allergensLabel")}</p>${renderAllergenGroupsMarkup(dish)}</div>${ingredientsBlock}`;
         fragment.appendChild(article);
       });
       target.appendChild(fragment);
       if(RUNTIME.showIngredients){
         target.querySelectorAll(".ingredients-toggle").forEach(button=>button.addEventListener("click",()=>{const id=button.dataset.dishId; state.expandedIngredients[id]=!state.expandedIngredients[id]; renderCurrentView()}));
-        target.querySelectorAll(".ingredient-adjust-toggle").forEach(button=>button.addEventListener("click",event=>{event.stopPropagation(); const id=button.dataset.dishId; state.openIngredientAdjust=state.openIngredientAdjust===id?"":id; renderCurrentView()}));
-        target.querySelectorAll(".ingredient-adjust-option input").forEach(input=>input.addEventListener("change",()=>{const id=input.dataset.dishId; const current=new Set(selectedRemovedIngredients(id)); if(input.checked){current.add(input.value)}else{current.delete(input.value)} const next=[...current]; if(next.length){state.ingredientAdjustments[id]=next}else{delete state.ingredientAdjustments[id]} state.openIngredientAdjust=id; renderCurrentView()}));
+        target.querySelectorAll(".ingredient-adjust-toggle").forEach(button=>button.addEventListener("click",()=>openIngredientAdjustModal(button.dataset.dishId)));
       }
     }
     function selectedAvoidAllergens(){return Array.isArray(state.allergensToAvoid)?state.allergensToAvoid:[]}
@@ -2867,17 +3060,21 @@
     function dietaryStyle(key){const color=(DIETARY_META[key]||DIETARY_META.VEGETARIAN).color; return `background:linear-gradient(135deg,${color},${color}dd);border-color:${color};color:#fff`}
     const INGREDIENT_HIGHLIGHT_TERMS={
       GLUTEN:["gluten","trigo","blat","wheat","harina","farina","flour","pan","pa","bread","masa madre","massa mare","sourdough","cebada","ordi","barley","malta","malt","pasta","hojaldre","pasta de full","puff pastry","pan rallado","pa ratllat","breadcrumbs","coca","croqueta","croquetes","croquetas","rebozado"],
-      FISH:["pescado","peix","fish","atun","atún","tonyina","tuna","bonito","bonítol","anchoa","anxova","anchovy","anchovies","bacalao","bacallà","cod","merluza","lluç","hake","salmon","salmón","salmo","sardina","sardine","lubina","llobarro","seabass","dorada","orada","bream","rape","rap","monkfish","rodaballo","turbot","txitxarro","ventresca"],
-      "MILK AND DAIRY PRODUCTS":["leche","llet","milk","nata","cream","mantequilla","mantega","butter","queso","formatge","cheese","yogur","yoghurt","yogurt","crema","lactosa","lactose","cuajada","quallada","idiazabal","parmesano","parmesan"],
-      EGG:["huevo","ou","egg","yema","rovell","yolk","clara","egg white","mayonesa","maionesa","mayonnaise","alioli","allioli","tortilla"],
+      FISH:["pescado","peix","peixe","fish","atun","atún","atum","tonyina","tuna","bonito","bonítol","anchoa","anxova","anchovy","anchovies","bacalao","bacallà","cod","merluza","lluç","hake","salmon","salmón","salmó","sardina","sardine","lubina","llobarro","seabass","dorada","orada","bream","rape","rap","monkfish","rodaballo","turbot","txitxarro","ventresca"],
+      PEANUTS:["cacahuete","cacahuetes","cacauet","cacauets","peanut","peanuts","amendoim","amendoins","pinda","pinda's"],
+      "MILK AND DAIRY PRODUCTS":["leche","llet","leite","milk","nata","cream","mantequilla","mantega","manteiga","butter","queso","formatge","queijo","cheese","yogur","yoghurt","yogurt","crema","lactosa","lactose","lácteo","lácteos","làctic","làctics","cuajada","quallada","coalhada","idiazabal","parmesano","parmesan"],
+      EGG:["huevo","huevos","ou","ous","ovo","ovos","egg","eggs","yema","rovell","gema","yolk","clara","egg white","mayonesa","maionesa","mayonnaise","alioli","allioli","tortilla","albúmina","albumina"],
       SOY:["soja","soy","soya","salsa soja","soy sauce","edamame","tofu","lecitina de soja","soy lecithin"],
-      NUTS:["nuez","nueces","nou","nous","walnut","walnuts","almendra","ametlla","almond","avellana","hazelnut","pistacho","pistachio","piñon","piñones","pinyons","pine nut","anacardo","cashew","castaña","chestnut"],
+      NUTS:["nuez","nueces","nou","nous","noz","nozes","walnut","walnuts","almendra","ametlla","amêndoa","almond","avellana","avelã","hazelnut","pistacho","pistachio","piñon","piñones","pinyons","pine nut","anacardo","caju","cashew","castaña","castanha","chestnut"],
       SESAME:["sesamo","sésamo","sesam","sèsam","sesame","tahini","aceite de sésamo","oli de sèsam","sesame oil"],
       SULPHITE:["sulfito","sulfitos","sulphite","sulphites","sulfits","vino","vi","wine","vinagre","vinegar","sidra","cider","txakoli","e220","e221","e222","e223","e224","e226","e227","e228"],
       MUSTARD:["mostaza","mostassa","mustard"],
       CELERY:["apio","api","celery","celeri"],
-      CRUSTACEAN:["gamba","prawn","langostino","cigala","bogavante","lobster","cangrejo","crab","centollo","necora","nécora","camaron","camarón","shrimp"],
-      MOLUSCS:["mejillon","mejillón","musclo","mussel","almeja","clam","ostra","oyster","calamar","squid","pulpo","pop","octopus","sepia","cuttlefish","vieira","scallop","chipiron","chipirón"]
+      CRUSTACEAN:["crustáceo","crustáceos","crustaci","crustacis","crustacean","crustaceans","gamba","prawn","langostino","cigala","bogavante","lobster","cangrejo","crab","centollo","necora","nécora","camaron","camarón","camarão","shrimp"],
+      GARLIC:["ajo","ajos","all","alls","garlic","alho","alhos","baratxuri","baratxuria","knoflook"],
+      PORK:["cerdo","porc","pork","porco","txerri","txerria","panceta","cansalada","tocino","bacon","jamón","jamon","pernil","presunto","papada","morcilla","botifarra","butifarra","txistorra","chistorra"],
+      LUPINS:["altramuz","altramuces","tramús","tramus","tramussos","lupin","lupins","tremoço","tremoços","lupine"],
+      MOLUSCS:["molusco","moluscos","mol·lusc","mol·luscs","mollusc","molluscs","mejillon","mejillón","musclo","mussel","almeja","clam","ostra","oyster","calamar","squid","pulpo","pop","octopus","sepia","cuttlefish","vieira","scallop","chipiron","chipirón"]
     };
     function shouldHighlightSagardiBcnCartaIngredients(){
       return state.view==="allergens"&&allergenSourceKey()==="dishes"&&normalizeRestaurantParam(restaurantSheetName(state.restaurant)||restaurantDisplayName(state.restaurant))==="SAGARDI BCN"&&selectedAvoidAllergens().length>0;
@@ -2920,7 +3117,10 @@
       }).slice(0,18);
     }
     function textContainsAllergenTerm(text,key){
-      const terms=INGREDIENT_HIGHLIGHT_TERMS[key]||[];
+      const canonical=normalizeAllergenKey(key);
+      const baseMeta=ALLERGEN_META[canonical]||{};
+      const extraMeta=EXTRA_ALLERGEN_TRANSLATIONS[canonical]||{};
+      const terms=[...(INGREDIENT_HIGHLIGHT_TERMS[canonical]||[]),baseMeta.es,baseMeta.en,baseMeta.cat,baseMeta.pt,extraMeta.eus,extraMeta.nl].filter(Boolean);
       const normalized=normalizeSearchText(text);
       return terms.some(term=>{
         const value=normalizeSearchText(term);
@@ -2942,6 +3142,54 @@
         if(!textContainsAllergenTerm(removedText,entry.key)) return true;
         return textContainsAllergenTerm(remainingText,entry.key);
       });
+    }
+    function renderIngredientAdjustModal(){
+      const dishId=state.openIngredientAdjust;
+      const context=ingredientAdjustContexts.get(dishId);
+      if(!dishId||!context){closeIngredientAdjustModal(); return}
+      const removed=selectedRemovedIngredients(dishId);
+      const selectedKeys=new Set(removed.map(normalizeSearchText));
+      const adjustedEntries=adjustedEntriesWithoutIngredients(context.dish,context.ingredientComponents,removed);
+      ingredientAdjustEyebrow.textContent=t("ingredientAdjustEyebrow");
+      ingredientAdjustTitle.textContent=(context.titleLines[0]&&context.titleLines[0].text)||context.dish.code||t("removeDishIngredient");
+      ingredientAdjustInstruction.textContent=t("ingredientAdjustInstruction");
+      ingredientAdjustClose.setAttribute("aria-label",t("ingredientAdjustClose"));
+      ingredientAdjustDone.textContent=t("ingredientAdjustDone");
+      ingredientAdjustOptions.innerHTML=context.ingredientComponents.map(component=>{
+        const selected=selectedKeys.has(normalizeSearchText(component.name));
+        const detail=normalizeSearchText(component.text)===normalizeSearchText(component.name)?"":component.text;
+        return `<label class="ingredient-adjust-option${selected?" is-selected":""}"><input type="checkbox" value="${escapeHtml(component.name)}" ${selected?"checked":""}><span><strong>${escapeHtml(component.name)}</strong>${detail?`<small>${escapeHtml(detail)}</small>`:""}</span></label>`;
+      }).join("");
+      const removedStatus=removed.length?`<p class="adjusted-allergens-title">${t("ingredientAdjustRemoved",{ingredient:escapeHtml(removed.join(", "))})}</p>`:`<p class="adjusted-allergens-title">${t("removeDishIngredientNone")}</p>`;
+      ingredientAdjustResult.innerHTML=`<p class="ingredient-adjust-result-title">${t("adjustedAllergensTitle")}</p>${removedStatus}${renderAllergenGroupsMarkup({...context.dish,allergenEntries:adjustedEntries})}<p class="adjusted-allergens-note">${t("adjustedAllergensNote")}</p>`;
+      ingredientAdjustOptions.querySelectorAll("input").forEach(input=>input.addEventListener("change",()=>{
+        const current=new Set(selectedRemovedIngredients(dishId));
+        if(input.checked) current.add(input.value); else current.delete(input.value);
+        const next=[...current];
+        if(next.length) state.ingredientAdjustments[dishId]=next; else delete state.ingredientAdjustments[dishId];
+        renderIngredientAdjustModal();
+      }));
+    }
+    function openIngredientAdjustModal(dishId){
+      if(!ingredientAdjustContexts.has(dishId)) return;
+      if(state.openIngredientAdjust&&state.openIngredientAdjust!==dishId) delete state.ingredientAdjustments[state.openIngredientAdjust];
+      delete state.ingredientAdjustments[dishId];
+      state.openIngredientAdjust=dishId;
+      lastIngredientAdjustTrigger=document.querySelector(`.ingredient-adjust-toggle[data-dish-id="${CSS.escape(dishId)}"]`);
+      ingredientAdjustModal.hidden=false;
+      document.body.classList.add("ingredient-adjust-open");
+      renderIngredientAdjustModal();
+      ingredientAdjustClose.focus();
+    }
+    function closeIngredientAdjustModal(){
+      const dishId=state.openIngredientAdjust;
+      if(dishId) delete state.ingredientAdjustments[dishId];
+      state.openIngredientAdjust="";
+      ingredientAdjustModal.hidden=true;
+      document.body.classList.remove("ingredient-adjust-open");
+      const trigger=lastIngredientAdjustTrigger;
+      lastIngredientAdjustTrigger=null;
+      if(trigger&&trigger.isConnected) trigger.focus();
     }
     const INGREDIENT_ELABORATION_MARKER="(?:\\d+(?:er|on|st|nd|rd|th)?\\.?\\s+(?:Ostra|Oyster)|Opci[oó]n?\\s*\\d+|Option\\s*\\d+|Opção\\s*\\d+|Parrillan|Parrilla|Graella|Grilled|Pil-pil|Arrautzaztatuak|Rebozada|Arrebossada|Fried|Salsa verde|Green sauce|saltsa berdea|Sojazko saltsaren ekoizpena|Producci[oó]n salsa de soja|Production of soya sauce)";
     function normalizeIngredientElaborationBreaks(text){
@@ -3201,8 +3449,8 @@
     searchInput.addEventListener("input",renderCurrentView);
     searchInput.addEventListener("focus",renderSearchSuggestions);
     if(ingredientExcludeInput){ingredientExcludeInput.addEventListener("input",()=>{if(!ingredientExcludeInput.value.trim()){state.excludedIngredient=""; renderCurrentView(); closeIngredientExcludeSuggestions(); return} renderIngredientExcludeSuggestions()}); ingredientExcludeInput.addEventListener("focus",renderIngredientExcludeSuggestions); ingredientExcludeInput.addEventListener("keydown",event=>{if(event.key==="Enter"){event.preventDefault(); if(ingredientExcludeInput.value.trim()){state.excludedIngredient=ingredientExcludeInput.value.trim(); renderCurrentView(); closeIngredientExcludeSuggestions()}} if(event.key==="Escape") closeIngredientExcludeSuggestions()})}
-    document.addEventListener("click",event=>{if(!event.target.closest(".compact-search")){closeSearchSuggestions(); closeIngredientExcludeSuggestions()} if(!event.target.closest(".ingredient-adjust")&&state.openIngredientAdjust){state.openIngredientAdjust=""; renderCurrentView()}});
-    document.addEventListener("keydown",event=>{if(event.key==="Escape"){closeSearchSuggestions(); closeIngredientExcludeSuggestions(); if(state.openIngredientAdjust){state.openIngredientAdjust=""; renderCurrentView()}}});
+    document.addEventListener("click",event=>{if(!event.target.closest(".compact-search")){closeSearchSuggestions(); closeIngredientExcludeSuggestions()} if(!event.target.closest(".admin-linked-field")) cardCloseAdminLinkedMenus()});
+    document.addEventListener("keydown",event=>{if(event.key==="Escape"){closeSearchSuggestions(); closeIngredientExcludeSuggestions(); if(state.openIngredientAdjust) closeIngredientAdjustModal()}});
     groupToggle.addEventListener("click",toggleGroupMenu);
     document.addEventListener("click",event=>{if(!groupFilter.hidden&&!groupFilter.contains(event.target)) closeGroupMenu()});
     document.addEventListener("keydown",event=>{if(event.key==="Escape") closeGroupMenu()});
@@ -3217,6 +3465,9 @@
     loginForm.addEventListener("submit",handleLogin);
     if(loginPasswordToggle) loginPasswordToggle.addEventListener("change",()=>{loginPassword.type=loginPasswordToggle.checked?"text":"password";});
     safetyButton.addEventListener("click",handleSafetyNoticeClick);
+    ingredientAdjustClose.addEventListener("click",closeIngredientAdjustModal);
+    ingredientAdjustDone.addEventListener("click",closeIngredientAdjustModal);
+    ingredientAdjustModal.addEventListener("click",event=>{if(event.target===ingredientAdjustModal) closeIngredientAdjustModal()});
     logoutButton.addEventListener("click",clearAccessSession);
     if(adminPanelToggle) adminPanelToggle.addEventListener("click",()=>setAdminPanelOpen(!adminPanel.classList.contains("is-open")));
     if(adminTopButton) adminTopButton.addEventListener("click",()=>setAdminPanelOpen(!adminPanel.classList.contains("is-open")));
