@@ -323,8 +323,21 @@
     .meta{display:flex;flex-wrap:wrap;gap:8px}.pill{display:inline-flex;align-items:center;gap:8px;padding:7px 12px;border:1px solid rgba(177,93,67,.12);border-radius:999px;background:#f4e8df;color:var(--accent-strong);font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
     .detail-block{display:grid;gap:12px;padding-top:2px}.allergen-list{display:flex;flex-wrap:wrap;gap:10px}.allergen-groups{display:grid;gap:13px}.allergen-group{display:grid;gap:8px}.allergen-group-title{margin:0;color:#6f5f12;font-size:11px;font-weight:900;letter-spacing:.14em;text-transform:uppercase}.allergen-group.trace .allergen-group-title{color:#80694f}.allergen-group-empty{display:inline-flex;align-items:center;gap:8px;width:max-content;border-radius:18px;padding:6px 12px;background:#ece7e1;color:#655c53;border:1px solid #e2d9ce;font-size:13px;font-weight:700}
     .allergen-pill{display:inline-flex;align-items:center;gap:8px;border-radius:18px;padding:6px 12px;font-size:13px;font-weight:600;color:#fff;border:1px solid transparent;line-height:1.35;white-space:normal}.allergen-pill.trace{opacity:1}
+    .ingredient-actions{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
     .ingredients-toggle{justify-self:start;padding:10px 14px;border:1px solid rgba(201,181,155,.9);border-radius:10px;background:linear-gradient(180deg,#faf7f2,#f1ebe2);color:#4d4136;font-size:13px;font-weight:700}
     .ingredients-toggle:hover,.ingredients-toggle:focus-visible{border-color:rgba(177,93,67,.34);background:linear-gradient(180deg,#fffaf5,#eee6db);box-shadow:0 0 0 3px rgba(145,120,88,.08);outline:none}
+    .ingredient-adjust{position:relative;display:flex;align-items:center;gap:8px;min-width:min(100%,320px)}
+    .ingredient-adjust-label{color:#6f5f12;font-size:11px;font-weight:900;letter-spacing:.1em;text-transform:uppercase}
+    .ingredient-adjust-toggle{min-height:40px;min-width:190px;max-width:100%;padding:8px 38px 8px 12px;border:1px solid rgba(201,181,155,.9);border-radius:12px;background:linear-gradient(180deg,#fffaf2,#f1eadf);color:#33291f;font-size:13px;font-weight:900;text-align:left;box-shadow:0 8px 18px rgba(53,37,24,.06)}
+    .ingredient-adjust-toggle::after{content:"⌄";position:absolute;right:14px;top:50%;transform:translateY(-52%);font-size:18px;color:#7f6500}
+    .ingredient-adjust-menu{position:absolute;z-index:80;top:calc(100% + 8px);left:0;right:0;display:grid;gap:6px;max-height:260px;overflow:auto;padding:10px;border:1px solid rgba(201,181,155,.95);border-radius:16px;background:#fffaf2;box-shadow:0 18px 38px rgba(47,34,22,.18)}
+    .ingredient-adjust-menu[hidden]{display:none}
+    .ingredient-adjust-option{display:flex;align-items:flex-start;gap:9px;padding:8px;border-radius:11px;color:#35291f;font-size:13px;font-weight:800;line-height:1.35}
+    .ingredient-adjust-option:hover{background:#f3eadb}
+    .ingredient-adjust-option input{margin-top:2px;accent-color:#b15d43}
+    .adjusted-allergens{display:grid;gap:10px;margin-top:2px;padding:13px;border:1px solid rgba(177,93,67,.2);border-radius:16px;background:linear-gradient(135deg,rgba(255,249,228,.94),rgba(248,238,225,.94))}
+    .adjusted-allergens-title{margin:0;color:#6f5f12;font-size:12px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
+    .adjusted-allergens-note{margin:0;color:#6f5f12;font-size:12px;font-weight:800;line-height:1.45}
     .ingredients-block{display:grid;gap:12px;padding-top:10px;border-top:1px dashed rgba(201,181,155,.7)} .ingredients-block[hidden]{display:none}
     .dish-detail{margin:0;color:#666;font-size:14px;line-height:1.72;max-width:78ch}
     .ingredient-step-label{display:inline-block;margin:8px 6px 3px 0;padding:3px 9px;border-radius:999px;background:linear-gradient(135deg,#fff2b8,#f6d24e);color:#33280a;border:1px solid rgba(138,111,15,.22);font-size:11px;font-weight:900;letter-spacing:.05em;text-transform:none;box-shadow:0 5px 14px rgba(128,93,0,.12)}
@@ -1325,7 +1338,7 @@
     const requestedMode=(params.get("mode")||"staff").toLowerCase();
     const requestedRestaurant=normalizeRestaurantParam(params.get("restaurant"));
     const RUNTIME={mode:requestedMode==="public"?"public":"staff",showIngredients:requestedMode!=="public",allowRestaurantSelection:requestedMode!=="public"};
-    const state={lang:"es",restaurant:null,updateDate:"",dishes:[],pintxosDishes:[],alertasDishes:[],allergenNames:[],allergensToAvoid:[],dietaryFilters:[],excludedIngredient:"",selectedGroups:{dishes:"",pintxos:"",alertas:""},hasOpenedFoodView:false,expandedIngredients:{},view:"dishes",allergenSourceView:"dishes",statusKey:"statusIdle",statusValues:{}};
+    const state={lang:"es",restaurant:null,updateDate:"",dishes:[],pintxosDishes:[],alertasDishes:[],allergenNames:[],allergensToAvoid:[],dietaryFilters:[],excludedIngredient:"",selectedGroups:{dishes:"",pintxos:"",alertas:""},hasOpenedFoodView:false,expandedIngredients:{},ingredientAdjustments:{},openIngredientAdjust:"",view:"dishes",allergenSourceView:"dishes",statusKey:"statusIdle",statusValues:{}};
     const $=id=>document.getElementById(id); const shellEl=document.querySelector(".shell"),brandLabel=$("brandLabel"),heroEyebrow=$("heroEyebrow"),heroTitle=$("heroTitle"),heroLead=$("heroLead"),heroAlert=$("heroAlert"),summaryLabel=$("summaryLabel"),heroRestaurantMeta=$("heroRestaurantMeta"),modeChip=$("modeChip"),publicNotice=$("publicNotice"),restaurantAside=$("restaurantAside"),restaurantAccessPanel=$("restaurantAccessPanel"),restaurantPanelTitle=$("restaurantPanelTitle"),restaurantPanelCopy=$("restaurantPanelCopy"),restaurantLabel=$("restaurantLabel"),restaurantPicker=$("restaurantPicker"),restaurantPickerField=$("restaurantPickerField"),restaurantSearchInput=$("restaurantSearchInput"),restaurantSearchClear=$("restaurantSearchClear"),restaurantPickerToggle=$("restaurantPickerToggle"),restaurantPickerMenu=$("restaurantPickerMenu"),restaurantSelect=$("restaurantSelect"),loadRestaurantButton=$("loadRestaurantButton"),viewPanelTitle=$("viewPanelTitle"),viewPanelCopy=$("viewPanelCopy"),viewEmptyNotice=$("viewEmptyNotice"),viewActiveNotice=$("viewActiveNotice"),dishesViewButton=$("dishesViewButton"),pintxosViewButton=$("pintxosViewButton"),alertasViewButton=$("alertasViewButton"),allergensViewButton=$("allergensViewButton"),allergensPintxosViewButton=$("allergensPintxosViewButton"),allergensAlertasViewButton=$("allergensAlertasViewButton"),searchPanel=$("searchPanel"),searchPanelTitle=$("searchPanelTitle"),searchPanelCopy=$("searchPanelCopy"),searchLabel=$("searchLabel"),searchInput=$("searchInput"),searchSuggestions=$("searchSuggestions"),ingredientExcludeBox=$("ingredientExcludeBox"),ingredientExcludeInput=$("ingredientExcludeInput"),ingredientExcludeSuggestions=$("ingredientExcludeSuggestions"),statusEl=$("status"),resultsTitle=$("resultsTitle"),resultsMeta=$("resultsMeta"),restaurantMeta=$("restaurantMeta"),dishesView=$("dishesView"),groupFilter=$("groupFilter"),groupToggle=$("groupToggle"),groupLabel=$("groupLabel"),groupSelected=$("groupSelected"),groupMenu=$("groupMenu"),allergensView=$("allergensView"),dishesList=$("dishesList"),allergenButtons=$("allergenButtons"),allergenResults=$("allergenResults"),langSwitch=$("langSwitch"),langToggle=$("langToggle"),langCurrentIcon=$("langCurrentIcon"),langCurrent=$("langCurrent"),langMenu=$("langMenu"),langEs=$("langEs"),langEn=$("langEn"),langCat=$("langCat"),langPt=$("langPt");
     const loginScreen=$("loginScreen"),loginForm=$("loginForm"),loginLocalPicker=$("loginLocalPicker"),loginLocalToggle=$("loginLocalToggle"),loginLocalSelected=$("loginLocalSelected"),loginLocalMenu=$("loginLocalMenu"),loginLocalSearch=$("loginLocalSearch"),loginLocalSearchClear=$("loginLocalSearchClear"),loginLocalOptions=$("loginLocalOptions"),loginUser=$("loginUser"),loginPassword=$("loginPassword"),loginPasswordToggle=$("loginPasswordToggle"),loginButton=$("loginButton"),loginError=$("loginError"),logoutButton=$("logoutButton"),safetyNotice=$("safetyNotice"),safetyTitle=$("safetyTitle"),safetyIntro=$("safetyIntro"),safetyMandatory=$("safetyMandatory"),safetyButton=$("safetyButton"),safetyWarning=$("safetyWarning");
     const langEus=$("langEus"),langNl=$("langNl"),loginLanguageLabel=$("loginLanguageLabel"),loginLanguageOptions=[...document.querySelectorAll("[data-login-lang]")],scrollTopButton=$("scrollTopButton"),advisoryTitle=$("advisoryTitle"),advisorySubtitle=$("advisorySubtitle"),advisoryConsultTitle=$("advisoryConsultTitle"),advisoryConsultBody=$("advisoryConsultBody"),advisoryAlertTitle=$("advisoryAlertTitle"),advisoryAlertBody=$("advisoryAlertBody"),advisoryCommunicationTitle=$("advisoryCommunicationTitle"),advisoryCommunicationBody=$("advisoryCommunicationBody"),advisoryNotifyTitle=$("advisoryNotifyTitle"),advisoryNotifyBody=$("advisoryNotifyBody");
@@ -1345,6 +1358,10 @@
     Object.assign(TRANSLATIONS.en,{ingredientExcludePlaceholder:"Exclude ingredient...",ingredientExcludeAction:"Exclude ingredient",ingredientExcludeMeta:"Hide dishes with this ingredient",ingredientExcludeActive:"Excluding: {ingredient}"});
     Object.assign(TRANSLATIONS.cat,{ingredientExcludePlaceholder:"Excloure ingredient...",ingredientExcludeAction:"Excloure ingredient",ingredientExcludeMeta:"No mostrar plats amb aquest ingredient",ingredientExcludeActive:"Excloent: {ingredient}"});
     Object.assign(TRANSLATIONS.pt,{ingredientExcludePlaceholder:"Excluir ingrediente...",ingredientExcludeAction:"Excluir ingrediente",ingredientExcludeMeta:"Não mostrar pratos com este ingrediente",ingredientExcludeActive:"A excluir: {ingredient}"});
+    Object.assign(TRANSLATIONS.es,{removeDishIngredient:"Quitar ingredientes",removeDishIngredientNone:"Sin quitar",removeDishIngredientCount:"{count} quitados",adjustedAllergensTitle:"Alérgenos sin: {ingredient}",adjustedAllergensNote:"Cálculo orientativo. Confirmar siempre con cocina y Gastronomía/Calidad."});
+    Object.assign(TRANSLATIONS.en,{removeDishIngredient:"Remove ingredients",removeDishIngredientNone:"Do not remove",removeDishIngredientCount:"{count} removed",adjustedAllergensTitle:"Allergens without: {ingredient}",adjustedAllergensNote:"Guidance only. Always confirm with kitchen and Gastronomy/Quality."});
+    Object.assign(TRANSLATIONS.cat,{removeDishIngredient:"Treure ingredients",removeDishIngredientNone:"Sense treure",removeDishIngredientCount:"{count} trets",adjustedAllergensTitle:"Al·lèrgens sense: {ingredient}",adjustedAllergensNote:"Càlcul orientatiu. Confirmar sempre amb cuina i Gastronomia/Qualitat."});
+    Object.assign(TRANSLATIONS.pt,{removeDishIngredient:"Retirar ingredientes",removeDishIngredientNone:"Sem retirar",removeDishIngredientCount:"{count} retirados",adjustedAllergensTitle:"Alergénios sem: {ingredient}",adjustedAllergensNote:"Cálculo orientativo. Confirmar sempre com cozinha e Gastronomia/Qualidade."});
     function setStatus(key,values={}){state.statusKey=key;state.statusValues=values;const displayValues={...values}; if(Object.prototype.hasOwnProperty.call(displayValues,"updateDate")) displayValues.updateDateLine=updateDateStatusLine(displayValues.updateDate); const message=t(key,displayValues);statusEl.textContent=message;statusEl.hidden=!message.trim()}
     function updateDateStatusLine(updateDate){return updateDate?`${t("updateDateStatus",{date:updateDate})}`+"\n":""}
     function normalizeRestaurantParam(value){return normalizeText(value).toUpperCase()}
@@ -2766,16 +2783,27 @@
         const detailsForDish=dishDetailsForDisplay(dish);
         const ingredientLines=RUNTIME.showIngredients&&detailsForDish.length?detailsForDish.map((item,index)=>({code:detectIngredientLanguage(item,index),text:item.trim(),index})).filter(item=>item.text).sort((a,b)=>languageOrderIndex(a.code,expectedOrder)-languageOrderIndex(b.code,expectedOrder)):[];
         const isExpanded=!!state.expandedIngredients[dishId];
+        const ingredientComponents=dishIngredientComponents(ingredientLines);
+        const removedIngredients=selectedRemovedIngredients(dishId);
+        const removedLabel=removedIngredients.join(", ");
+        const adjustedEntries=removedIngredients.length?adjustedEntriesWithoutIngredients(dish,ingredientComponents,removedIngredients):[];
         const icons=(dish.allergenEntries||[]).map(entry=>{const meta=allergenMeta(entry.key); return `<span class="dish-icon${entry.type==="trace"?" trace":""}" title="${meta.label}${entry.type==="trace"?" - "+t("traceLabel"):""}">${meta.icon}</span>`}).join("");
         const metaBlock=RUNTIME.mode==="staff"?`<div class="meta"><span class="pill">${t("code")} ${dish.code}</span></div>`:"";
-        const ingredientsBlock=ingredientLines.length?`<button class="ingredients-toggle" type="button" data-dish-id="${dishId}">${isExpanded?t("hideIngredients"):t("showIngredients")}</button><div class="ingredients-block" ${isExpanded?"":"hidden"}><p class="section-label">${t("ingredientsLabel")}</p>${ingredientLines.map(item=>`<div class="language-line"><span class="language-code">${item.code}</span><p class="dish-detail">${highlightIngredientText(item.text)}</p></div>`).join("")}</div>`:"";
+        const adjustButtonText=removedIngredients.length?(removedIngredients.length===1?removedIngredients[0]:t("removeDishIngredientCount",{count:removedIngredients.length})):t("removeDishIngredientNone");
+        const ingredientAdjust=ingredientComponents.length?`<div class="ingredient-adjust" data-dish-id="${dishId}"><span class="ingredient-adjust-label">${t("removeDishIngredient")}</span><button class="ingredient-adjust-toggle" type="button" data-dish-id="${dishId}" aria-expanded="${state.openIngredientAdjust===dishId}">${escapeHtml(adjustButtonText)}</button><div class="ingredient-adjust-menu" ${state.openIngredientAdjust===dishId?"":"hidden"}>${ingredientComponents.map(component=>`<label class="ingredient-adjust-option"><input type="checkbox" data-dish-id="${dishId}" value="${escapeHtml(component.name)}" ${removedIngredients.some(name=>normalizeSearchText(name)===normalizeSearchText(component.name))?"checked":""}><span>${escapeHtml(component.name)}</span></label>`).join("")}</div></div>`:"";
+        const adjustedAllergensBlock=removedIngredients.length?`<div class="adjusted-allergens"><p class="adjusted-allergens-title">${t("adjustedAllergensTitle",{ingredient:escapeHtml(removedLabel)})}</p>${renderAllergenGroups({...dish,allergenEntries:adjustedEntries})}<p class="adjusted-allergens-note">${t("adjustedAllergensNote")}</p></div>`:"";
+        const ingredientsBlock=ingredientLines.length?`<div class="ingredient-actions"><button class="ingredients-toggle" type="button" data-dish-id="${dishId}">${isExpanded?t("hideIngredients"):t("showIngredients")}</button>${ingredientAdjust}</div><div class="ingredients-block" ${isExpanded?"":"hidden"}><p class="section-label">${t("ingredientsLabel")}</p>${ingredientLines.map(item=>`<div class="language-line"><span class="language-code">${item.code}</span><p class="dish-detail">${highlightIngredientText(item.text)}</p></div>`).join("")}</div>${adjustedAllergensBlock}`:"";
         const article=document.createElement("article");
         article.className="card";
         article.innerHTML=`<div class="card-title-row"><div class="dish-name-block">${titleLines.map((item,index)=>`<div class="language-line"><span class="language-code">${item.code}</span><p class="dish-name-line${index===0?" primary":""}">${item.text}</p></div>`).join("")}</div><div class="dish-icons">${icons}</div></div>${metaBlock}<div class="detail-block"><p class="section-label">${t("allergensLabel")}</p>${renderAllergenGroups(dish)}</div>${ingredientsBlock}`;
         fragment.appendChild(article);
       });
       target.appendChild(fragment);
-      if(RUNTIME.showIngredients){target.querySelectorAll(".ingredients-toggle").forEach(button=>button.addEventListener("click",()=>{const id=button.dataset.dishId; state.expandedIngredients[id]=!state.expandedIngredients[id]; renderCurrentView()}))}
+      if(RUNTIME.showIngredients){
+        target.querySelectorAll(".ingredients-toggle").forEach(button=>button.addEventListener("click",()=>{const id=button.dataset.dishId; state.expandedIngredients[id]=!state.expandedIngredients[id]; renderCurrentView()}));
+        target.querySelectorAll(".ingredient-adjust-toggle").forEach(button=>button.addEventListener("click",event=>{event.stopPropagation(); const id=button.dataset.dishId; state.openIngredientAdjust=state.openIngredientAdjust===id?"":id; renderCurrentView()}));
+        target.querySelectorAll(".ingredient-adjust-option input").forEach(input=>input.addEventListener("change",()=>{const id=input.dataset.dishId; const current=new Set(selectedRemovedIngredients(id)); if(input.checked){current.add(input.value)}else{current.delete(input.value)} const next=[...current]; if(next.length){state.ingredientAdjustments[id]=next}else{delete state.ingredientAdjustments[id]} state.openIngredientAdjust=id; renderCurrentView()}));
+      }
     }
     function selectedAvoidAllergens(){return Array.isArray(state.allergensToAvoid)?state.allergensToAvoid:[]}
     function selectedDietaryFilters(){return Array.isArray(state.dietaryFilters)?state.dietaryFilters:[]}
@@ -2803,6 +2831,65 @@
     }
     function escapeHtml(text){return String(text||"").replace(/[&<>"']/g,char=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[char]))}
     function escapeRegExp(text){return String(text).replace(/[.*+?^${}()|[\]\\]/g,"\\$&")}
+    function splitTopLevelIngredients(text){
+      const parts=[];
+      let current="";
+      let depth=0;
+      String(text||"").split("").forEach(char=>{
+        if(char==="(") depth+=1;
+        if(char===")"&&depth>0) depth-=1;
+        if((char===","||char===";")&&depth===0){
+          if(cleanCell(current)) parts.push(cleanCell(current));
+          current="";
+          return;
+        }
+        current+=char;
+      });
+      if(cleanCell(current)) parts.push(cleanCell(current));
+      return parts;
+    }
+    function ingredientComponentName(text){
+      return cleanCell(String(text||"").split("(")[0].replace(/[:.]+$/,""));
+    }
+    function preferredIngredientLine(lines){
+      const langCode={es:"ES",en:"ENG",cat:"CAT",pt:"PT",eus:"EUS",nl:"NL"}[state.lang]||"ES";
+      return lines.find(item=>item.code===langCode)||lines.find(item=>item.code==="ES")||lines[0]||null;
+    }
+    function dishIngredientComponents(ingredientLines){
+      const line=preferredIngredientLine(ingredientLines);
+      if(!line) return [];
+      const seen=new Set();
+      return splitTopLevelIngredients(line.text).map(part=>({name:ingredientComponentName(part),text:part})).filter(component=>{
+        const key=normalizeSearchText(component.name);
+        if(!key||key.length<3||seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      }).slice(0,18);
+    }
+    function textContainsAllergenTerm(text,key){
+      const terms=INGREDIENT_HIGHLIGHT_TERMS[key]||[];
+      const normalized=normalizeSearchText(text);
+      return terms.some(term=>{
+        const value=normalizeSearchText(term);
+        return value&&new RegExp(`(^|[^\\p{L}\\p{N}])${escapeRegExp(value)}(?=$|[^\\p{L}\\p{N}])`,"u").test(normalized);
+      });
+    }
+    function selectedRemovedIngredients(dishId){
+      const value=state.ingredientAdjustments[dishId];
+      if(Array.isArray(value)) return value.filter(Boolean);
+      return value?[value]:[];
+    }
+    function adjustedEntriesWithoutIngredients(dish,components,removedNames){
+      const selectedKeys=new Set((removedNames||[]).map(normalizeSearchText).filter(Boolean));
+      if(!selectedKeys.size) return dish.allergenEntries||[];
+      const removedText=components.filter(component=>selectedKeys.has(normalizeSearchText(component.name))).map(component=>component.text).join(" ");
+      if(!removedText) return dish.allergenEntries||[];
+      const remainingText=components.filter(component=>!selectedKeys.has(normalizeSearchText(component.name))).map(component=>component.text).join(" ");
+      return (dish.allergenEntries||[]).filter(entry=>{
+        if(!textContainsAllergenTerm(removedText,entry.key)) return true;
+        return textContainsAllergenTerm(remainingText,entry.key);
+      });
+    }
     const INGREDIENT_ELABORATION_MARKER="(?:\\d+(?:er|on|st|nd|rd|th)?\\.?\\s+(?:Ostra|Oyster)|Opci[oó]n?\\s*\\d+|Option\\s*\\d+|Opção\\s*\\d+|Parrillan|Parrilla|Graella|Grilled|Pil-pil|Arrautzaztatuak|Rebozada|Arrebossada|Fried|Salsa verde|Green sauce|saltsa berdea|Sojazko saltsaren ekoizpena|Producci[oó]n salsa de soja|Production of soya sauce)";
     function normalizeIngredientElaborationBreaks(text){
       return cleanCell(text).replace(new RegExp(`\\s+\\/\\s+(?=${INGREDIENT_ELABORATION_MARKER}\\s*:)`,"giu"),"\n");
@@ -2987,6 +3074,8 @@
       const nextHasOpenedFoodView=preserveState?state.hasOpenedFoodView:false;
       const nextAllergenSourceView=preserveState?state.allergenSourceView:"dishes";
       const nextExpandedIngredients=preserveState?{...state.expandedIngredients}:{};
+      const nextIngredientAdjustments=preserveState?{...state.ingredientAdjustments}:{};
+      const nextOpenIngredientAdjust=preserveState?state.openIngredientAdjust:"";
       const loadToken=++activeRestaurantLoadToken;
       restaurantSelect.value=restaurantKey(restaurant);
       state.restaurant=restaurant;
@@ -3003,6 +3092,8 @@
         state.hasOpenedFoodView=false;
         state.allergenSourceView="dishes";
         state.expandedIngredients={};
+        state.ingredientAdjustments={};
+        state.openIngredientAdjust="";
         searchInput.value="";
         if(ingredientExcludeInput) ingredientExcludeInput.value="";
       }
@@ -3025,6 +3116,8 @@
         state.hasOpenedFoodView=nextHasOpenedFoodView;
         state.allergenSourceView=nextAllergenSourceView;
         state.expandedIngredients=nextExpandedIngredients;
+        state.ingredientAdjustments=nextIngredientAdjustments;
+        state.openIngredientAdjust=nextOpenIngredientAdjust;
         if(state.view==="pintxos"&&!restaurantHasPintxos(restaurant)){state.view="dishes"; state.allergenSourceView="dishes";}
         if(state.view==="alertas"&&!restaurantHasAlertas(restaurant)) state.view="dishes";
         searchInput.value=nextSearchValue;
@@ -3055,8 +3148,8 @@
     searchInput.addEventListener("input",renderCurrentView);
     searchInput.addEventListener("focus",renderSearchSuggestions);
     if(ingredientExcludeInput){ingredientExcludeInput.addEventListener("input",()=>{if(!ingredientExcludeInput.value.trim()){state.excludedIngredient=""; renderCurrentView(); closeIngredientExcludeSuggestions(); return} renderIngredientExcludeSuggestions()}); ingredientExcludeInput.addEventListener("focus",renderIngredientExcludeSuggestions); ingredientExcludeInput.addEventListener("keydown",event=>{if(event.key==="Enter"){event.preventDefault(); if(ingredientExcludeInput.value.trim()){state.excludedIngredient=ingredientExcludeInput.value.trim(); renderCurrentView(); closeIngredientExcludeSuggestions()}} if(event.key==="Escape") closeIngredientExcludeSuggestions()})}
-    document.addEventListener("click",event=>{if(!event.target.closest(".compact-search")){closeSearchSuggestions(); closeIngredientExcludeSuggestions()}});
-    document.addEventListener("keydown",event=>{if(event.key==="Escape"){closeSearchSuggestions(); closeIngredientExcludeSuggestions()}});
+    document.addEventListener("click",event=>{if(!event.target.closest(".compact-search")){closeSearchSuggestions(); closeIngredientExcludeSuggestions()} if(!event.target.closest(".ingredient-adjust")&&state.openIngredientAdjust){state.openIngredientAdjust=""; renderCurrentView()}});
+    document.addEventListener("keydown",event=>{if(event.key==="Escape"){closeSearchSuggestions(); closeIngredientExcludeSuggestions(); if(state.openIngredientAdjust){state.openIngredientAdjust=""; renderCurrentView()}}});
     groupToggle.addEventListener("click",toggleGroupMenu);
     document.addEventListener("click",event=>{if(!groupFilter.hidden&&!groupFilter.contains(event.target)) closeGroupMenu()});
     document.addEventListener("keydown",event=>{if(event.key==="Escape") closeGroupMenu()});
