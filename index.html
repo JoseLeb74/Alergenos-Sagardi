@@ -1362,6 +1362,10 @@
     Object.assign(TRANSLATIONS.en,{removeDishIngredient:"Remove ingredients",removeDishIngredientNone:"Do not remove",removeDishIngredientCount:"{count} removed",adjustedAllergensTitle:"Allergens without: {ingredient}",adjustedAllergensNote:"Guidance only. Always confirm with kitchen and Gastronomy/Quality."});
     Object.assign(TRANSLATIONS.cat,{removeDishIngredient:"Treure ingredients",removeDishIngredientNone:"Sense treure",removeDishIngredientCount:"{count} trets",adjustedAllergensTitle:"Al·lèrgens sense: {ingredient}",adjustedAllergensNote:"Càlcul orientatiu. Confirmar sempre amb cuina i Gastronomia/Qualitat."});
     Object.assign(TRANSLATIONS.pt,{removeDishIngredient:"Retirar ingredientes",removeDishIngredientNone:"Sem retirar",removeDishIngredientCount:"{count} retirados",adjustedAllergensTitle:"Alergénios sem: {ingredient}",adjustedAllergensNote:"Cálculo orientativo. Confirmar sempre com cozinha e Gastronomia/Qualidade."});
+    Object.assign(TRANSLATIONS.es,{loginErrorSessionLimit:"Este usuario ya está conectado en el máximo de dispositivos permitidos."});
+    Object.assign(TRANSLATIONS.en,{loginErrorSessionLimit:"This user is already connected on the maximum allowed devices."});
+    Object.assign(TRANSLATIONS.cat,{loginErrorSessionLimit:"Aquest usuari ja està connectat al màxim de dispositius permesos."});
+    Object.assign(TRANSLATIONS.pt,{loginErrorSessionLimit:"Este utilizador já está ligado no máximo de dispositivos permitidos."});
     function setStatus(key,values={}){state.statusKey=key;state.statusValues=values;const displayValues={...values}; if(Object.prototype.hasOwnProperty.call(displayValues,"updateDate")) displayValues.updateDateLine=updateDateStatusLine(displayValues.updateDate); const message=t(key,displayValues);statusEl.textContent=message;statusEl.hidden=!message.trim()}
     function updateDateStatusLine(updateDate){return updateDate?`${t("updateDateStatus",{date:updateDate})}`+"\n":""}
     function normalizeRestaurantParam(value){return normalizeText(value).toUpperCase()}
@@ -1740,9 +1744,10 @@
     }
     const EMBEDDED_RESTAURANT_MAP=new Map((EMBEDDED_DATA.restaurants||[]).map(restaurant=>[restaurant.gid,restaurant]));
     const LIVE_SHEET_ID=String(EMBEDDED_DATA.sheetId||"").trim();
-    const ACCESS_SHEET_ID="16gKW83htN0CKtwALtfjVY9F86fWslkTUGnQrQ5neIoU";
-    const ACCESS_SHEET_GID="0";
-    const ACCESS_WRITE_WEBAPP_URL="";
+    const ACCESS_SHEET_ID="1QLEt5YP14t5H3lXfwcjjXzOuZDx4NNeBEOPzlENKr9E";
+    const ACCESS_SHEET_NAME="alergenos";
+    const ACCESS_SHEET_GID="";
+    const ACCESS_WRITE_WEBAPP_URL="https://script.google.com/macros/s/AKfycbzxVCGdP844Mfp4jPcnh3RoD0ceICv8XAWwPVZd4Jhc1gfMLKNxK4tOeKSLOeVojH5a/exec";
     const ACCESS_SESSION_KEY="alergenosAccessSessionV1";
     const LIVE_LOAD_TIMEOUT_MS=12000;
     const LIVE_REFRESH_INTERVAL_MS=60000;
@@ -2051,6 +2056,10 @@
       const key=normalizeAccessKey(value);
       return ["TRUE","VERDADERO","SI","SÍ","YES","OK","1","CHECKED","X"].includes(key);
     }
+    function peopleLimitValue(value){
+      const parsed=parseInt(String(value||"").replace(/[^\d]/g,""),10);
+      return Number.isFinite(parsed)&&parsed>0?parsed:1;
+    }
     function splitLinkedRestaurants(value){
       return String(value||"").split(/[,;\n|]+/).map(item=>cleanCell(item)).filter(Boolean);
     }
@@ -2082,6 +2091,8 @@
       const indexNum=accessIndex(map,["Nº","NO","NUM","N"],1);
       const indexLocal=accessIndex(map,["LOCAL"],2);
       const indexLinked=accessIndex(map,["VINCULADO A","VINCULADO"],3);
+      const hasPeopleColumns=[...map.keys()].some(key=>key==="PERSONAS"||key.startsWith("PERSONAS."));
+      const credentialStride=hasPeopleColumns?4:3;
       const localCounts=new Map();
       return (payload.table.rows||[]).map((row,rowIndex)=>{
         const local=cleanCell(gvizCellValue(row,indexLocal));
@@ -2092,12 +2103,14 @@
         const credentials=[];
         for(let i=0;i<10;i+=1){
           const suffix=i===0?"":`.${i}`;
-          const userIndex=accessIndex(map,[`Usuario${suffix}`],4+(i*3));
-          const passIndex=accessIndex(map,[`Contra${suffix}`],5+(i*3));
-          const actIndex=accessIndex(map,[`Act${suffix}`],6+(i*3));
+          const userIndex=accessIndex(map,[`Usuario${suffix}`],4+(i*credentialStride));
+          const passIndex=accessIndex(map,[`Contra${suffix}`],5+(i*credentialStride));
+          const actIndex=accessIndex(map,[`Act${suffix}`],6+(i*credentialStride));
+          const peopleIndex=accessIndex(map,[`Personas${suffix}`],hasPeopleColumns?7+(i*credentialStride):-1);
           const user=cleanCell(gvizCellValue(row,userIndex));
           const pass=cleanCell(gvizCellValue(row,passIndex));
-          if(user||pass) credentials.push({user,pass,active:gvizRawCellValue(row,actIndex),slot:i});
+          const peopleRaw=cleanCell(gvizCellValue(row,peopleIndex));
+          if(user||pass) credentials.push({user,pass,active:gvizRawCellValue(row,actIndex),people:peopleRaw,peopleLimit:peopleLimitValue(peopleRaw),slot:i});
         }
         const key=normalizeAccessKey(local);
         const count=(localCounts.get(key)||0)+1;
@@ -2109,7 +2122,7 @@
       }).filter(Boolean);
     }
     async function loadAccessProfiles(){
-      const payload=await loadLiveRestaurantPayload({sheetId:ACCESS_SHEET_ID,gid:ACCESS_SHEET_GID});
+      const payload=await loadLiveRestaurantPayload({sheetId:ACCESS_SHEET_ID,sheetName:ACCESS_SHEET_NAME,gid:ACCESS_SHEET_GID});
       accessProfiles=parseAccessPayload(payload);
       return accessProfiles;
     }
@@ -2176,10 +2189,41 @@
       return (userKey==="JOSELUIS"&&pass==="Joseluis")||(userKey==="ADMINALERGENOS"&&pass==="Glutenfree");
     }
     function accessSheetEditUrl(){
-      return `https://docs.google.com/spreadsheets/d/${ACCESS_SHEET_ID}/edit?gid=${ACCESS_SHEET_GID}#gid=${ACCESS_SHEET_GID}`;
+      return `https://docs.google.com/spreadsheets/d/${ACCESS_SHEET_ID}/edit`;
     }
     function isAdminManagerSession(){
       return !!activeAccessSession&&(activeAccessSession.adminManager===true||activeAccessSession.profileId==="admin-alergenos"||normalizeAccessKey(activeAccessSession.user)==="ADMINALERGENOS");
+    }
+    async function postAccessWrite(payload){
+      if(!ACCESS_WRITE_WEBAPP_URL) return {ok:true,skipped:true};
+      return new Promise((resolve,reject)=>{
+        const callbackName=`__alergenosAccessWrite_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+        const script=document.createElement("script");
+        let timeoutId=0;
+        const cleanup=()=>{
+          if(timeoutId) window.clearTimeout(timeoutId);
+          delete window[callbackName];
+          if(script.parentNode) script.parentNode.removeChild(script);
+        };
+        window[callbackName]=result=>{cleanup(); resolve(result);};
+        const separator=ACCESS_WRITE_WEBAPP_URL.includes("?")?"&":"?";
+        script.async=true;
+        script.src=`${ACCESS_WRITE_WEBAPP_URL}${separator}callback=${encodeURIComponent(callbackName)}&payload=${encodeURIComponent(JSON.stringify(payload))}&cacheBust=${Date.now()}`;
+        script.onerror=()=>{cleanup(); reject(new Error("Access write request failed"));};
+        timeoutId=window.setTimeout(()=>{cleanup(); reject(new Error("Access write request timed out"));},15000);
+        document.head.appendChild(script);
+      });
+    }
+    async function registerRemoteSession(session){
+      if(!ACCESS_WRITE_WEBAPP_URL||session.adminManager) return {ok:true,skipped:true};
+      const result=await postAccessWrite({type:"session-start",session});
+      if(result&&result.error==="SESSION_LIMIT") return {ok:false,error:t("loginErrorSessionLimit")};
+      if(result&&result.ok===false) return {ok:false,error:t("loginErrorInvalid")};
+      return {ok:true};
+    }
+    function releaseRemoteSession(session){
+      if(!ACCESS_WRITE_WEBAPP_URL||!session||session.adminManager) return;
+      postAccessWrite({type:"session-end",session}).catch(error=>console.warn("Could not release remote session.",error));
     }
     function setAdminPanelOpen(open){
       if(!adminPanel||!adminPanelToggle) return;
@@ -2215,6 +2259,7 @@
           slot:credential.slot,
           user:value(`credential-${credential.slot}-user`),
           pass:value(`credential-${credential.slot}-pass`),
+          people:value(`credential-${credential.slot}-people`),
           active:!!card.querySelector(`[data-admin-field="credential-${credential.slot}-active"]`)?.checked
         }))
       };
@@ -2229,8 +2274,8 @@
       try{
         message.className="admin-save-message";
         message.textContent="Guardando cambios...";
-        const response=await fetch(ACCESS_WRITE_WEBAPP_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({type:"access-profile-update",profile:draft})});
-        if(!response.ok) throw new Error("Write request failed");
+        const result=await postAccessWrite({type:"access-profile-update",profile:draft});
+        if(result&&result.ok===false) throw new Error(result.error||"Write request failed");
         message.className="admin-save-message is-ok";
         message.textContent="Cambios enviados. Recarga accesos para confirmar.";
       }catch(error){
@@ -2305,7 +2350,8 @@
             item.classList.toggle("is-disabled",!isActive);
             item.append(
               adminCredentialInput(`Usuario ${credential.slot+1}`,credential.user,`credential-${credential.slot}-user`),
-              adminCredentialInput("Contra",credential.pass,`credential-${credential.slot}-pass`)
+              adminCredentialInput("Contra",credential.pass,`credential-${credential.slot}-pass`),
+              adminCredentialInput("Personas",credential.people||"",`credential-${credential.slot}-people`)
             );
             const activeWrap=document.createElement("label");
             activeWrap.className="admin-active-field";
@@ -2388,6 +2434,9 @@
           local:profile.local,
           display:profile.display,
           user:cleanCell(user),
+          credentialSlot:credential?credential.slot:null,
+          peopleLimit:credential?credential.peopleLimit||1:1,
+          sessionToken:`${Date.now()}-${Math.random().toString(36).slice(2)}`,
           type:profile.isTotal?"total":"normal",
           allowedNames:linkedNames,
           allowedKeys:restaurants.map(restaurant=>normalizeRestaurantParam(restaurantSheetName(restaurant)||restaurant.name)),
@@ -2443,7 +2492,7 @@
       return result;
     }
     function persistSession(session){
-      const safeSession={authenticated:true,profileId:session.profileId,local:session.local,display:session.display,user:session.user,type:session.type,adminManager:!!session.adminManager,allowedNames:session.allowedNames,activeName:session.activeName};
+      const safeSession={authenticated:true,profileId:session.profileId,local:session.local,display:session.display,user:session.user,credentialSlot:session.credentialSlot,peopleLimit:session.peopleLimit,sessionToken:session.sessionToken,type:session.type,adminManager:!!session.adminManager,allowedNames:session.allowedNames,activeName:session.activeName};
       localStorage.setItem(ACCESS_SESSION_KEY,JSON.stringify(safeSession));
     }
     function applyAccessSession(session,restaurants){
@@ -2464,6 +2513,7 @@
       if(active) loadSelectedRestaurant(active,{preserveState:false});
     }
     function clearAccessSession(){
+      const sessionToRelease=activeAccessSession;
       localStorage.removeItem(ACCESS_SESSION_KEY);
       activeAccessSession=null;
       pendingSafetyAccess=null;
@@ -2496,6 +2546,7 @@
       document.body.classList.add("auth-pending");
       document.body.classList.remove("is-authenticated");
       renderLoginProfiles();
+      releaseRemoteSession(sessionToRelease);
     }
     window.clearAccessSession=clearAccessSession;
     function clearSafetyNoticeTimer(){
@@ -2578,6 +2629,8 @@
       try{
         const result=validateLoginAttempt(loginUser.value,loginPassword.value);
         if(result.error){loginError.textContent=result.error; return;}
+        const remoteSession=await registerRemoteSession(result.session);
+        if(remoteSession&&!remoteSession.ok){loginError.textContent=remoteSession.error||t("loginErrorInvalid"); return;}
         loginPassword.value="";
         loginPassword.type="password";
         if(loginPasswordToggle) loginPasswordToggle.checked=false;
