@@ -3180,8 +3180,7 @@
     function assistantTraceLabels(dish,keys=[]){return (dish.allergenEntries||[]).filter(entry=>entry.type==="trace"&&(!keys.length||keys.includes(entry.key))).map(entry=>allergenMeta(entry.key).label)}
     function assistantSafetyMarkup(question){const normalized=normalizeSearchText(question); const notes=[]; if(/\b(soja|soya|soy sauce|salsa de soja)\b/.test(normalized)) notes.push(assistantT("soyWarning")); if(/\b(perrins|worcester|worcestershire)\b/.test(normalized)) notes.push(assistantT("perrinsWarning")); if(/\b(quitar|retirar|eliminar|remove|treure|sin salsa|sense salsa|sem molho)\b/.test(normalized)) notes.push(assistantT("safetyRule")); return [...new Set(notes)].map(note=>`<p class="assistant-caution">${escapeHtml(note)}</p>`).join("")}
     function assistantConcreteHelpMarkup(){return `<p><strong>${escapeHtml(assistantT("concretePrompt"))}</strong></p><ol class="assistant-help-examples"><li>${escapeHtml(assistantT("example1"))}</li><li>${escapeHtml(assistantT("example4"))}</li><li>${escapeHtml(assistantT("example3"))}</li></ol>`}
-    function assistantIngredientAllergenMarkup(question,allergenKeys){
-      if(!allergenKeys.length) return "";
+    function assistantIngredientAllergenMarkup(question){
       const normalized=normalizeSearchText(question).replace(/[?¿!¡.,;:]+/g," ").replace(/\s+/g," ").trim();
       const match=normalized.match(/^(.*?)\s+(?:tiene|contiene|lleva|has|contains|te|conte|tem|contem|heeft|bevat|dauka|ditu)\s+(.+)$/);
       if(!match) return "";
@@ -3203,12 +3202,12 @@
       const normalized=normalizeSearchText(question);
       const countMatch=normalized.match(/\b(\d{1,2})\b/);
       const limit=Math.min(Math.max(Number(countMatch&&countMatch[1])||5,1),12);
+      const ingredientAllergenAnswer=assistantIngredientAllergenMarkup(question);
+      if(ingredientAllergenAnswer) return ingredientAllergenAnswer;
       const allergenKeys=assistantAllergensInQuestion(question);
       const requestsModification=/\b(quitar|retirar|eliminar|remove|retirar|treure)\b|\bsin\s+(salsa|pan|aliño|amaniment|molho)\b/i.test(normalized);
       const asksRecommendation=/\b(recomienda|recomendacion|recomendación|recoman|recommend|sugiere|sugest|gomend|aanbevel)\b/.test(normalized);
       const asksDishHelp=/\b(ensena|mostrar|muestra|informacion de los platos|informacio dels plats|show|dish|dishes|plats|pratos|platerrei|gerechten)\b/.test(normalized);
-      const ingredientAllergenAnswer=assistantIngredientAllergenMarkup(question,allergenKeys);
-      if(ingredientAllergenAnswer) return ingredientAllergenAnswer;
       if(asksRecommendation&&!allergenKeys.length) return `${assistantConcreteHelpMarkup()}${assistantSafetyMarkup(question)}`;
       if(asksDishHelp&&!allergenKeys.length) return assistantConcreteHelpMarkup();
       if(allergenKeys.length){
