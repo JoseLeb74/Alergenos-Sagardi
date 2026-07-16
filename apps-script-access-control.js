@@ -2,6 +2,8 @@ const ACCESS_SPREADSHEET_ID = '1QLEt5YP14t5H3lXfwcjjXzOuZDx4NNeBEOPzlENKr9E';
 const ACCESS_SHEET_NAME = 'alergenos';
 const SESSION_SHEET_NAME = 'sesiones';
 const SESSION_TTL_MINUTES = 60;
+const SUGGESTION_RECIPIENTS = 'aina@sagardi.com,jlungidos@sagardi.com';
+const SUGGESTION_COOLDOWN_SECONDS = 30;
 
 function doPost(e) {
   try {
@@ -31,7 +33,75 @@ function handlePayload(payload) {
   if (payload.type === 'access-profile-update') return updateAccessProfile(payload.profile);
   if (payload.type === 'session-start') return startSession(payload.session);
   if (payload.type === 'session-end') return endSession(payload.session);
+  if (payload.type === 'suggestion') return sendSuggestion(payload);
   return { ok: false, error: 'UNKNOWN_ACTION' };
+}
+
+function sendSuggestion(payload) {
+  const suggestion = payload && payload.suggestion || {};
+  const local = cleanSuggestionText(suggestion.local, 120);
+  const name = cleanSuggestionText(suggestion.name, 120);
+  const observations = cleanSuggestionText(suggestion.observations, 1500, true);
+  if (!local || !name || !observations) return { ok: false, error: 'MISSING_FIELDS' };
+
+  const sessionToken = cleanSuggestionText(payload.sessionToken, 180) || `${local}|${name}`;
+  const cache = CacheService.getScriptCache();
+  const digest = Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, sessionToken);
+  const rateKey = `suggestion-${Utilities.base64EncodeWebSafe(digest).slice(0, 40)}`;
+  if (cache.get(rateKey)) return { ok: false, error: 'RATE_LIMIT' };
+  if (MailApp.getRemainingDailyQuota() < 2) return { ok: false, error: 'MAIL_QUOTA' };
+
+  const appUser = cleanSuggestionText(suggestion.appUser, 120) || 'No indicado';
+  const sentAt = Utilities.formatDate(new Date(), Session.getScriptTimeZone() || 'Europe/Madrid', 'dd/MM/yyyy HH:mm');
+  const subject = `Sugerencia App Alérgenos - ${local}`;
+  const plainBody = [
+    'Nueva sugerencia recibida desde la App de Alérgenos',
+    '',
+    `Local: ${local}`,
+    `Persona: ${name}`,
+    `Usuario de la app: ${appUser}`,
+    `Fecha: ${sentAt}`,
+    '',
+    'Sugerencia / observaciones:',
+    observations
+  ].join('\n');
+  const htmlBody = [
+    '<h2>Nueva sugerencia de la App de Alérgenos</h2>',
+    `<p><strong>Local:</strong> ${escapeSuggestionHtml(local)}<br>`,
+    `<strong>Persona:</strong> ${escapeSuggestionHtml(name)}<br>`,
+    `<strong>Usuario de la app:</strong> ${escapeSuggestionHtml(appUser)}<br>`,
+    `<strong>Fecha:</strong> ${escapeSuggestionHtml(sentAt)}</p>`,
+    '<h3>Sugerencia / observaciones</h3>',
+    `<p style="white-space:pre-wrap">${escapeSuggestionHtml(observations)}</p>`
+  ].join('');
+
+  MailApp.sendEmail({
+    to: SUGGESTION_RECIPIENTS,
+    subject,
+    body: plainBody,
+    htmlBody,
+    name: 'App de Alérgenos Sagardi'
+  });
+  cache.put(rateKey, '1', SUGGESTION_COOLDOWN_SECONDS);
+  return { ok: true };
+}
+
+function cleanSuggestionText(value, maxLength, preserveLines) {
+  const text = String(value || '')
+    .replace(/\r\n/g, '\n')
+    .replace(/\r/g, '\n')
+    .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, '')
+    .trim();
+  const cleaned = preserveLines
+    ? text.split('\n').map(line => line.replace(/[ \t]+/g, ' ').trim()).join('\n')
+    : text.replace(/\s+/g, ' ');
+  return cleaned.slice(0, maxLength);
+}
+
+function escapeSuggestionHtml(value) {
+  return String(value || '').replace(/[&<>"']/g, character => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  })[character]);
 }
 
 function jsonResponse(data) {

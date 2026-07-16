@@ -69,6 +69,23 @@
     .login-error:empty{display:none}
     .logout-button{padding:10px 14px;border:1px solid rgba(201,181,155,.9);border-radius:999px;background:rgba(255,255,255,.82);color:var(--muted);font-size:12px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
     .logout-button:hover,.logout-button:focus-visible{background:#fff1c2;color:#5f4b00;outline:none}
+    .suggestion-top-button{min-height:38px;padding:8px 13px;border:1px solid #25745a;border-radius:999px;background:linear-gradient(180deg,#e9fff5,#ccefdc);color:#195a45;font-size:11px;font-weight:950;letter-spacing:.07em;text-transform:uppercase;box-shadow:0 10px 20px rgba(37,116,90,.15)}
+    .suggestion-top-button:hover,.suggestion-top-button:focus-visible{outline:none;transform:translateY(-1px);background:linear-gradient(180deg,#f4fff9,#bfe9d2);box-shadow:0 15px 26px rgba(37,116,90,.22),0 0 0 3px rgba(37,116,90,.1)}
+    .suggestion-top-button[hidden],.suggestion-overlay[hidden]{display:none}
+    .suggestion-overlay{position:fixed;z-index:7600;inset:0;display:grid;place-items:center;padding:14px;background:rgba(28,23,18,.56);backdrop-filter:blur(8px)}
+    .suggestion-modal{width:min(560px,100%);max-height:min(760px,94vh);overflow:auto;border:1px solid rgba(201,181,155,.92);border-radius:28px;background:linear-gradient(180deg,#fffdf8,#f7efe4);box-shadow:0 34px 90px rgba(34,25,18,.36);animation:groupMenuIn .2s ease-out}
+    .suggestion-head{display:grid;grid-template-columns:minmax(0,1fr) 40px;gap:12px;align-items:start;padding:22px 22px 16px;border-bottom:1px solid rgba(201,181,155,.68);background:linear-gradient(135deg,#e9fff5,#fff4bd)}
+    .suggestion-kicker{display:block;margin-bottom:5px;color:#25745a;font-size:10px;font-weight:950;letter-spacing:.16em;text-transform:uppercase}
+    .suggestion-title{margin:0;color:#251b13;font-family:"Fraunces",serif;font-size:27px;line-height:1.05}.suggestion-copy{margin:7px 0 0;color:#6f665d;font-size:13px;line-height:1.5}
+    .suggestion-close{width:38px;height:38px;border:1px solid rgba(37,116,90,.22);border-radius:999px;background:rgba(255,255,255,.78);color:#195a45;font-size:23px;line-height:1;cursor:pointer}.suggestion-close:hover,.suggestion-close:focus-visible{outline:none;background:#fff}
+    .suggestion-form{display:grid;gap:15px;padding:20px 22px 22px}.suggestion-field{display:grid;gap:7px}.suggestion-label{color:#4c4036;font-size:11px;font-weight:950;letter-spacing:.11em;text-transform:uppercase}
+    .suggestion-input,.suggestion-select,.suggestion-textarea{width:100%;border:1px solid rgba(201,181,155,.92);border-radius:15px;background:#fffdfa;color:#2c241e;box-shadow:inset 0 1px 0 rgba(255,255,255,.75);font:inherit;font-size:14px}
+    .suggestion-input,.suggestion-select{min-height:48px;padding:11px 13px}.suggestion-textarea{min-height:145px;resize:vertical;padding:13px;line-height:1.55}
+    .suggestion-input:focus,.suggestion-select:focus,.suggestion-textarea:focus{border-color:#25745a;outline:none;box-shadow:0 0 0 4px rgba(37,116,90,.13)}
+    .suggestion-counter{justify-self:end;color:#8a7d70;font-size:10px;font-weight:800}.suggestion-actions{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center}
+    .suggestion-submit{min-height:49px;padding:11px 18px;border:1px solid #1f6b51;border-radius:15px;background:linear-gradient(135deg,#2f8e6b,#1f6b51);color:#fff;font-size:14px;font-weight:950;box-shadow:0 14px 25px rgba(37,116,90,.22);cursor:pointer}.suggestion-submit:hover,.suggestion-submit:focus-visible{outline:none;filter:brightness(1.06);transform:translateY(-1px)}.suggestion-submit:disabled{cursor:wait;opacity:.6;transform:none}
+    .suggestion-status{min-height:20px;margin:0;color:#6f665d;font-size:12px;font-weight:850;line-height:1.4}.suggestion-status.is-error{color:#9a2e20}.suggestion-status.is-success{color:#1d6a49}
+    @media (max-width:720px){.suggestion-overlay{padding:8px}.suggestion-modal{max-height:96dvh;border-radius:23px}.suggestion-head{padding:18px 16px 14px}.suggestion-form{padding:16px}.suggestion-actions{grid-template-columns:1fr}.suggestion-submit{width:100%}.suggestion-top-button{min-height:38px;padding:7px 10px;font-size:9px}.topbar{flex-wrap:wrap}}
     .safety-overlay{position:fixed;z-index:9000;inset:0;display:grid;place-items:center;padding:10px;background:rgba(31,24,18,.54);backdrop-filter:blur(9px)}
     .safety-overlay[hidden]{display:none}
     .safety-modal{position:relative;overflow:auto;width:min(620px,100%);max-height:96vh;padding:14px;border:2px solid rgba(135,32,20,.42);border-radius:22px;background:linear-gradient(135deg,#ffe35f 0%,#ffc27a 34%,#ff9f8d 68%,#fff2c2 100%);background-size:180% 180%;box-shadow:0 32px 90px rgba(29,19,10,.34),0 0 0 1px rgba(255,255,255,.54);animation:safetyFlash .34s cubic-bezier(.2,.85,.2,1),safetyModalMove 2.8s ease-in-out infinite}
@@ -490,6 +507,37 @@
       </div>
     </div>
   </section>
+  <section class="suggestion-overlay" id="suggestionModal" role="dialog" aria-modal="true" aria-labelledby="suggestionTitle" hidden>
+    <div class="suggestion-modal">
+      <header class="suggestion-head">
+        <div>
+          <span class="suggestion-kicker" id="suggestionKicker">Ayúdanos a mejorar</span>
+          <h2 class="suggestion-title" id="suggestionTitle">Sugerencias de mejora</h2>
+          <p class="suggestion-copy" id="suggestionCopy">Cuéntanos qué podemos mejorar en la aplicación.</p>
+        </div>
+        <button class="suggestion-close" id="suggestionClose" type="button" aria-label="Cerrar">×</button>
+      </header>
+      <form class="suggestion-form" id="suggestionForm">
+        <label class="suggestion-field">
+          <span class="suggestion-label" id="suggestionLocalLabel">Local</span>
+          <select class="suggestion-select" id="suggestionLocal" required></select>
+        </label>
+        <label class="suggestion-field">
+          <span class="suggestion-label" id="suggestionNameLabel">Nombre de la persona</span>
+          <input class="suggestion-input" id="suggestionName" type="text" maxlength="120" autocomplete="name" required>
+        </label>
+        <label class="suggestion-field">
+          <span class="suggestion-label" id="suggestionObservationsLabel">Observaciones o sugerencia</span>
+          <textarea class="suggestion-textarea" id="suggestionObservations" maxlength="1500" required></textarea>
+          <span class="suggestion-counter" id="suggestionCounter">0 / 1500</span>
+        </label>
+        <div class="suggestion-actions">
+          <p class="suggestion-status" id="suggestionStatus" role="status" aria-live="polite"></p>
+          <button class="suggestion-submit" id="suggestionSubmit" type="submit">Enviar sugerencia</button>
+        </div>
+      </form>
+    </div>
+  </section>
   <section class="ingredient-adjust-overlay" id="ingredientAdjustModal" role="dialog" aria-modal="true" aria-labelledby="ingredientAdjustTitle" hidden>
     <div class="ingredient-adjust-modal">
       <div class="ingredient-adjust-head">
@@ -528,6 +576,7 @@
             <button class="lang-button" id="langNl" type="button"><span class="lang-flag-globe" aria-hidden="true">🇳🇱</span><span>NL</span></button>
           </div>
         </div>
+        <button class="suggestion-top-button" id="suggestionTopButton" type="button" hidden>Sugerencias</button>
         <button class="admin-top-button" id="adminTopButton" type="button" hidden>Usuarios</button>
         <button class="logout-button" id="logoutButton" type="button" onclick="clearAccessSession()" hidden>Cerrar sesión</button>
       </header>
@@ -1445,6 +1494,15 @@
     const resultsHeader=document.querySelector(".results-header"),compactSearch=searchInput.closest(".compact-search");
     const adminPanel=$("adminPanel"),adminPanelToggle=$("adminPanelToggle"),adminTopButton=$("adminTopButton"),adminLocalIndex=$("adminLocalIndex"),adminProfilesList=$("adminProfilesList"),adminSheetLink=$("adminSheetLink");
     const assistantWidget=$("assistantWidget"),assistantPanel=$("assistantPanel"),assistantLauncher=$("assistantLauncher"),assistantClose=$("assistantClose"),assistantTitle=$("assistantTitle"),assistantSubtitle=$("assistantSubtitle"),assistantLabel=$("assistantLabel"),assistantBody=$("assistantBody"),assistantMessages=$("assistantMessages"),assistantExamples=$("assistantExamples"),assistantForm=$("assistantForm"),assistantInput=$("assistantInput"),assistantSend=$("assistantSend");
+    const suggestionTopButton=$("suggestionTopButton"),suggestionModal=$("suggestionModal"),suggestionClose=$("suggestionClose"),suggestionKicker=$("suggestionKicker"),suggestionTitle=$("suggestionTitle"),suggestionCopy=$("suggestionCopy"),suggestionForm=$("suggestionForm"),suggestionLocal=$("suggestionLocal"),suggestionLocalLabel=$("suggestionLocalLabel"),suggestionName=$("suggestionName"),suggestionNameLabel=$("suggestionNameLabel"),suggestionObservations=$("suggestionObservations"),suggestionObservationsLabel=$("suggestionObservationsLabel"),suggestionCounter=$("suggestionCounter"),suggestionStatus=$("suggestionStatus"),suggestionSubmit=$("suggestionSubmit");
+    const SUGGESTION_TEXT={
+      es:{button:"Sugerencias",kicker:"Ayúdanos a mejorar",title:"Sugerencias de mejora",copy:"Cuéntanos qué podemos mejorar en la aplicación.",local:"Local",name:"Nombre de la persona",observations:"Observaciones o sugerencia",placeholderName:"Escribe tu nombre",placeholderObservations:"Describe la mejora, incidencia o sugerencia...",submit:"Enviar sugerencia",sending:"Enviando...",success:"Sugerencia enviada correctamente.",error:"No se ha podido enviar la sugerencia. Inténtalo de nuevo.",rate:"Espera unos segundos antes de enviar otra sugerencia.",required:"Completa todos los campos antes de enviar."},
+      cat:{button:"Suggeriments",kicker:"Ajuda'ns a millorar",title:"Suggeriments de millora",copy:"Explica'ns què podem millorar a l'aplicació.",local:"Local",name:"Nom de la persona",observations:"Observacions o suggeriment",placeholderName:"Escriu el teu nom",placeholderObservations:"Descriu la millora, incidència o suggeriment...",submit:"Enviar suggeriment",sending:"Enviant...",success:"Suggeriment enviat correctament.",error:"No s'ha pogut enviar el suggeriment. Torna-ho a provar.",rate:"Espera uns segons abans d'enviar un altre suggeriment.",required:"Completa tots els camps abans d'enviar."},
+      en:{button:"Suggestions",kicker:"Help us improve",title:"Improvement suggestions",copy:"Tell us what we can improve in the application.",local:"Restaurant",name:"Your name",observations:"Comments or suggestion",placeholderName:"Enter your name",placeholderObservations:"Describe the improvement, issue or suggestion...",submit:"Send suggestion",sending:"Sending...",success:"Suggestion sent successfully.",error:"The suggestion could not be sent. Please try again.",rate:"Wait a few seconds before sending another suggestion.",required:"Complete all fields before sending."},
+      pt:{button:"Sugestões",kicker:"Ajude-nos a melhorar",title:"Sugestões de melhoria",copy:"Diga-nos o que podemos melhorar na aplicação.",local:"Restaurante",name:"Nome da pessoa",observations:"Observações ou sugestão",placeholderName:"Escreva o seu nome",placeholderObservations:"Descreva a melhoria, ocorrência ou sugestão...",submit:"Enviar sugestão",sending:"A enviar...",success:"Sugestão enviada corretamente.",error:"Não foi possível enviar a sugestão. Tente novamente.",rate:"Aguarde alguns segundos antes de enviar outra sugestão.",required:"Preencha todos os campos antes de enviar."},
+      eus:{button:"Iradokizunak",kicker:"Lagundu hobetzen",title:"Hobekuntza-iradokizunak",copy:"Esan zer hobetu dezakegun aplikazioan.",local:"Lokala",name:"Pertsonaren izena",observations:"Oharrak edo iradokizuna",placeholderName:"Idatzi zure izena",placeholderObservations:"Azaldu hobekuntza, gorabehera edo iradokizuna...",submit:"Bidali iradokizuna",sending:"Bidaltzen...",success:"Iradokizuna behar bezala bidali da.",error:"Ezin izan da iradokizuna bidali. Saiatu berriro.",rate:"Itxaron segundo batzuk beste iradokizun bat bidali aurretik.",required:"Bete eremu guztiak bidali aurretik."},
+      nl:{button:"Suggesties",kicker:"Help ons verbeteren",title:"Verbetersuggesties",copy:"Vertel ons wat we in de applicatie kunnen verbeteren.",local:"Restaurant",name:"Naam",observations:"Opmerkingen of suggestie",placeholderName:"Vul je naam in",placeholderObservations:"Beschrijf de verbetering, het probleem of de suggestie...",submit:"Suggestie verzenden",sending:"Verzenden...",success:"Suggestie succesvol verzonden.",error:"De suggestie kon niet worden verzonden. Probeer het opnieuw.",rate:"Wacht enkele seconden voordat je nog een suggestie verzendt.",required:"Vul alle velden in voordat je verzendt."}
+    };
     const t=(k,v={})=>{
       const lang=state.lang||"es";
       const finalDict={...(TRANSLATIONS.es||{}),...(I18N_OVERRIDES.es||{}),...(I18N_OVERRIDES[lang]||{}),...(TRANSLATIONS[lang]||{})};
@@ -2317,6 +2375,78 @@
         document.head.appendChild(script);
       });
     }
+    function suggestionT(key){const dict=SUGGESTION_TEXT[state.lang]||SUGGESTION_TEXT.es; return dict[key]||SUGGESTION_TEXT.es[key]||key}
+    function updateSuggestionLanguage(){
+      if(!suggestionTopButton) return;
+      suggestionTopButton.textContent=suggestionT("button");
+      suggestionKicker.textContent=suggestionT("kicker");
+      suggestionTitle.textContent=suggestionT("title");
+      suggestionCopy.textContent=suggestionT("copy");
+      suggestionLocalLabel.textContent=suggestionT("local");
+      suggestionNameLabel.textContent=suggestionT("name");
+      suggestionObservationsLabel.textContent=suggestionT("observations");
+      suggestionName.placeholder=suggestionT("placeholderName");
+      suggestionObservations.placeholder=suggestionT("placeholderObservations");
+      if(!suggestionSubmit.disabled) suggestionSubmit.textContent=suggestionT("submit");
+    }
+    function populateSuggestionRestaurants(){
+      if(!suggestionLocal) return;
+      const selectedKey=state.restaurant?restaurantKey(state.restaurant):suggestionLocal.value;
+      suggestionLocal.innerHTML="";
+      RESTAURANTS.forEach(restaurant=>{
+        const option=document.createElement("option");
+        option.value=restaurantKey(restaurant);
+        option.textContent=restaurantDisplayName(restaurant);
+        suggestionLocal.appendChild(option);
+      });
+      if(selectedKey&&[...suggestionLocal.options].some(option=>option.value===selectedKey)) suggestionLocal.value=selectedKey;
+    }
+    function setSuggestionStatus(message,type=""){
+      suggestionStatus.textContent=message||"";
+      suggestionStatus.className=`suggestion-status${type?` is-${type}`:""}`;
+    }
+    function updateSuggestionCounter(){suggestionCounter.textContent=`${suggestionObservations.value.length} / 1500`}
+    function openSuggestionModal(){
+      updateSuggestionLanguage();
+      populateSuggestionRestaurants();
+      suggestionForm.reset();
+      populateSuggestionRestaurants();
+      setSuggestionStatus("");
+      updateSuggestionCounter();
+      suggestionModal.hidden=false;
+      setTimeout(()=>suggestionName.focus(),70);
+    }
+    function closeSuggestionModal(){
+      if(suggestionSubmit.disabled) return;
+      suggestionModal.hidden=true;
+      suggestionForm.reset();
+      setSuggestionStatus("");
+      updateSuggestionCounter();
+      suggestionTopButton.focus();
+    }
+    async function submitSuggestion(event){
+      event.preventDefault();
+      const restaurant=RESTAURANTS.find(item=>restaurantKey(item)===suggestionLocal.value);
+      const local=restaurant?restaurantDisplayName(restaurant):cleanCell(suggestionLocal.value);
+      const name=cleanCell(suggestionName.value);
+      const observations=cleanCell(suggestionObservations.value);
+      if(!local||!name||!observations){setSuggestionStatus(suggestionT("required"),"error"); return}
+      suggestionSubmit.disabled=true;
+      suggestionSubmit.textContent=suggestionT("sending");
+      setSuggestionStatus("");
+      try{
+        const result=await postAccessWrite({type:"suggestion",sessionToken:activeAccessSession&&activeAccessSession.sessionToken||"",suggestion:{local,name,observations,appUser:activeAccessSession&&activeAccessSession.user||""}});
+        if(!result||result.ok===false){
+          const message=result&&result.error==="RATE_LIMIT"?suggestionT("rate"):suggestionT("error");
+          setSuggestionStatus(message,"error");
+          return;
+        }
+        setSuggestionStatus(suggestionT("success"),"success");
+        suggestionObservations.value="";
+        updateSuggestionCounter();
+      }catch(error){setSuggestionStatus(suggestionT("error"),"error")}
+      finally{suggestionSubmit.disabled=false; suggestionSubmit.textContent=suggestionT("submit")}
+    }
     async function registerRemoteSession(session){
       if(!ACCESS_WRITE_WEBAPP_URL||session.adminManager) return {ok:true,skipped:true};
       const result=await postAccessWrite({type:"session-start",session});
@@ -2754,6 +2884,7 @@
       logoutButton.hidden=false;
       document.body.classList.remove("auth-pending");
       document.body.classList.add("is-authenticated");
+      suggestionTopButton.hidden=false;
       applyTranslations();
       renderAdminPanel();
       if(active) loadSelectedRestaurant(active,{preserveState:false});
@@ -2786,6 +2917,8 @@
       restaurantAccessPanel.hidden=false;
       if(adminPanel) adminPanel.hidden=true;
       if(adminTopButton) adminTopButton.hidden=true;
+      if(suggestionTopButton) suggestionTopButton.hidden=true;
+      if(suggestionModal) suggestionModal.hidden=true;
       if(adminProfilesList) adminProfilesList.innerHTML="";
       setAdminPanelOpen(false);
       restaurantAside.hidden=false;
@@ -3392,6 +3525,7 @@
       closeLangMenu();
       applyTranslations();
       updateLanguageControls();
+      updateSuggestionLanguage();
       if(!safetyNotice.hidden) renderSafetyNotice();
     }
     function updateHeaderMeta(){const hasRestaurant=!!state.restaurant; const label=restaurantDisplayName(state.restaurant); const heroMeta=hasRestaurant?label:t("noRestaurantSelected"); const dishWord=state.dishes.length===1?t("dishSingular"):t("dishPlural"); const listMeta=hasRestaurant?`${state.dishes.length} ${dishWord}`:t("noRestaurantSelected"); heroRestaurantMeta.textContent=heroMeta; heroRestaurantMeta.classList.toggle("is-empty",!hasRestaurant); restaurantMeta.textContent=listMeta; restaurantSelect.classList.toggle("is-loaded",hasRestaurant); if(restaurantPickerField) restaurantPickerField.classList.toggle("is-loaded",hasRestaurant); if(assistantWidget){const nextKey=hasRestaurant?restaurantKey(state.restaurant):""; if(assistantWidget.dataset.restaurantKey!==nextKey){assistantWidget.dataset.restaurantKey=nextKey; resetAssistantConversation()} assistantWidget.hidden=!hasRestaurant; if(!hasRestaurant&&!assistantPanel.hidden) closeAssistantPanel()} updateRestaurantPickerInput()}
@@ -3572,6 +3706,12 @@
     ingredientAdjustClose.addEventListener("click",closeIngredientAdjustModal);
     ingredientAdjustDone.addEventListener("click",closeIngredientAdjustModal);
     ingredientAdjustModal.addEventListener("click",event=>{if(event.target===ingredientAdjustModal) closeIngredientAdjustModal()});
+    suggestionTopButton.addEventListener("click",openSuggestionModal);
+    suggestionClose.addEventListener("click",closeSuggestionModal);
+    suggestionForm.addEventListener("submit",submitSuggestion);
+    suggestionObservations.addEventListener("input",updateSuggestionCounter);
+    suggestionModal.addEventListener("click",event=>{if(event.target===suggestionModal) closeSuggestionModal()});
+    document.addEventListener("keydown",event=>{if(event.key==="Escape"&&!suggestionModal.hidden) closeSuggestionModal()});
     assistantLauncher.addEventListener("click",()=>assistantPanel.hidden?openAssistant():closeAssistantPanel());
     assistantClose.addEventListener("click",closeAssistantPanel);
     assistantForm.addEventListener("submit",event=>{event.preventDefault(); submitAssistantQuestion(assistantInput.value)});
