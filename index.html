@@ -409,6 +409,7 @@
     .assistant-body{min-height:0;overflow-y:auto;padding:14px;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
     .assistant-messages{display:grid;gap:10px}.assistant-message{max-width:92%;padding:11px 13px;border-radius:17px;font-size:13px;line-height:1.5}.assistant-message.assistant{justify-self:start;border:1px solid rgba(201,181,155,.7);border-bottom-left-radius:5px;background:#fff;color:#3d332b}.assistant-message.user{justify-self:end;border-bottom-right-radius:5px;background:#1f3855;color:#fff;font-weight:750}
     .assistant-message p{margin:0}.assistant-message p+p{margin-top:8px}.assistant-answer-title{font-weight:950;color:#5b4700}.assistant-result-list{display:grid;gap:7px;margin-top:9px}.assistant-result{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:center;padding:9px;border:1px solid rgba(201,181,155,.62);border-radius:12px;background:#fffaf0}.assistant-result strong{display:block;font-size:12px;line-height:1.3}.assistant-result small{display:block;margin-top:2px;color:#76685a;font-size:10px;font-weight:800}.assistant-result button{min-height:34px;padding:6px 9px;border:1px solid #dbc36d;border-radius:10px;background:#ffe783;color:#554200;font-size:10px;font-weight:950;cursor:pointer}
+    .assistant-help-examples{display:grid;gap:5px;margin:9px 0 0;padding:10px 10px 10px 28px;border:1px solid #e1ca83;border-radius:12px;background:#fff8d8;color:#4f3d00;font-size:11px;font-weight:850;line-height:1.4}
     .assistant-trace{display:block;width:fit-content;margin-top:6px;padding:4px 7px;border:1px solid #d9b989;border-radius:8px;background:#fff0dc;color:#74451f;font-size:10px;font-weight:950;line-height:1.3}.assistant-caution{margin-top:10px!important;padding-top:9px;border-top:1px dashed #dccdb9;color:#8c3c2d;font-size:11px;font-weight:850}
     .assistant-examples{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin-top:11px;padding-bottom:3px}.assistant-example{min-height:42px;padding:8px 10px;border:1px solid #e0c65c;border-radius:13px;background:#fff4ba;color:#594600;font-size:11px;font-weight:900;line-height:1.25;text-align:left;cursor:pointer}.assistant-example:hover,.assistant-example:focus-visible{border-color:#c99c00;background:#ffe986;outline:2px solid rgba(201,156,0,.18)}
     .assistant-form{display:grid;grid-template-columns:minmax(0,1fr) 48px;gap:8px;padding:12px;border-top:1px solid rgba(201,181,155,.7);background:rgba(255,253,248,.96)}
@@ -3154,6 +3155,12 @@
     Object.assign(ASSISTANT_TEXT.pt,{example4:"Pratos com peixe",example5:"Pratos sem ovo",example6:"Pratos com soja"});
     Object.assign(ASSISTANT_TEXT.eus,{example4:"Arraina duten platerak",example5:"Arrautzarik gabeko platerak",example6:"Soja duten platerak"});
     Object.assign(ASSISTANT_TEXT.nl,{example4:"Gerechten met vis",example5:"Gerechten zonder ei",example6:"Gerechten met soja"});
+    Object.assign(ASSISTANT_TEXT.es,{concretePrompt:"La pregunta tiene que ser concreta. Por ejemplo:"});
+    Object.assign(ASSISTANT_TEXT.cat,{concretePrompt:"La pregunta ha de ser concreta. Per exemple:"});
+    Object.assign(ASSISTANT_TEXT.en,{concretePrompt:"The question must be specific. For example:"});
+    Object.assign(ASSISTANT_TEXT.pt,{concretePrompt:"A pergunta deve ser concreta. Por exemplo:"});
+    Object.assign(ASSISTANT_TEXT.eus,{concretePrompt:"Galderak zehatza izan behar du. Adibidez:"});
+    Object.assign(ASSISTANT_TEXT.nl,{concretePrompt:"De vraag moet concreet zijn. Bijvoorbeeld:"});
     let assistantConversationStarted=false;
     function assistantT(key,values={}){const dict=ASSISTANT_TEXT[state.lang]||ASSISTANT_TEXT.es; const template=dict[key]||ASSISTANT_TEXT.es[key]||key; return Object.entries(values).reduce((text,[name,value])=>text.replaceAll(`{${name}}`,value),template)}
     function assistantAllergensInQuestion(question){const normalized=normalizeSearchText(question); return Object.entries(ASSISTANT_ALLERGEN_TERMS).filter(([,terms])=>terms.some(term=>normalized.includes(normalizeSearchText(term)))).map(([key])=>key)}
@@ -3166,6 +3173,7 @@
     function assistantUniqueRecords(records){const seen=new Set(); return records.filter(record=>{const key=`${record.sourceKey}|${cleanCell(record.dish.code)}|${normalizeSearchText(record.dish.rawTitle)}`; if(seen.has(key)) return false; seen.add(key); return true})}
     function assistantTraceLabels(dish,keys=[]){return (dish.allergenEntries||[]).filter(entry=>entry.type==="trace"&&(!keys.length||keys.includes(entry.key))).map(entry=>allergenMeta(entry.key).label)}
     function assistantSafetyMarkup(question){const normalized=normalizeSearchText(question); const notes=[]; if(/\b(soja|soya|soy sauce|salsa de soja)\b/.test(normalized)) notes.push(assistantT("soyWarning")); if(/\b(perrins|worcester|worcestershire)\b/.test(normalized)) notes.push(assistantT("perrinsWarning")); if(/\b(quitar|retirar|eliminar|remove|treure|sin salsa|sense salsa|sem molho)\b/.test(normalized)) notes.push(assistantT("safetyRule")); return [...new Set(notes)].map(note=>`<p class="assistant-caution">${escapeHtml(note)}</p>`).join("")}
+    function assistantConcreteHelpMarkup(){return `<p><strong>${escapeHtml(assistantT("concretePrompt"))}</strong></p><ol class="assistant-help-examples"><li>${escapeHtml(assistantT("example1"))}</li><li>${escapeHtml(assistantT("example4"))}</li><li>${escapeHtml(assistantT("example3"))}</li></ol>`}
     function assistantResultMarkup(records,allergenKeys=[]){return `<div class="assistant-result-list">${records.map(record=>{const traces=assistantTraceLabels(record.dish); return `<div class="assistant-result"><span><strong>${escapeHtml(dishDisplayTitle(record.dish))}</strong><small>${escapeHtml(assistantT("section"))}: ${escapeHtml(record.sourceLabel)} · ${escapeHtml(record.dish.code||"")}</small>${traces.length?`<span class="assistant-trace">${escapeHtml(assistantT("traces",{allergens:traces.join(", ")}))}</span>`:""}</span><button type="button" data-assistant-source="${escapeHtml(record.sourceKey)}" data-assistant-code="${escapeHtml(record.dish.code||"")}">${escapeHtml(assistantT("open"))}</button></div>`}).join("")}</div>`}
     function assistantAnswerQuestion(question){
       if(!state.restaurant) return `<p>${escapeHtml(assistantT("none"))}</p>`;
@@ -3176,8 +3184,8 @@
       const requestsModification=/\b(quitar|retirar|eliminar|remove|retirar|treure)\b|\bsin\s+(salsa|pan|aliño|amaniment|molho)\b/i.test(normalized);
       const asksRecommendation=/\b(recomienda|recomendacion|recomendación|recoman|recommend|sugiere|sugest|gomend|aanbevel)\b/.test(normalized);
       const asksDishHelp=/\b(ensena|mostrar|muestra|informacion de los platos|informacio dels plats|show|dish|dishes|plats|pratos|platerrei|gerechten)\b/.test(normalized);
-      if(asksRecommendation&&!allergenKeys.length) return `<p>${escapeHtml(assistantT("recommendationPrompt"))}</p>${assistantSafetyMarkup(question)}`;
-      if(asksDishHelp&&!allergenKeys.length) return `<p>${escapeHtml(assistantT("dishPrompt"))}</p>`;
+      if(asksRecommendation&&!allergenKeys.length) return `${assistantConcreteHelpMarkup()}${assistantSafetyMarkup(question)}`;
+      if(asksDishHelp&&!allergenKeys.length) return assistantConcreteHelpMarkup();
       if(allergenKeys.length){
         const asksWithout=/(^|\s)(sin|sense|sem|without|zonder)(\s|$)|no\s+(tiene|tienen|contiene|contienen)|ez\s+duten|gabeko/.test(normalized);
         const asksContains=!asksWithout&&/(^|\s)(tiene|tienen|contiene|contienen|lleva|llevan|con|amb|com|with|met|duten)(\s|$)/.test(normalized);
@@ -3194,7 +3202,7 @@
         const records=assistantUniqueRecords(assistantSourceRecords(question)).filter(record=>dishIngredientText(record.dish).includes(ingredient)).slice(0,limit);
         if(records.length) return `<p class="assistant-answer-title">${escapeHtml(assistantT("ingredientOptions",{ingredient}))}</p>${assistantResultMarkup(records)}${assistantSafetyMarkup(question)}<p class="assistant-caution">${escapeHtml(assistantT("caution"))}</p>`;
       }
-      return `<p>${escapeHtml(assistantT("fallback"))}</p>${assistantSafetyMarkup(question)}`;
+      return `${assistantConcreteHelpMarkup()}${assistantSafetyMarkup(question)}`;
     }
     function assistantAddMessage(role,html){const message=document.createElement("div"); message.className=`assistant-message ${role}`; message.innerHTML=html; assistantMessages.appendChild(message); requestAnimationFrame(()=>{assistantBody.scrollTop=assistantBody.scrollHeight})}
     function renderAssistantExamples(){assistantExamples.innerHTML=["example1","example2","example3","example4","example5","example6"].map(key=>`<button class="assistant-example" type="button" data-assistant-question="${escapeHtml(assistantT(key))}">${escapeHtml(assistantT(key))}</button>`).join("")}
