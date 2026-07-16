@@ -36,9 +36,6 @@
     .login-password-toggle input{width:18px;height:18px;margin:0;accent-color:#ffd966;cursor:pointer}
     .login-password-toggle span{padding-top:1px}
     .login-language-field{padding:12px;border:1px solid rgba(201,181,155,.68);border-radius:18px;background:linear-gradient(135deg,#fffdf6,#f8efde)}
-    .login-hospitality-strip{display:flex;align-items:center;justify-content:center;gap:10px;margin:10px 0 11px;padding:8px 10px;border:1px solid rgba(187,159,112,.58);border-radius:16px;background:linear-gradient(135deg,rgba(255,255,255,.78),rgba(255,233,157,.58));box-shadow:inset 0 1px 0 rgba(255,255,255,.82),0 10px 20px rgba(70,45,18,.06)}
-    .login-hospitality-icon{width:42px;height:42px;display:grid;place-items:center;border-radius:15px;background:linear-gradient(180deg,#fffdfa,#f2eadf);border:1px solid rgba(201,181,155,.7);font-size:24px;box-shadow:0 8px 16px rgba(53,37,24,.08),inset 0 1px 0 rgba(255,255,255,.78)}
-    .login-hospitality-icon.is-highlight{background:linear-gradient(180deg,#ffe699,#ffd966);border-color:#d5aa19;box-shadow:0 10px 18px rgba(214,186,82,.18),inset 0 1px 0 rgba(255,255,255,.75)}
     .login-language-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
     .login-lang-option{min-height:42px;border:1px solid rgba(187,159,112,.74);border-radius:14px;background:linear-gradient(180deg,#fffdf8,#f3eadc);color:#5f4b00;font-size:13px;font-weight:950;letter-spacing:.06em;box-shadow:inset 0 1px 0 rgba(255,255,255,.8);transition:transform .14s ease,box-shadow .14s ease,background .14s ease}
     .login-lang-option:hover,.login-lang-option:focus-visible{outline:none;transform:translateY(-1px);background:linear-gradient(180deg,#fff8d8,#ffe699);box-shadow:0 10px 18px rgba(146,111,23,.12),inset 0 1px 0 rgba(255,255,255,.9)}
@@ -456,11 +453,6 @@
         </div>
         <div class="login-field login-language-field">
           <span class="login-label" id="loginLanguageLabel">Idioma del aviso</span>
-          <div class="login-hospitality-strip" aria-hidden="true">
-            <span class="login-hospitality-icon">👨‍🍳</span>
-            <span class="login-hospitality-icon is-highlight">🤵</span>
-            <span class="login-hospitality-icon">👩🏼‍⚕️</span>
-          </div>
           <div class="login-language-options" aria-labelledby="loginLanguageLabel">
             <button class="login-lang-option active" type="button" data-login-lang="es">ES</button>
             <button class="login-lang-option" type="button" data-login-lang="cat">CAT</button>
