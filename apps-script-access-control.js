@@ -5,6 +5,10 @@ const SESSION_TTL_MINUTES = 60;
 const SUGGESTION_RECIPIENTS = 'aina@sagardi.com,jlungidos@sagardi.com';
 const SUGGESTION_COOLDOWN_SECONDS = 30;
 
+function authorizeSuggestionMail() {
+  return `Permiso de correo activo. Cuota diaria disponible: ${MailApp.getRemainingDailyQuota()}`;
+}
+
 function doPost(e) {
   try {
     const payload = JSON.parse(e.postData && e.postData.contents || '{}');
