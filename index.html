@@ -3161,6 +3161,12 @@
     Object.assign(ASSISTANT_TEXT.pt,{concretePrompt:"A pergunta deve ser concreta. Por exemplo:"});
     Object.assign(ASSISTANT_TEXT.eus,{concretePrompt:"Galderak zehatza izan behar du. Adibidez:"});
     Object.assign(ASSISTANT_TEXT.nl,{concretePrompt:"De vraag moet concreet zijn. Bijvoorbeeld:"});
+    Object.assign(ASSISTANT_TEXT.es,{ingredientAllergenPositive:"Según los datos cargados, «{ingredient}» aparece asociada a {allergens} en {count} platos.",ingredientAllergenNegative:"En los datos cargados, «{ingredient}» no aparece marcada como que contiene {allergens}. Esto no permite asegurar que cualquier producto sea apto.",ingredientNotFound:"No encuentro «{ingredient}» en los ingredientes de la sección activa, por lo que no puedo confirmarlo.",qualityConfirm:"Confirma que el producto utilizado es exactamente el mismo que el revisado por el departamento de Calidad y Seguridad Alimentaria."});
+    Object.assign(ASSISTANT_TEXT.cat,{ingredientAllergenPositive:"Segons les dades carregades, «{ingredient}» apareix associada a {allergens} en {count} plats.",ingredientAllergenNegative:"A les dades carregades, «{ingredient}» no apareix marcada com que conté {allergens}. Això no permet assegurar que qualsevol producte sigui apte.",ingredientNotFound:"No trobo «{ingredient}» als ingredients de la secció activa i no ho puc confirmar.",qualityConfirm:"Confirma que el producte utilitzat és exactament el mateix que va revisar el departament de Qualitat i Seguretat Alimentària."});
+    Object.assign(ASSISTANT_TEXT.en,{ingredientAllergenPositive:"According to the loaded data, “{ingredient}” is associated with {allergens} in {count} dishes.",ingredientAllergenNegative:"In the loaded data, “{ingredient}” is not marked as containing {allergens}. This does not mean that every product is suitable.",ingredientNotFound:"I cannot find “{ingredient}” in the ingredients of the active section, so I cannot confirm it.",qualityConfirm:"Confirm that the product being used is exactly the one reviewed by the Quality and Food Safety department."});
+    Object.assign(ASSISTANT_TEXT.pt,{ingredientAllergenPositive:"Segundo os dados carregados, «{ingredient}» aparece associada a {allergens} em {count} pratos.",ingredientAllergenNegative:"Nos dados carregados, «{ingredient}» não está marcada como contendo {allergens}. Isto não garante que qualquer produto seja adequado.",ingredientNotFound:"Não encontro «{ingredient}» nos ingredientes da secção ativa e não posso confirmar.",qualityConfirm:"Confirme que o produto utilizado é exatamente o mesmo que foi revisto pelo departamento de Qualidade e Segurança Alimentar."});
+    Object.assign(ASSISTANT_TEXT.eus,{ingredientAllergenPositive:"Kargatutako datuen arabera, «{ingredient}» {allergens} alergenoarekin lotuta agertzen da {count} plateretan.",ingredientAllergenNegative:"Kargatutako datuetan, «{ingredient}» ez da {allergens} daukala markatuta agertzen. Horrek ez du edozein produktu egokia denik bermatzen.",ingredientNotFound:"Ez dut «{ingredient}» aurkitzen atal aktiboko osagaietan eta ezin dut baieztatu.",qualityConfirm:"Egiaztatu erabiltzen den produktua Kalitate eta Elikagaien Segurtasun sailak berrikusitako bera dela."});
+    Object.assign(ASSISTANT_TEXT.nl,{ingredientAllergenPositive:"Volgens de geladen gegevens is ‘{ingredient}’ in {count} gerechten gekoppeld aan {allergens}.",ingredientAllergenNegative:"In de geladen gegevens is ‘{ingredient}’ niet gemarkeerd als bevattend {allergens}. Dit betekent niet dat elk product geschikt is.",ingredientNotFound:"Ik vind ‘{ingredient}’ niet bij de ingrediënten van de actieve sectie en kan dit niet bevestigen.",qualityConfirm:"Bevestig dat het gebruikte product exact hetzelfde is als het product dat door Quality en Food Safety is beoordeeld."});
     let assistantConversationStarted=false;
     function assistantT(key,values={}){const dict=ASSISTANT_TEXT[state.lang]||ASSISTANT_TEXT.es; const template=dict[key]||ASSISTANT_TEXT.es[key]||key; return Object.entries(values).reduce((text,[name,value])=>text.replaceAll(`{${name}}`,value),template)}
     function assistantAllergensInQuestion(question){const normalized=normalizeSearchText(question); return Object.entries(ASSISTANT_ALLERGEN_TERMS).filter(([,terms])=>terms.some(term=>normalized.includes(normalizeSearchText(term)))).map(([key])=>key)}
@@ -3174,6 +3180,23 @@
     function assistantTraceLabels(dish,keys=[]){return (dish.allergenEntries||[]).filter(entry=>entry.type==="trace"&&(!keys.length||keys.includes(entry.key))).map(entry=>allergenMeta(entry.key).label)}
     function assistantSafetyMarkup(question){const normalized=normalizeSearchText(question); const notes=[]; if(/\b(soja|soya|soy sauce|salsa de soja)\b/.test(normalized)) notes.push(assistantT("soyWarning")); if(/\b(perrins|worcester|worcestershire)\b/.test(normalized)) notes.push(assistantT("perrinsWarning")); if(/\b(quitar|retirar|eliminar|remove|treure|sin salsa|sense salsa|sem molho)\b/.test(normalized)) notes.push(assistantT("safetyRule")); return [...new Set(notes)].map(note=>`<p class="assistant-caution">${escapeHtml(note)}</p>`).join("")}
     function assistantConcreteHelpMarkup(){return `<p><strong>${escapeHtml(assistantT("concretePrompt"))}</strong></p><ol class="assistant-help-examples"><li>${escapeHtml(assistantT("example1"))}</li><li>${escapeHtml(assistantT("example4"))}</li><li>${escapeHtml(assistantT("example3"))}</li></ol>`}
+    function assistantIngredientAllergenMarkup(question,allergenKeys){
+      if(!allergenKeys.length) return "";
+      const normalized=normalizeSearchText(question).replace(/[?¿!¡.,;:]+/g," ").replace(/\s+/g," ").trim();
+      const match=normalized.match(/^(.*?)\s+(?:tiene|contiene|lleva|has|contains|te|conte|tem|contem|heeft|bevat|dauka|ditu)\s+(.+)$/);
+      if(!match) return "";
+      const targetAllergenKeys=assistantAllergensInQuestion(match[2]);
+      if(!targetAllergenKeys.length) return "";
+      const ingredient=match[1].replace(/^(?:(?:que si|si|la|el|los|las|un|una|le|the|does|do|a|o|os|as|de|het|een)\s+)+/,"").trim();
+      if(ingredient.length<3) return "";
+      const records=assistantUniqueRecords(assistantSourceRecords(question)).filter(record=>normalizeSearchText(dishIngredientText(record.dish)).includes(ingredient));
+      const labels=targetAllergenKeys.map(key=>allergenMeta(key).label).join(", ");
+      const quality=`<p class="assistant-caution">${escapeHtml(assistantT("qualityConfirm"))}</p>`;
+      if(!records.length) return `<p>${escapeHtml(assistantT("ingredientNotFound",{ingredient}))}</p>${quality}`;
+      const positive=records.filter(record=>targetAllergenKeys.some(key=>dishContainsAvoidedAllergen(record.dish,key)));
+      if(positive.length) return `<p class="assistant-answer-title">${escapeHtml(assistantT("ingredientAllergenPositive",{ingredient,allergens:labels,count:positive.length}))}</p>${assistantResultMarkup(positive,targetAllergenKeys)}${quality}`;
+      return `<p>${escapeHtml(assistantT("ingredientAllergenNegative",{ingredient,allergens:labels}))}</p>${assistantResultMarkup(records,targetAllergenKeys)}${quality}`;
+    }
     function assistantResultMarkup(records,allergenKeys=[]){return `<div class="assistant-result-list">${records.map(record=>{const traces=assistantTraceLabels(record.dish); return `<div class="assistant-result"><span><strong>${escapeHtml(dishDisplayTitle(record.dish))}</strong><small>${escapeHtml(assistantT("section"))}: ${escapeHtml(record.sourceLabel)} · ${escapeHtml(record.dish.code||"")}</small>${traces.length?`<span class="assistant-trace">${escapeHtml(assistantT("traces",{allergens:traces.join(", ")}))}</span>`:""}</span><button type="button" data-assistant-source="${escapeHtml(record.sourceKey)}" data-assistant-code="${escapeHtml(record.dish.code||"")}">${escapeHtml(assistantT("open"))}</button></div>`}).join("")}</div>`}
     function assistantAnswerQuestion(question){
       if(!state.restaurant) return `<p>${escapeHtml(assistantT("none"))}</p>`;
@@ -3184,6 +3207,8 @@
       const requestsModification=/\b(quitar|retirar|eliminar|remove|retirar|treure)\b|\bsin\s+(salsa|pan|aliño|amaniment|molho)\b/i.test(normalized);
       const asksRecommendation=/\b(recomienda|recomendacion|recomendación|recoman|recommend|sugiere|sugest|gomend|aanbevel)\b/.test(normalized);
       const asksDishHelp=/\b(ensena|mostrar|muestra|informacion de los platos|informacio dels plats|show|dish|dishes|plats|pratos|platerrei|gerechten)\b/.test(normalized);
+      const ingredientAllergenAnswer=assistantIngredientAllergenMarkup(question,allergenKeys);
+      if(ingredientAllergenAnswer) return ingredientAllergenAnswer;
       if(asksRecommendation&&!allergenKeys.length) return `${assistantConcreteHelpMarkup()}${assistantSafetyMarkup(question)}`;
       if(asksDishHelp&&!allergenKeys.length) return assistantConcreteHelpMarkup();
       if(allergenKeys.length){
