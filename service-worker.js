@@ -1,4 +1,4 @@
-const CACHE_NAME="alergenos-sagardi-v1";
+const CACHE_NAME="alergenos-sagardi-v2";
 const APP_SHELL=["./","./index.html","./manifest.webmanifest","./assets/assistant-avatar.png","./assets/pwa/app-icon-192.png","./assets/pwa/app-icon-512.png","./assets/pwa/app-icon-maskable-512.png","./assets/pwa/apple-touch-icon.png","./assets/lang/ES_espanol_bandera.svg","./assets/lang/EN_ingles_bandera.svg","./assets/lang/PT_portugues_bandera.svg"];
 
 self.addEventListener("install",event=>{
