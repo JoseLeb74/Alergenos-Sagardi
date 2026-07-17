@@ -3474,22 +3474,22 @@
     function dietaryLabel(key){const meta=DIETARY_META[key]||DIETARY_META.VEGETARIAN; return t(meta.labelKey)}
     function dietaryStyle(key){const color=(DIETARY_META[key]||DIETARY_META.VEGETARIAN).color; return `background:linear-gradient(135deg,${color},${color}dd);border-color:${color};color:#fff`}
     const INGREDIENT_HIGHLIGHT_TERMS={
-      GLUTEN:["gluten","trigo","blat","wheat","harina","farina","flour","pan","pa","bread","masa madre","massa mare","sourdough","cebada","ordi","barley","malta","malt","pasta","hojaldre","pasta de full","puff pastry","pan rallado","pa ratllat","breadcrumbs","coca","croqueta","croquetes","croquetas","rebozado"],
-      FISH:["pescado","peix","peixe","fish","atun","atún","atum","tonyina","tuna","bonito","bonítol","anchoa","anxova","anchovy","anchovies","bacalao","bacallà","cod","merluza","lluç","hake","salmon","salmón","salmó","sardina","sardine","lubina","llobarro","seabass","dorada","orada","bream","rape","rap","monkfish","rodaballo","turbot","txitxarro","ventresca"],
+      GLUTEN:["gluten","trigo","blat","wheat","harina","farina","flour","pan","pa","bread","masa madre","massa mare","sourdough","cebada","ordi","barley","malta","malt","pasta","hojaldre","pasta de full","puff pastry","pan rallado","pa ratllat","breadcrumbs","coca","croqueta","croquetes","croquetas","rebozado","gari","garia","gari-irina","ogi","ogia","garagar"],
+      FISH:["pescado","peix","peixe","fish","arrain","arraina","arrainak","atun","atún","atum","hegaluze","tonyina","tuna","bonito","bonítol","anchoa","anxova","anchova","antxoa","antxoak","anchovy","anchovies","bacalao","bacallà","bakailao","cod","merluza","lluç","legatz","hake","salmon","salmón","salmó","izokin","sardina","sardine","lubina","llobarro","lupia","seabass","dorada","orada","bream","rape","rap","zapoa","monkfish","rodaballo","turbot","txitxarro","ventresca"],
       PEANUTS:["cacahuete","cacahuetes","cacauet","cacauets","peanut","peanuts","amendoim","amendoins","pinda","pinda's"],
-      "MILK AND DAIRY PRODUCTS":["leche","llet","leite","milk","nata","cream","mantequilla","mantega","manteiga","butter","queso","formatge","queijo","cheese","yogur","yoghurt","yogurt","crema","lactosa","lactose","lácteo","lácteos","làctic","làctics","cuajada","quallada","coalhada","idiazabal","parmesano","parmesan"],
-      EGG:["huevo","huevos","ou","ous","ovo","ovos","egg","eggs","yema","rovell","gema","yolk","clara","egg white","mayonesa","maionesa","mayonnaise","alioli","allioli","tortilla","albúmina","albumina"],
+      "MILK AND DAIRY PRODUCTS":["leche","llet","leite","milk","esne","esnea","nata","cream","krema","mantequilla","mantega","manteiga","butter","gurin","gurina","queso","formatge","queijo","cheese","gazta","yogur","yoghurt","yogurt","crema","lactosa","lactose","laktosa","lácteo","lácteos","làctic","làctics","cuajada","quallada","coalhada","mamia","idiazabal","parmesano","parmesan"],
+      EGG:["huevo","huevos","ou","ous","ovo","ovos","egg","eggs","arrautza","arrautzak","yema","rovell","gema","gorringo","yolk","clara","zuringo","egg white","mayonesa","maionesa","mayonnaise","alioli","allioli","tortilla","albúmina","albumina"],
       SOY:["soja","soy","soya","salsa soja","soy sauce","edamame","tofu","lecitina de soja","soy lecithin"],
-      NUTS:["nuez","nueces","nou","nous","noz","nozes","walnut","walnuts","almendra","ametlla","amêndoa","almond","avellana","avelã","hazelnut","pistacho","pistachio","piñon","piñones","pinyons","pine nut","anacardo","caju","cashew","castaña","castanha","chestnut"],
+      NUTS:["nuez","nueces","nou","nous","noz","nozes","walnut","walnuts","intxaur","intxaurrak","almendra","ametlla","amêndoa","almond","arbendol","avellana","avelã","hazelnut","hur","pistacho","pistachio","pistatxo","piñon","piñones","pinyons","pine nut","pinazi","anacardo","caju","cashew","castaña","castanha","chestnut","gaztaina"],
       SESAME:["sesamo","sésamo","sesam","sèsam","sesame","tahini","aceite de sésamo","oli de sèsam","sesame oil"],
-      SULPHITE:["sulfito","sulfitos","sulphite","sulphites","sulfits","vino","vi","wine","vinagre","vinegar","sidra","cider","txakoli","e220","e221","e222","e223","e224","e226","e227","e228"],
-      MUSTARD:["mostaza","mostassa","mustard"],
-      CELERY:["apio","api","celery","celeri"],
-      CRUSTACEAN:["crustáceo","crustáceos","crustaci","crustacis","crustacean","crustaceans","gamba","prawn","langostino","cigala","bogavante","lobster","cangrejo","crab","centollo","necora","nécora","camaron","camarón","camarão","shrimp"],
+      SULPHITE:["sulfito","sulfitos","sulphite","sulphites","sulfits","sulfitak","metabisulfito","metabisulfitoa","vino","vi","wine","ardo","ardoa","vinagre","vinegar","ozpin","ozpina","sidra","cider","sagardo","txakoli","e220","e221","e222","e223","e224","e226","e227","e228"],
+      MUSTARD:["mostaza","mostassa","mustard","ziape","ziapea"],
+      CELERY:["apio","api","celery","celeri","apio-berde","apio-berdea"],
+      CRUSTACEAN:["crustáceo","crustáceos","crustaci","crustacis","crustacean","crustaceans","krustazeo","gamba","ganba","prawn","langostino","otarrainska","cigala","zigala","bogavante","otarrain","lobster","cangrejo","karramarro","crab","centollo","necora","nécora","camaron","camarón","camarão","shrimp"],
       GARLIC:["ajo","ajos","all","alls","garlic","alho","alhos","baratxuri","baratxuria","knoflook"],
       PORK:["cerdo","porc","pork","porco","txerri","txerria","panceta","cansalada","tocino","bacon","jamón","jamon","pernil","presunto","papada","morcilla","botifarra","butifarra","txistorra","chistorra"],
       LUPINS:["altramuz","altramuces","tramús","tramus","tramussos","lupin","lupins","tremoço","tremoços","lupine"],
-      MOLUSCS:["molusco","moluscos","mol·lusc","mol·luscs","mollusc","molluscs","mejillon","mejillón","musclo","mussel","almeja","clam","ostra","oyster","calamar","squid","pulpo","pop","octopus","sepia","cuttlefish","vieira","scallop","chipiron","chipirón"]
+      MOLUSCS:["molusco","moluscos","mol·lusc","mol·luscs","mollusc","molluscs","molusku","mejillon","mejillón","musclo","muskuilu","mussel","almeja","txirla","clam","ostra","oyster","calamar","txipiroi","txipiroiak","squid","pulpo","pop","olagarro","octopus","sepia","cuttlefish","vieira","scallop","chipiron","chipirón"]
     };
     function shouldHighlightSagardiBcnCartaIngredients(){
       return state.view==="allergens"&&allergenSourceKey()==="dishes"&&normalizeRestaurantParam(restaurantSheetName(state.restaurant)||restaurantDisplayName(state.restaurant))==="SAGARDI BCN"&&selectedAvoidAllergens().length>0;
@@ -3531,11 +3531,27 @@
         return true;
       }).slice(0,18);
     }
+    function allergenTermVariants(term){
+      const value=normalizeSearchText(term);
+      if(!value) return [];
+      const variants=new Set([value]);
+      if(!value.includes(" ")){
+        variants.add(`${value}s`);
+        variants.add(`${value}es`);
+        if(value.endsWith("a")){
+          variants.add(`${value.slice(0,-1)}es`);
+          variants.add(`${value}k`);
+        }
+        if(value.endsWith("z")) variants.add(`${value.slice(0,-1)}ces`);
+        if(value.endsWith("y")) variants.add(`${value.slice(0,-1)}ies`);
+      }
+      return [...variants];
+    }
     function textContainsAllergenTerm(text,key){
       const canonical=normalizeAllergenKey(key);
       const baseMeta=ALLERGEN_META[canonical]||{};
       const extraMeta=EXTRA_ALLERGEN_TRANSLATIONS[canonical]||{};
-      const terms=[...(INGREDIENT_HIGHLIGHT_TERMS[canonical]||[]),baseMeta.es,baseMeta.en,baseMeta.cat,baseMeta.pt,extraMeta.eus,extraMeta.nl].filter(Boolean);
+      const terms=[...(INGREDIENT_HIGHLIGHT_TERMS[canonical]||[]),baseMeta.es,baseMeta.en,baseMeta.cat,baseMeta.pt,extraMeta.eus,extraMeta.nl].filter(Boolean).flatMap(allergenTermVariants);
       const normalized=normalizeSearchText(text);
       return terms.some(term=>{
         const value=normalizeSearchText(term);
