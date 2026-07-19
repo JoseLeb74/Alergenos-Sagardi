@@ -230,7 +230,12 @@
     .admin-delete-button:hover,.admin-delete-button:focus-visible{outline:none;background:linear-gradient(180deg,#ffe6df,#f3c2b8);box-shadow:0 0 0 3px rgba(182,75,61,.14)}
     .admin-delete-button:disabled,.admin-save-button:disabled{cursor:wait;opacity:.58}
     .admin-save-message{color:#6f665d;font-size:12px;font-weight:850;line-height:1.45}.admin-save-message.is-warning{color:#8f452d}.admin-save-message.is-ok{color:#31591f}
-    @media (max-width:720px){.admin-panel{padding:8px;align-items:end}.admin-panel-toggle{top:14px;right:14px;width:40px;height:40px}.admin-panel-body{width:100%;max-height:88vh;overflow-y:auto;padding:18px 15px 15px;border-radius:24px;touch-action:pan-y}.admin-panel-head{display:grid;padding-right:38px}.admin-sheet-link{width:100%}.admin-linked-menu{max-height:42vh;overflow-y:auto;touch-action:pan-y}.admin-linked-option{min-height:48px}}
+    .quality-dashboard{display:grid;gap:12px;margin:0 0 16px;padding:15px;border:1px solid rgba(201,181,155,.86);border-radius:20px;background:linear-gradient(135deg,#fffdf8,#fff3c8)}
+    .quality-dashboard-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}.quality-dashboard-title{margin:0;color:#241a12;font-size:17px;font-weight:950}.quality-dashboard-copy{margin:3px 0 0;color:#6f665d;font-size:12px;line-height:1.45}
+    .quality-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.quality-metric{padding:10px;border:1px solid rgba(201,181,155,.7);border-radius:14px;background:rgba(255,255,255,.8)}.quality-metric strong{display:block;color:#241a12;font-size:20px;font-weight:950}.quality-metric span{display:block;margin-top:2px;color:#776b60;font-size:10px;font-weight:900;letter-spacing:.06em;text-transform:uppercase}
+    .quality-source-list{display:grid;gap:7px}.quality-source{display:grid;grid-template-columns:minmax(100px,.7fr) minmax(0,1.5fr) auto;gap:9px;align-items:center;padding:9px 10px;border-radius:12px;background:rgba(255,255,255,.72);font-size:11px}.quality-source strong{font-size:12px}.quality-source-detail{color:#6f665d;overflow-wrap:anywhere}.quality-badge{padding:5px 8px;border-radius:999px;font-size:9px;font-weight:950;letter-spacing:.07em;text-transform:uppercase}.quality-badge.is-ok{background:#dff3c6;color:#35551d}.quality-badge.is-warning{background:#fff0b8;color:#735700}.quality-badge.is-error{background:#f4d2cc;color:#8f2f24}.quality-badge.is-idle{background:#ece7df;color:#675f57}
+    .data-health{display:flex;align-items:center;gap:8px;margin-top:10px;padding:9px 11px;border:1px solid rgba(201,181,155,.7);border-radius:13px;background:rgba(255,255,255,.64);color:#62584f;font-size:11px;font-weight:850;line-height:1.35}.data-health-dot{flex:0 0 auto;width:9px;height:9px;border-radius:50%;background:#a39a90}.data-health.is-ok .data-health-dot{background:#5b9d42;box-shadow:0 0 0 4px rgba(91,157,66,.13)}.data-health.is-loading .data-health-dot{background:#d69b00;animation:data-health-pulse 1.1s ease-in-out infinite}.data-health.is-error .data-health-dot,.data-health.is-offline .data-health-dot{background:#b64b3d}@keyframes data-health-pulse{50%{transform:scale(1.5);opacity:.55}}
+    @media (max-width:720px){.admin-panel{padding:8px;align-items:end}.admin-panel-toggle{top:14px;right:14px;width:40px;height:40px}.admin-panel-body{width:100%;max-height:88vh;overflow-y:auto;padding:18px 15px 15px;border-radius:24px;touch-action:pan-y}.admin-panel-head{display:grid;padding-right:38px}.admin-sheet-link{width:100%}.admin-linked-menu{max-height:42vh;overflow-y:auto;touch-action:pan-y}.admin-linked-option{min-height:48px}.quality-summary{grid-template-columns:repeat(2,minmax(0,1fr))}.quality-source{grid-template-columns:minmax(88px,.65fr) minmax(0,1fr)}.quality-badge{grid-column:1/-1;width:max-content}}
     @keyframes heroAlertGlow{0%{transform:translateX(-18%) rotate(18deg);opacity:0}12%{opacity:.95}55%{opacity:.95}100%{transform:translateX(430%) rotate(18deg);opacity:0}}
     .hero-summary{min-width:260px;display:grid;gap:10px;padding:18px;border:1px solid #e8cd79;border-radius:20px;background:linear-gradient(180deg,#fff1b8,#ffe699);box-shadow:0 12px 28px rgba(214,186,82,.22)}
     .hero-summary{display:none}
@@ -617,6 +622,11 @@
             </div>
             <a class="admin-sheet-link" id="adminSheetLink" href="#" target="_blank" rel="noopener">Abrir hoja para gestionar</a>
           </div>
+          <section class="quality-dashboard" id="qualityDashboard" aria-label="Control de calidad de datos">
+            <div class="quality-dashboard-head"><div><h3 class="quality-dashboard-title">Control de calidad</h3><p class="quality-dashboard-copy">Estado del restaurante cargado e incidencias comprobables detectadas automáticamente.</p></div></div>
+            <div class="quality-summary" id="qualitySummary"></div>
+            <div class="quality-source-list" id="qualitySourceList"></div>
+          </section>
           <div class="admin-local-index" id="adminLocalIndex" aria-label="Números de restaurantes"></div>
           <div class="admin-profiles-list" id="adminProfilesList"></div>
         </div>
@@ -647,6 +657,7 @@
             </div>
           </section>
           <section class="panel status-panel" id="status"></section>
+          <div class="data-health" id="dataHealth" role="status" aria-live="polite"><span class="data-health-dot" aria-hidden="true"></span><span id="dataHealthText">Esperando comprobación de datos</span></div>
         </aside>
         <section>
           <div class="panel search-panel" id="searchPanel">
@@ -1505,7 +1516,8 @@
     const ingredientAdjustModal=$("ingredientAdjustModal"),ingredientAdjustEyebrow=$("ingredientAdjustEyebrow"),ingredientAdjustTitle=$("ingredientAdjustTitle"),ingredientAdjustClose=$("ingredientAdjustClose"),ingredientAdjustInstruction=$("ingredientAdjustInstruction"),ingredientAdjustOptions=$("ingredientAdjustOptions"),ingredientAdjustResult=$("ingredientAdjustResult"),ingredientAdjustDone=$("ingredientAdjustDone");
     const langEus=$("langEus"),langNl=$("langNl"),loginLanguageLabel=$("loginLanguageLabel"),loginLanguageOptions=[...document.querySelectorAll("[data-login-lang]")],scrollTopButton=$("scrollTopButton"),advisoryTitle=$("advisoryTitle"),advisorySubtitle=$("advisorySubtitle"),advisoryConsultTitle=$("advisoryConsultTitle"),advisoryConsultBody=$("advisoryConsultBody"),advisoryAlertTitle=$("advisoryAlertTitle"),advisoryAlertBody=$("advisoryAlertBody"),advisoryCommunicationTitle=$("advisoryCommunicationTitle"),advisoryCommunicationBody=$("advisoryCommunicationBody"),advisoryNotifyTitle=$("advisoryNotifyTitle"),advisoryNotifyBody=$("advisoryNotifyBody");
     const resultsHeader=document.querySelector(".results-header"),compactSearch=searchInput.closest(".compact-search");
-    const adminPanel=$("adminPanel"),adminPanelToggle=$("adminPanelToggle"),adminTopButton=$("adminTopButton"),adminLocalIndex=$("adminLocalIndex"),adminProfilesList=$("adminProfilesList"),adminSheetLink=$("adminSheetLink");
+    const adminPanel=$("adminPanel"),adminPanelToggle=$("adminPanelToggle"),adminTopButton=$("adminTopButton"),adminLocalIndex=$("adminLocalIndex"),adminProfilesList=$("adminProfilesList"),adminSheetLink=$("adminSheetLink"),qualityDashboard=$("qualityDashboard"),qualitySummary=$("qualitySummary"),qualitySourceList=$("qualitySourceList"),dataHealth=$("dataHealth"),dataHealthText=$("dataHealthText");
+    const dataQualityState={status:"idle",checkedAt:0,restaurant:"",sources:[],issues:[]};
     const assistantWidget=$("assistantWidget"),assistantPanel=$("assistantPanel"),assistantLauncher=$("assistantLauncher"),assistantClose=$("assistantClose"),assistantTitle=$("assistantTitle"),assistantSubtitle=$("assistantSubtitle"),assistantLabel=$("assistantLabel"),assistantBody=$("assistantBody"),assistantMessages=$("assistantMessages"),assistantExamples=$("assistantExamples"),assistantForm=$("assistantForm"),assistantInput=$("assistantInput"),assistantSend=$("assistantSend");
     const suggestionTopButton=$("suggestionTopButton"),suggestionModal=$("suggestionModal"),suggestionClose=$("suggestionClose"),suggestionKicker=$("suggestionKicker"),suggestionTitle=$("suggestionTitle"),suggestionCopy=$("suggestionCopy"),suggestionForm=$("suggestionForm"),suggestionLocal=$("suggestionLocal"),suggestionLocalLabel=$("suggestionLocalLabel"),suggestionName=$("suggestionName"),suggestionNameLabel=$("suggestionNameLabel"),suggestionObservations=$("suggestionObservations"),suggestionObservationsLabel=$("suggestionObservationsLabel"),suggestionCounter=$("suggestionCounter"),suggestionStatus=$("suggestionStatus"),suggestionSubmit=$("suggestionSubmit");
     const SUGGESTION_TEXT={
@@ -2657,6 +2669,76 @@
         message.textContent="No se ha podido eliminar el usuario. Revisa el conector de escritura.";
       }
     }
+    function qualityTime(value){
+      if(!value) return "Sin comprobar";
+      return new Intl.DateTimeFormat("es-ES",{hour:"2-digit",minute:"2-digit",second:"2-digit"}).format(new Date(value));
+    }
+    function analyzeQualitySource(label,dishes,expected=true){
+      if(!expected) return {label,status:"idle",count:0,issues:[],detail:"No configurado para este restaurante"};
+      const items=Array.isArray(dishes)?dishes:[];
+      const issues=[];
+      if(!items.length) issues.push({level:"warning",message:"Fuente sin platos reales"});
+      const codeCounts=new Map();
+      const titleCounts=new Map();
+      items.forEach((dish,index)=>{
+        const code=cleanCell(dish&&dish.code);
+        const title=normalizeSearchText((dish&&dish.rawTitle)||((dish&&dish.titleLines)||[]).map(line=>line.text).join(" "));
+        if(!code) issues.push({level:"warning",message:`Registro ${index+1} sin código`});
+        if(!title) issues.push({level:"error",message:`Registro ${index+1} sin nombre de plato`});
+        if(code) codeCounts.set(normalizeSearchText(code),(codeCounts.get(normalizeSearchText(code))||0)+1);
+        if(title) titleCounts.set(title,(titleCounts.get(title)||0)+1);
+      });
+      [...codeCounts].filter(([,count])=>count>1).forEach(([code,count])=>issues.push({level:"warning",message:`Código duplicado ${code} (${count} veces)`}));
+      [...titleCounts].filter(([,count])=>count>1).slice(0,8).forEach(([,count])=>issues.push({level:"warning",message:`Nombre de plato duplicado (${count} veces)`}));
+      const status=issues.some(issue=>issue.level==="error")?"error":issues.length?"warning":"ok";
+      const detail=issues.length?issues.slice(0,3).map(issue=>issue.message).join(" · "):`${items.length} platos comprobados sin incidencias estructurales`;
+      return {label,status,count:items.length,issues,detail};
+    }
+    function updateDataQuality(status,restaurant,errorMessage=""){
+      dataQualityState.status=status;
+      dataQualityState.restaurant=restaurant?restaurantDisplayName(restaurant):dataQualityState.restaurant;
+      if(status==="loading"){
+        dataQualityState.sources=[];
+        dataQualityState.issues=[];
+      }else if(status==="ok"){
+        dataQualityState.checkedAt=Date.now();
+        dataQualityState.sources=[
+          analyzeQualitySource("Carta",state.dishes,true),
+          analyzeQualitySource("Pintxos",state.pintxosDishes,restaurantHasPintxos(restaurant)),
+          analyzeQualitySource(restaurantAlertasLabel(restaurant)||"Subpestaña",state.alertasDishes,restaurantHasAlertas(restaurant))
+        ];
+        dataQualityState.issues=dataQualityState.sources.flatMap(source=>source.issues.map(issue=>({...issue,source:source.label})));
+        if(!state.updateDate) dataQualityState.issues.unshift({level:"warning",source:"Carta",message:"No se ha encontrado fecha de actualización"});
+      }else if(status==="error"){
+        dataQualityState.checkedAt=Date.now();
+        dataQualityState.sources=[{label:"Carga de datos",status:"error",count:0,issues:[{level:"error",message:errorMessage||"No se pudo leer la fuente"}],detail:errorMessage||"No se pudo leer la fuente"}];
+        dataQualityState.issues=dataQualityState.sources[0].issues;
+      }
+      renderDataHealth();
+      if(isAdminManagerSession()) renderQualityDashboard();
+    }
+    function renderDataHealth(){
+      if(!dataHealth||!dataHealthText) return;
+      const offline=!navigator.onLine;
+      const status=offline?"offline":dataQualityState.status;
+      dataHealth.className=`data-health is-${status}`;
+      if(offline) dataHealthText.textContent="Sin conexión. Se muestran los últimos datos disponibles.";
+      else if(status==="loading") dataHealthText.textContent=`Comprobando datos de ${dataQualityState.restaurant||"restaurante"}…`;
+      else if(status==="error") dataHealthText.textContent=`No se pudo comprobar la información · ${qualityTime(dataQualityState.checkedAt)}`;
+      else if(status==="ok") dataHealthText.textContent=`Datos comprobados correctamente · ${qualityTime(dataQualityState.checkedAt)}`;
+      else dataHealthText.textContent="Esperando comprobación de datos";
+    }
+    function renderQualityDashboard(){
+      if(!qualityDashboard||!qualitySummary||!qualitySourceList) return;
+      const issues=dataQualityState.issues||[];
+      const errorCount=issues.filter(issue=>issue.level==="error").length;
+      const warningCount=issues.filter(issue=>issue.level==="warning").length;
+      const total=(dataQualityState.sources||[]).reduce((sum,source)=>sum+(source.count||0),0);
+      const metrics=[[total,"Registros revisados"],[warningCount,"Avisos"],[errorCount,"Errores"],[qualityTime(dataQualityState.checkedAt),"Última comprobación"]];
+      qualitySummary.innerHTML=metrics.map(([value,label])=>`<div class="quality-metric"><strong>${escapeHtml(value)}</strong><span>${escapeHtml(label)}</span></div>`).join("");
+      const sources=dataQualityState.sources||[];
+      qualitySourceList.innerHTML=sources.length?sources.map(source=>`<div class="quality-source"><strong>${escapeHtml(source.label)}</strong><span class="quality-source-detail">${escapeHtml(source.detail)}</span><span class="quality-badge is-${source.status}">${source.status==="ok"?"Correcto":source.status==="warning"?"Revisar":source.status==="error"?"Error":"No aplicable"}</span></div>`).join(""):`<div class="quality-source"><strong>Sin restaurante</strong><span class="quality-source-detail">Carga un restaurante para ejecutar la comprobación.</span><span class="quality-badge is-idle">Pendiente</span></div>`;
+    }
     function renderAdminPanel(){
       if(!adminPanel||!adminProfilesList) return;
       const canManage=isAdminManagerSession();
@@ -2671,6 +2753,7 @@
       if(adminLocalIndex) adminLocalIndex.innerHTML="";
       adminProfilesList.innerHTML="";
       if(!canManage) return;
+      renderQualityDashboard();
       if(adminLocalIndex){
         const indexFragment=document.createDocumentFragment();
         accessProfiles.forEach(profile=>{
@@ -3812,6 +3895,7 @@
       const loadToken=++activeRestaurantLoadToken;
       restaurantSelect.value=restaurantKey(restaurant);
       state.restaurant=restaurant;
+      updateDataQuality("loading",restaurant);
       if(!preserveState){
         state.allergensToAvoid=[];
         state.dietaryFilters=[];
@@ -3861,6 +3945,7 @@
         setStatus(state.dishes.length?"statusLoaded":"statusNoData",{restaurant:restaurantDisplayName(restaurant),count:state.dishes.length,updateDate:state.updateDate});
         renderAllergenButtons();
         renderCurrentView();
+        updateDataQuality("ok",restaurant);
         queueAutomaticRefresh();
       }catch(error){
         if(loadToken!==activeRestaurantLoadToken) return;
@@ -3868,6 +3953,7 @@
         setStatus("statusError",{restaurant:restaurantDisplayName(restaurant)});
         renderAllergenButtons();
         renderCurrentView();
+        updateDataQuality("error",restaurant,cleanCell(error&&error.message)||"No se pudo leer la fuente de datos");
         queueAutomaticRefresh();
         console.error(error);
       }
@@ -3919,6 +4005,9 @@
     document.addEventListener("click",event=>{if(!loginLocalPicker.contains(event.target)) closeLoginPicker(); if(restaurantPicker&&!restaurantPicker.contains(event.target)) closeRestaurantPicker()});
     document.addEventListener("keydown",event=>{if(event.key==="Escape"){closeLoginPicker(); closeRestaurantPicker();}});
     if(RUNTIME.allowRestaurantSelection){loadRestaurantButton.addEventListener("click",()=>loadSelectedRestaurant()); if(restaurantPickerField&&restaurantPickerToggle&&restaurantSearchInput&&restaurantSearchClear&&restaurantPickerMenu){restaurantPickerField.addEventListener("click",event=>{if(event.target!==restaurantSearchClear) openRestaurantPicker()}); restaurantPickerToggle.addEventListener("click",event=>{event.stopPropagation(); restaurantPicker.classList.contains("is-open")?closeRestaurantPicker():openRestaurantPicker()}); restaurantSearchInput.addEventListener("input",()=>{openRestaurantPicker(); renderRestaurantPickerOptions()}); restaurantSearchInput.addEventListener("keydown",event=>{if(event.key==="Enter"){event.preventDefault(); selectFirstRestaurantPickerMatch()} if(event.key==="Escape") closeRestaurantPicker()}); restaurantSearchClear.addEventListener("click",event=>{event.stopPropagation(); restaurantSearchInput.value=""; renderRestaurantPickerOptions(); restaurantSearchInput.focus()}); restaurantPickerMenu.addEventListener("keydown",event=>{const options=[...restaurantPickerMenu.querySelectorAll(".restaurant-picker-option")]; const index=options.indexOf(document.activeElement); if(event.key==="ArrowDown"&&options[index+1]){event.preventDefault(); options[index+1].focus();} if(event.key==="ArrowUp"){event.preventDefault(); (options[index-1]||restaurantSearchInput).focus();}});}}
+    window.addEventListener("online",renderDataHealth);
+    window.addEventListener("offline",renderDataHealth);
+    renderDataHealth();
     langEs.addEventListener("click",()=>setLanguage("es"));
     langEn.addEventListener("click",()=>setLanguage("en"));
     langCat.addEventListener("click",()=>setLanguage("cat"));
