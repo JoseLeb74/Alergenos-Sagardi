@@ -437,6 +437,31 @@
     @keyframes assistantNudge{0%,72%,100%{transform:translateX(0)}78%{transform:translateX(-5px)}84%{transform:translateX(0)}}
     @keyframes assistantPanelIn{from{opacity:0;transform:translateY(12px) scale(.96)}to{opacity:1;transform:none}}
     .empty{padding:28px 18px;border:1px dashed rgba(201,181,155,.84);border-radius:18px;background:linear-gradient(180deg,#fffdf9,#f8f1e9);color:var(--muted);text-align:center;font-size:14px;line-height:1.6}
+    /* Excellence login: editorial hospitality identity with an operational form. */
+    .login-screen{padding:28px;background:radial-gradient(circle at 12% 14%,rgba(201,163,76,.16),transparent 26%),radial-gradient(circle at 88% 82%,rgba(38,72,102,.2),transparent 30%),linear-gradient(135deg,#0b2032 0%,#163550 52%,#0d273d 100%)}
+    .login-screen::before{content:"";position:fixed;inset:0;pointer-events:none;background:linear-gradient(115deg,transparent 0 47%,rgba(255,255,255,.025) 47% 48%,transparent 48% 100%),radial-gradient(circle at 50% -8%,rgba(255,255,255,.1),transparent 34%);background-size:92px 92px,auto}
+    .login-card{display:grid;grid-template-columns:minmax(0,.9fr) minmax(390px,1.1fr);width:min(980px,100%);padding:0;border:1px solid rgba(218,190,120,.5);border-radius:28px;background:#fffdf8;box-shadow:0 38px 100px rgba(0,0,0,.34),0 0 0 1px rgba(255,255,255,.08);isolation:isolate}
+    .login-card::before{content:"";z-index:3;inset:0 0 auto;height:4px;background:linear-gradient(90deg,#8e6c27,#f1d58c 40%,#b48a38 72%,#f2d99b)}
+    .login-card::after{content:"";position:absolute;z-index:0;left:-80px;bottom:-110px;width:300px;height:300px;border:1px solid rgba(240,213,145,.16);border-radius:50%;box-shadow:0 0 0 34px rgba(240,213,145,.035),0 0 0 72px rgba(240,213,145,.025);pointer-events:none}
+    .login-intro{position:relative;z-index:1;display:flex;flex-direction:column;justify-content:center;min-width:0;padding:54px 44px;background:linear-gradient(145deg,#0f2b43,#173c5b 64%,#102d46);color:#fff}
+    .login-intro::after{content:"";position:absolute;right:28px;top:28px;width:52px;height:52px;border-top:1px solid rgba(240,213,145,.55);border-right:1px solid rgba(240,213,145,.55)}
+    .login-brand{margin-bottom:34px;color:#e8d39d;font-size:11px;font-weight:950;letter-spacing:.2em}.login-intro .brand-dot{width:9px;height:9px;background:#d7b66a;box-shadow:0 0 0 6px rgba(215,182,106,.12)}
+    .login-title{max-width:9ch;color:#fff;font-size:clamp(43px,5.2vw,66px);line-height:.91;letter-spacing:-.055em;text-wrap:balance}
+    .login-subtitle{max-width:35ch;margin:20px 0 0;color:#d7e0e7;font-size:14px;line-height:1.7}
+    .login-excellence{display:flex;align-items:center;gap:12px;margin-top:38px;color:#e4cc8d}.login-excellence span{width:46px;height:1px;background:linear-gradient(90deg,#e4cc8d,transparent)}.login-excellence strong{font-size:9px;font-weight:900;letter-spacing:.16em;text-transform:uppercase}
+    .login-form{position:relative;z-index:2;align-content:center;gap:16px;padding:48px 52px;background:linear-gradient(180deg,#fffdf9,#f8f4eb)}
+    .login-form::before{content:"Acceso seguro";display:block;margin-bottom:2px;color:#173650;font-family:"Fraunces",serif;font-size:25px;font-weight:800;letter-spacing:-.025em}
+    .login-form::after{content:"Uso interno · Información sujeta a verificación continua";display:block;margin-top:2px;color:#7d776d;font-size:9px;font-weight:850;letter-spacing:.09em;text-align:center;text-transform:uppercase}
+    .login-label{color:#8b6a28;font-size:10px;font-weight:950;letter-spacing:.18em}
+    .login-input,.login-picker-trigger,.login-search{border-color:#d8caa9;border-radius:12px;background:#fff;color:#172738;box-shadow:0 5px 14px rgba(18,43,65,.045),inset 0 1px 0 rgba(255,255,255,.85)}
+    .login-input{min-height:54px;padding:14px 15px}.login-input:hover{border-color:#bca66f}.login-input:focus-visible,.login-picker-trigger:focus-visible,.login-search:focus-visible{border-color:#ae8840;box-shadow:0 0 0 4px rgba(190,151,68,.13),0 8px 18px rgba(18,43,65,.07)}
+    .login-password-toggle{color:#5e6871;font-size:12px;font-weight:850}.login-password-toggle input{accent-color:#b88b36}
+    .login-language-field{padding:11px;border-color:#ddd1b4;border-radius:14px;background:#f5f1e8}.login-language-field .login-label{display:block;margin-bottom:9px}
+    .login-lang-option{min-height:40px;border-color:#d7c9a7;border-radius:10px;background:#fff;color:#4b5360;box-shadow:none}.login-lang-option:hover,.login-lang-option:focus-visible{background:#fbf3dd;box-shadow:0 5px 12px rgba(93,69,22,.08)}.login-lang-option.active{border-color:#a67b2c;background:linear-gradient(135deg,#e5c66f,#c99e48);color:#172b3e;box-shadow:0 6px 14px rgba(117,84,22,.18),inset 0 1px 0 rgba(255,255,255,.5)}
+    .login-button{min-height:54px;border:1px solid #264c6b;border-radius:12px;background:linear-gradient(135deg,#1d4565,#102e48);color:#fff;letter-spacing:.04em;box-shadow:0 14px 28px rgba(16,46,72,.22),inset 0 1px 0 rgba(255,255,255,.16)}.login-button:hover,.login-button:focus-visible{background:linear-gradient(135deg,#28597e,#173b59);box-shadow:0 18px 34px rgba(16,46,72,.28),0 0 0 3px rgba(201,163,76,.16)}
+    .login-error{color:#9b3129}
+    @media (max-width:760px){.login-screen{align-items:center;padding:16px}.login-card{display:block;width:min(470px,100%);max-height:calc(100dvh - 24px);overflow:auto;border-radius:24px}.login-intro{padding:32px 28px 28px}.login-intro::after{right:20px;top:20px;width:38px;height:38px}.login-brand{margin-bottom:20px;font-size:9px}.login-title{max-width:11ch;font-size:clamp(36px,10.8vw,48px);line-height:.93}.login-subtitle{margin-top:12px;font-size:12px;line-height:1.55}.login-excellence{margin-top:18px}.login-form{gap:13px;padding:25px 28px 28px}.login-form::before{font-size:22px}.login-input{min-height:50px}.login-language-field{padding:10px}.login-lang-option{min-height:39px}.login-button{min-height:51px}}
+    @media (max-width:390px){.login-screen{padding:8px}.login-card{max-height:calc(100dvh - 12px);border-radius:20px}.login-intro{padding:26px 22px 22px}.login-title{font-size:34px}.login-subtitle{font-size:11px}.login-excellence{display:none}.login-form{padding:20px 22px 23px}.login-language-options{gap:6px}.login-lang-option{min-height:37px;font-size:11px}}
     /* Hybrid visual system: editorial login, operational and safety-led app interior. */
     body.is-authenticated{--app-navy:#17324d;--app-navy-2:#244b70;--app-navy-soft:#eaf0f5;--app-yellow:#ffd966;--app-yellow-soft:#fff4bf;--app-danger:#9d3c32;--app-success:#36724e;background:radial-gradient(circle at 8% 0,rgba(255,217,102,.16),transparent 22%),linear-gradient(180deg,#edf2f5,#f7f5ef 48%,#ece7df)}
     body.is-authenticated .shell{border-color:rgba(23,50,77,.22);border-radius:28px;background:linear-gradient(180deg,#fffdf9,#f6f8f9 38%,#f4f1eb);box-shadow:0 24px 64px rgba(23,50,77,.13)}
@@ -486,9 +511,12 @@
   </div>
   <section class="login-screen" id="loginScreen">
     <div class="login-card">
-      <div class="login-brand"><span class="brand-dot"></span><span>Consulta gastronómica</span></div>
-      <h1 class="login-title">Consulta interna de alérgenos</h1>
-      <p class="login-subtitle">Accede para revisar la información de platos, ingredientes, alérgenos y contacto cruzado.</p>
+      <div class="login-intro">
+        <div class="login-brand"><span class="brand-dot"></span><span>Consulta gastronómica</span></div>
+        <h1 class="login-title">Consulta interna de alérgenos</h1>
+        <p class="login-subtitle">Accede para revisar la información de platos, ingredientes, alérgenos y contacto cruzado.</p>
+        <div class="login-excellence" aria-hidden="true"><span></span><strong>Calidad · Precisión · Seguridad</strong></div>
+      </div>
       <form class="login-form" id="loginForm">
         <div class="login-field login-field-local">
           <label class="login-label" for="loginLocalToggle">Restaurante / perfil</label>
