@@ -1,5 +1,5 @@
 {
-  "name": "Consulta de Alérgenos Sagardi",
+  "name": "Consulta de Alérgenos",
   "short_name": "Alérgenos",
   "description": "Consulta interna de platos, ingredientes, alérgenos y contacto cruzado.",
   "lang": "es",
@@ -9,7 +9,7 @@
   "display": "standalone",
   "orientation": "any",
   "background_color": "#f5efe6",
-  "theme_color": "#f2c94c",
+  "theme_color": "#173650",
   "icons": [
     {
       "src": "assets/pwa/app-icon-192.png",
