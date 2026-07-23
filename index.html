@@ -551,7 +551,7 @@
         <div class="login-watermark" aria-hidden="true"><svg viewBox="0 0 64 64"><path fill="currentColor" d="M32 3 55 12v17c0 15.4-9.3 25.8-23 32C18.3 54.8 9 44.4 9 29V12L32 3Zm0 5.4-18 7v13.4c0 12.1 6.8 20.8 18 26.5 11.2-5.7 18-14.4 18-26.5V15.4l-18-7Z"/></svg></div>
         <div class="login-brand">
           <span class="quality-mark" aria-hidden="true"><svg viewBox="0 0 48 48"><path class="quality-mark-shield" d="M24 4.5 40 11v11.7c0 10.6-6.3 17.7-16 22-9.7-4.3-16-11.4-16-22V11l16-6.5Z"/><path class="quality-mark-check" d="m16.5 24 5 5 10.7-11"/><path class="quality-mark-leaf" d="M31.5 10.5c4.2.2 7 2.1 7.8 5.8-4 .4-6.7-1.2-7.8-5.8Z"/><circle class="quality-mark-dot" cx="13" cy="14" r="1.5"/></svg></span>
-          <span class="corporate-lockup"><strong id="loginCorporateLabel">Sistema corporativo</strong><small id="loginQualityLabel">Departamento de Gastronomía, Calidad y Buenas Prácticas</small></span><span class="login-brand-legacy" hidden aria-hidden="true"></span>
+          <span class="corporate-lockup"><strong id="loginCorporateLabel">Sistema corporativo</strong><small id="loginQualityLabel">Departamento de Gastronomía y Calidad</small></span><span class="login-brand-legacy" hidden aria-hidden="true"></span>
         </div>
         <h1 class="login-title">Consulta interna de alérgenos</h1>
         <p class="login-subtitle">Accede para revisar la información de platos, ingredientes, alérgenos y contacto cruzado.</p>
@@ -687,7 +687,7 @@
       <header class="topbar">
         <div class="brand">
           <span class="quality-mark" aria-hidden="true"><svg viewBox="0 0 48 48"><path class="quality-mark-shield" d="M24 4.5 40 11v11.7c0 10.6-6.3 17.7-16 22-9.7-4.3-16-11.4-16-22V11l16-6.5Z"/><path class="quality-mark-check" d="m16.5 24 5 5 10.7-11"/><path class="quality-mark-leaf" d="M31.5 10.5c4.2.2 7 2.1 7.8 5.8-4 .4-6.7-1.2-7.8-5.8Z"/><circle class="quality-mark-dot" cx="13" cy="14" r="1.5"/></svg></span>
-          <span class="corporate-lockup"><strong id="brandLabel">Sistema corporativo</strong><small id="brandQualityLabel">Departamento de Gastronomía, Calidad y Buenas Prácticas</small></span>
+          <span class="corporate-lockup"><strong id="brandLabel">Sistema corporativo</strong><small id="brandQualityLabel">Departamento de Gastronomía y Calidad</small></span>
         </div>
         <div class="lang-switch" id="langSwitch" aria-label="Selector de idioma">
           <button class="lang-toggle" id="langToggle" type="button" aria-expanded="false" aria-controls="langMenu">
@@ -1370,12 +1370,12 @@
     Object.assign(TRANSLATIONS.eus,{languageSelector:"Hizkuntza hautatzailea"});
     Object.assign(TRANSLATIONS.nl,{languageSelector:"Taalkeuze"});
     const CORPORATE_IDENTITY_TEXT={
-      es:{loginBrand:"Sistema corporativo",qualityBrand:"Departamento de Gastronomía, Calidad y Buenas Prácticas",platformLabel:"Plataforma interna · Operativa internacional"},
-      cat:{loginBrand:"Sistema corporatiu",qualityBrand:"Departament de Gastronomia, Qualitat i Bones Pràctiques",platformLabel:"Plataforma interna · Operativa internacional"},
-      en:{loginBrand:"Corporate system",qualityBrand:"Gastronomy, Quality and Good Practices Department",platformLabel:"Internal platform · International operations"},
-      pt:{loginBrand:"Sistema corporativo",qualityBrand:"Departamento de Gastronomia, Qualidade e Boas Práticas",platformLabel:"Plataforma interna · Operação internacional"},
-      eus:{loginBrand:"Sistema korporatiboa",qualityBrand:"Gastronomia, Kalitate eta Jardunbide Egokien Saila",platformLabel:"Barne-plataforma · Nazioarteko operatiba"},
-      nl:{loginBrand:"Bedrijfssysteem",qualityBrand:"Afdeling Gastronomie, Kwaliteit en Goede Praktijken",platformLabel:"Intern platform · Internationale operatie"}
+      es:{loginBrand:"Sistema corporativo",qualityBrand:"Departamento de Gastronomía y Calidad",platformLabel:"Plataforma interna · Operativa internacional"},
+      cat:{loginBrand:"Sistema corporatiu",qualityBrand:"Departament de Gastronomia i Qualitat",platformLabel:"Plataforma interna · Operativa internacional"},
+      en:{loginBrand:"Corporate system",qualityBrand:"Gastronomy and Quality Department",platformLabel:"Internal platform · International operations"},
+      pt:{loginBrand:"Sistema corporativo",qualityBrand:"Departamento de Gastronomia e Qualidade",platformLabel:"Plataforma interna · Operação internacional"},
+      eus:{loginBrand:"Sistema korporatiboa",qualityBrand:"Gastronomia eta Kalitate Saila",platformLabel:"Barne-plataforma · Nazioarteko operatiba"},
+      nl:{loginBrand:"Bedrijfssysteem",qualityBrand:"Afdeling Gastronomie en Kwaliteit",platformLabel:"Intern platform · Internationale operatie"}
     };
     Object.keys(CORPORATE_IDENTITY_TEXT).forEach(lang=>Object.assign(TRANSLATIONS[lang],CORPORATE_IDENTITY_TEXT[lang]));
     Object.assign(TRANSLATIONS.es,{loginLanguageLabel:"Idioma del aviso",advisoryTitle:"Gestión de alérgenos:",advisorySubtitle:"La verificación constante y la comunicación interna.",advisoryConsultTitle:"Consulta la información de ingredientes siempre.",advisoryConsultBody:"Accede a la herramienta interna para revisar platos, alérgenos y posibles contactos cruzados.",advisoryAlertTitle:"Alerta: los datos pueden cambiar repentinamente.",advisoryAlertBody:"Los proveedores pueden cambiar productos sin previo aviso, invalidando la información anterior.",advisoryCommunicationTitle:"Comunicación obligatoria entre sala y cocina.",advisoryCommunicationBody:"El flujo de información entre ambos equipos es crítico para la seguridad del comensal.",advisoryNotifyTitle:"Verifica y notifica cualquier anomalía.",advisoryNotifyBody:"Informa de inmediato a Gastronomía y Calidad ante cualquier duda.",safetyEarlyPrefix:"OJO que el mensaje de antes era importante y no te ha dado tiempo a leerlo"});
