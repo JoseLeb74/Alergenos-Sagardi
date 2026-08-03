@@ -35,10 +35,28 @@ function doGet(e) {
 
 function handlePayload(payload) {
   if (payload.type === 'access-profile-update') return updateAccessProfile(payload.profile);
+  if (payload.type === 'access-people-update') return updatePeopleLimit(payload.peopleUpdate);
   if (payload.type === 'session-start') return startSession(payload.session);
   if (payload.type === 'session-end') return endSession(payload.session);
   if (payload.type === 'suggestion') return sendSuggestion(payload);
   return { ok: false, error: 'UNKNOWN_ACTION' };
+}
+
+function updatePeopleLimit(update) {
+  if (!update || typeof update.rowIndex !== 'number' || typeof update.slot !== 'number') return { ok: false, error: 'BAD_PEOPLE_UPDATE' };
+  const sheet = accessSheet();
+  if (!sheet) return { ok: false, error: 'ACCESS_SHEET_NOT_FOUND' };
+  const row = update.rowIndex + 1;
+  if (row < 1 || row > sheet.getLastRow()) return { ok: false, error: 'BAD_PROFILE_ROW' };
+  const layout = inferredCredentialLayout(sheet, headerMap(sheet));
+  const columns = layout.find(item => item.slot === update.slot);
+  if (!columns || !columns.people) return { ok: false, error: 'PEOPLE_COLUMN_MISSING', slots: [update.slot + 1] };
+  const limit = Math.max(1, parseInt(String(update.people || '1').replace(/\D/g, ''), 10) || 1);
+  sheet.getRange(row, columns.people).setValue(limit);
+  SpreadsheetApp.flush();
+  const saved = Number(sheet.getRange(row, columns.people).getValue());
+  if (saved !== limit) return { ok: false, error: 'PEOPLE_NOT_SAVED' };
+  return { ok: true, people: saved };
 }
 
 function sendSuggestion(payload) {
@@ -166,27 +184,68 @@ function column(map, names) {
   return 0;
 }
 
+function inferredCredentialLayout(sheet, map) {
+  const named = Object.keys(map).some(key => key === 'USUARIO' || key.indexOf('USUARIO.') === 0);
+  if (named) {
+    return Array.from({ length: 10 }, (_, slot) => {
+      const suffix = slot === 0 ? '' : `.${slot}`;
+      return {
+        slot,
+        user: column(map, [`Usuario${suffix}`]),
+        pass: column(map, [`Contra${suffix}`]),
+        active: column(map, [`Act${suffix}`]),
+        people: column(map, [`Personas${suffix}`])
+      };
+    });
+  }
+  const values = sheet.getDataRange().getValues();
+  const activeColumns = [];
+  for (let col = 5; col <= sheet.getLastColumn(); col += 1) {
+    if (values.some(row => typeof row[col - 1] === 'boolean')) activeColumns.push(col);
+  }
+  return activeColumns.slice(0, 10).map((active, slot) => {
+    const nextActive = activeColumns[slot + 1] || 0;
+    return {slot, user: active - 2, pass: active - 1, active, people: nextActive === active + 4 ? active + 1 : 0};
+  });
+}
+
 function updateAccessProfile(profile) {
   if (!profile || typeof profile.rowIndex !== 'number') return { ok: false, error: 'BAD_PROFILE' };
   const sheet = accessSheet();
+  if (!sheet) return { ok: false, error: 'ACCESS_SHEET_NOT_FOUND' };
   const map = headerMap(sheet);
   const row = profile.rowIndex + 1;
-  setIfColumn(sheet, row, column(map, ['TIPO']), profile.tipo);
-  setIfColumn(sheet, row, column(map, ['Nº', 'NO', 'NUM', 'N']), profile.number);
-  setIfColumn(sheet, row, column(map, ['LOCAL']), profile.local);
-  setIfColumn(sheet, row, column(map, ['VINCULADO A', 'VINCULADO']), profile.linked);
+  if (row < 1 || row > sheet.getLastRow()) return { ok: false, error: 'BAD_PROFILE_ROW' };
+  let writes = 0;
+  writes += setIfColumn(sheet, row, column(map, ['TIPO']) || 1, profile.tipo);
+  writes += setIfColumn(sheet, row, column(map, ['Nº', 'NO', 'NUM', 'N']) || 2, profile.number);
+  writes += setIfColumn(sheet, row, column(map, ['LOCAL']) || 3, profile.local);
+  writes += setIfColumn(sheet, row, column(map, ['VINCULADO A', 'VINCULADO']) || 4, profile.linked);
+  const layout = inferredCredentialLayout(sheet, map);
+  const missingPeopleSlots = [];
   (profile.credentials || []).forEach(credential => {
-    const suffix = credential.slot === 0 ? '' : `.${credential.slot}`;
-    setIfColumn(sheet, row, column(map, [`Usuario${suffix}`]), credential.user);
-    setIfColumn(sheet, row, column(map, [`Contra${suffix}`]), credential.pass);
-    setIfColumn(sheet, row, column(map, [`Act${suffix}`]), credential.active ? true : false);
-    setIfColumn(sheet, row, column(map, [`Personas${suffix}`]), credential.people || '');
+    const columns = layout.find(item => item.slot === credential.slot);
+    if (!columns) return;
+    writes += setIfColumn(sheet, row, columns.user, credential.user);
+    writes += setIfColumn(sheet, row, columns.pass, credential.pass);
+    writes += setIfColumn(sheet, row, columns.active, credential.active ? true : false);
+    if (columns.people) {
+      const limit = Math.max(1, parseInt(String(credential.people || '1').replace(/\D/g, ''), 10) || 1);
+      writes += setIfColumn(sheet, row, columns.people, limit);
+    } else if (credential.people) {
+      missingPeopleSlots.push(credential.slot + 1);
+    }
   });
-  return { ok: true };
+  SpreadsheetApp.flush();
+  if (!writes) return { ok: false, error: 'NO_COLUMNS_WRITTEN' };
+  if (missingPeopleSlots.length) return { ok: false, error: 'PEOPLE_COLUMN_MISSING', slots: missingPeopleSlots, writes };
+  return { ok: true, writes };
 }
 
 function setIfColumn(sheet, row, col, value) {
-  if (col > 0) sheet.getRange(row, col).setValue(value);
+  if (col <= 0) return 0;
+  sheet.getRange(row, col).setValue(value);
+  return 1;
 }
 
 function startSession(session) {

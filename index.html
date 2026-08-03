@@ -200,6 +200,7 @@
     .admin-meta-pill{padding:5px 8px;border-radius:999px;background:#f2eadf;color:#6f6254;font-size:10px;font-weight:900;letter-spacing:.06em;text-transform:uppercase}
     .admin-credentials{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:9px}
     .admin-profile-edit-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:9px;margin:10px 0 12px}
+    .admin-field-help{display:block;margin-top:5px;color:#746b62;font-size:10px;font-weight:700;line-height:1.35}
     .admin-edit-field{display:grid;gap:5px;color:#8c7413;font-size:10px;font-weight:950;letter-spacing:.12em;text-transform:uppercase}
     .admin-input{width:100%;min-height:38px;border:1px solid rgba(201,181,155,.82);border-radius:12px;background:linear-gradient(180deg,#fffdfa,#f8f1e8);color:#1f1a15;padding:8px 10px;font-size:13px;font-weight:850;letter-spacing:0;text-transform:none}
     .admin-input:focus-visible{outline:none;border-color:#c89400;box-shadow:0 0 0 3px rgba(255,217,102,.24)}
@@ -2390,6 +2391,23 @@
       }
       return fallback;
     }
+    function inferredCredentialColumns(table){
+      const columns=table&&table.cols||[];
+      const activeIndexes=[];
+      for(let index=6;index<columns.length;index+=1){
+        if(columns[index]&&columns[index].type==="boolean") activeIndexes.push(index);
+      }
+      return activeIndexes.slice(0,10).map((activeIndex,slot)=>{
+        const nextActive=activeIndexes[slot+1];
+        return {
+          slot,
+          userIndex:activeIndex-2,
+          passIndex:activeIndex-1,
+          actIndex:activeIndex,
+          peopleIndex:nextActive===activeIndex+4?activeIndex+1:-1
+        };
+      });
+    }
     function parseAccessPayload(payload){
       if(!payload||payload.status!=="ok"||!payload.table) throw new Error("Invalid access response.");
       const map=accessColumnMap(payload.table);
@@ -2397,8 +2415,10 @@
       const indexNum=accessIndex(map,["Nº","NO","NUM","N"],1);
       const indexLocal=accessIndex(map,["LOCAL"],2);
       const indexLinked=accessIndex(map,["VINCULADO A","VINCULADO"],3);
+      const hasNamedUserColumns=[...map.keys()].some(key=>key==="USUARIO"||key.startsWith("USUARIO."));
       const hasPeopleColumns=[...map.keys()].some(key=>key==="PERSONAS"||key.startsWith("PERSONAS."));
       const credentialStride=hasPeopleColumns?4:3;
+      const inferredColumns=hasNamedUserColumns?[]:inferredCredentialColumns(payload.table);
       const localCounts=new Map();
       return (payload.table.rows||[]).map((row,rowIndex)=>{
         const local=cleanCell(gvizCellValue(row,indexLocal));
@@ -2409,14 +2429,15 @@
         const credentials=[];
         for(let i=0;i<10;i+=1){
           const suffix=i===0?"":`.${i}`;
-          const userIndex=accessIndex(map,[`Usuario${suffix}`],4+(i*credentialStride));
-          const passIndex=accessIndex(map,[`Contra${suffix}`],5+(i*credentialStride));
-          const actIndex=accessIndex(map,[`Act${suffix}`],6+(i*credentialStride));
-          const peopleIndex=accessIndex(map,[`Personas${suffix}`],hasPeopleColumns?7+(i*credentialStride):-1);
+          const inferred=inferredColumns[i];
+          const userIndex=inferred?inferred.userIndex:accessIndex(map,[`Usuario${suffix}`],4+(i*credentialStride));
+          const passIndex=inferred?inferred.passIndex:accessIndex(map,[`Contra${suffix}`],5+(i*credentialStride));
+          const actIndex=inferred?inferred.actIndex:accessIndex(map,[`Act${suffix}`],6+(i*credentialStride));
+          const peopleIndex=inferred?inferred.peopleIndex:accessIndex(map,[`Personas${suffix}`],hasPeopleColumns?7+(i*credentialStride):-1);
           const user=cleanCell(gvizCellValue(row,userIndex));
           const pass=cleanCell(gvizCellValue(row,passIndex));
           const peopleRaw=cleanCell(gvizCellValue(row,peopleIndex));
-          if(user||pass) credentials.push({user,pass,active:gvizRawCellValue(row,actIndex),people:peopleRaw,peopleLimit:peopleLimitValue(peopleRaw),slot:i});
+          if(user||pass) credentials.push({user,pass,active:gvizRawCellValue(row,actIndex),people:peopleRaw,peopleLimit:peopleLimitValue(peopleRaw),slot:i,peopleColumnAvailable:peopleIndex>=0});
         }
         const key=normalizeAccessKey(local);
         const count=(localCounts.get(key)||0)+1;
@@ -2621,8 +2642,23 @@
       wrap.append(labelText,input);
       return wrap;
     }
-    function adminCredentialInput(label,value,field){
-      return adminEditableField(label,value,field);
+    function adminCredentialInput(label,value,field,options={}){
+      const wrap=adminEditableField(label,value,field);
+      const input=wrap.querySelector("input");
+      if(options.type==="number"){
+        input.type="number";
+        input.min=String(options.min||1);
+        input.max=String(options.max||50);
+        input.step="1";
+        input.inputMode="numeric";
+        input.placeholder=String(options.placeholder||1);
+        input.title=options.title||"Número máximo de personas conectadas simultáneamente";
+        const help=document.createElement("small");
+        help.className="admin-field-help";
+        help.textContent=options.help||"Máximo de personas conectadas a la vez";
+        wrap.appendChild(help);
+      }
+      return wrap;
     }
     function adminLinkedRestaurantsField(profile,linkedBadge){
       const wrap=document.createElement("div");
@@ -2743,7 +2779,10 @@
         message.className="admin-save-message";
         message.textContent="Guardando cambios...";
         const result=await postAccessWrite({type:"access-profile-update",profile:draft});
-        if(result&&result.ok===false) throw new Error(result.error||"Write request failed");
+        if(result&&result.ok===false){
+          if(result.error==="PEOPLE_COLUMN_MISSING") throw new Error(`Falta la columna Personas para el usuario ${result.slots&&result.slots.join(", ")||"seleccionado"}.`);
+          throw new Error(result.error||"Write request failed");
+        }
         profile.local=draft.local;
         profile.linked=draft.linked;
         profile.tipo=draft.tipo;
@@ -2751,10 +2790,10 @@
         profile.isTotal=/\bTOTAL\b/.test(normalizeAccessKey(profile.local));
         profile.credentials=draft.credentials.map(credential=>({...credential,peopleLimit:peopleLimitValue(credential.people)}));
         message.className="admin-save-message is-ok";
-        message.textContent="Cambios guardados correctamente.";
+        message.textContent=`Cambios guardados y vinculados con la hoja correctamente${result&&result.writes?` (${result.writes} campos)`:""}.`;
       }catch(error){
         message.className="admin-save-message is-warning";
-        message.textContent="No se han podido guardar los cambios. Revisa el conector de escritura.";
+        message.textContent=error&&error.message&&error.message.startsWith("Falta la columna Personas")?error.message:"No se han podido guardar los cambios en la hoja. Revisa el conector de escritura.";
       }
     }
     async function handleAdminCredentialDelete(profile,credential,card,item,message,button){
@@ -2961,7 +3000,7 @@
             item.append(
               adminCredentialInput(`Usuario ${credential.slot+1}`,credential.user,`credential-${credential.slot}-user`),
               adminCredentialInput("Contra",credential.pass,`credential-${credential.slot}-pass`),
-              adminCredentialInput("Personas",credential.people||"",`credential-${credential.slot}-people`)
+              adminCredentialInput("Personas simultáneas",credential.people||"",`credential-${credential.slot}-people`,{type:"number",min:1,max:50,placeholder:1,help:credential.peopleColumnAvailable?"Máximo de personas conectadas a la vez":"Esta casilla necesita una columna Personas en la hoja"})
             );
             const activeWrap=document.createElement("label");
             activeWrap.className="admin-active-field";
