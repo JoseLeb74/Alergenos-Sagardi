@@ -1,5 +1,5 @@
 const ACCESS_SPREADSHEET_ID = '1QLEt5YP14t5H3lXfwcjjXzOuZDx4NNeBEOPzlENKr9E';
-const ACCESS_SHEET_NAME = 'alergenos';
+const ACCESS_SHEET_NAME = 'Alergenos';
 const SESSION_SHEET_NAME = 'sesiones';
 const SESSION_TTL_MINUTES = 60;
 const SUGGESTION_RECIPIENTS = 'aina@sagardi.com,jlungidos@sagardi.com';

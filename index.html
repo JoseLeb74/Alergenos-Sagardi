@@ -2052,7 +2052,8 @@
     const EMBEDDED_RESTAURANT_MAP=new Map((EMBEDDED_DATA.restaurants||[]).map(restaurant=>[restaurant.gid,restaurant]));
     const LIVE_SHEET_ID=String(EMBEDDED_DATA.sheetId||"").trim();
     const ACCESS_SHEET_ID="1QLEt5YP14t5H3lXfwcjjXzOuZDx4NNeBEOPzlENKr9E";
-    const ACCESS_SHEET_NAME="alergenos";
+    const ACCESS_SHEET_NAME="Alergenos";
+    const ACCESS_DIRECTORY_SHEET_NAME="Total";
     const ACCESS_SHEET_GID="";
     const ACCESS_WRITE_WEBAPP_URL="https://script.google.com/macros/s/AKfycbzxVCGdP844Mfp4jPcnh3RoD0ceICv8XAWwPVZd4Jhc1gfMLKNxK4tOeKSLOeVojH5a/exec";
     const ACCESS_SESSION_KEY="alergenosAccessSessionV1";
@@ -2448,9 +2449,34 @@
         return {id:`access-${rowIndex}`,rowIndex,local,linked,tipo,number,display,isTotal,credentials};
       }).filter(Boolean);
     }
+    function mergeAccessDirectory(profiles,directoryProfiles){
+      const byNumber=new Map();
+      const byLocal=new Map();
+      (directoryProfiles||[]).forEach(profile=>{
+        const numberKey=normalizeAccessKey(profile.number);
+        const localKey=normalizeAccessKey(profile.local);
+        if(numberKey&&!byNumber.has(numberKey)) byNumber.set(numberKey,profile);
+        if(localKey&&!byLocal.has(localKey)) byLocal.set(localKey,profile);
+      });
+      return (profiles||[]).map(profile=>{
+        const directory=(profile.number&&byNumber.get(normalizeAccessKey(profile.number)))||byLocal.get(normalizeAccessKey(profile.local));
+        if(!directory) return profile;
+        const local=directory.local||profile.local;
+        const linked=directory.linked||profile.linked;
+        const tipo=directory.tipo||profile.tipo;
+        const number=directory.number||profile.number;
+        const isTotal=/\bTOTAL\b/.test(normalizeAccessKey(local));
+        const extra=[number,tipo].filter(Boolean).join(" · ");
+        const display=isTotal?`${local}${extra?` · ${extra}`:""}`:local;
+        return {...profile,local,linked,tipo,number,isTotal,display,directoryRowIndex:directory.rowIndex};
+      });
+    }
     async function loadAccessProfiles(){
-      const payload=await loadLiveRestaurantPayload({sheetId:ACCESS_SHEET_ID,sheetName:ACCESS_SHEET_NAME,gid:ACCESS_SHEET_GID});
-      accessProfiles=parseAccessPayload(payload);
+      const [payload,directoryPayload]=await Promise.all([
+        loadLiveRestaurantPayload({sheetId:ACCESS_SHEET_ID,sheetName:ACCESS_SHEET_NAME,gid:ACCESS_SHEET_GID}),
+        loadLiveRestaurantPayload({sheetId:ACCESS_SHEET_ID,sheetName:ACCESS_DIRECTORY_SHEET_NAME,gid:""})
+      ]);
+      accessProfiles=mergeAccessDirectory(parseAccessPayload(payload),parseAccessPayload(directoryPayload));
       return accessProfiles;
     }
     function loginProfileMatches(profile,query){
