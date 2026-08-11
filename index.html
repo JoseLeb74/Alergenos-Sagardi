@@ -3287,8 +3287,16 @@
       safetyBlockedUntil=0;
       const result=pendingSafetyAccess;
       pendingSafetyAccess=null;
+      completeAccess(result);
+    }
+    function completeAccess(result){
       persistSession(result.session);
       applyAccessSession(result.session,result.restaurants);
+    }
+    function bypassSafetyNotice(session){
+      if(!session) return false;
+      const userKey=normalizeAccessKey(session.user);
+      return ["admin-joseluis","admin-alergenos","admin-aina"].includes(session.profileId)||["JOSELUIS","ADMINALERGENOS","ADMINAINA","AINA"].includes(userKey);
     }
     function handleSafetyNoticeClick(){
       const now=Date.now();
@@ -3324,7 +3332,8 @@
         loginPassword.value="";
         loginPassword.type="password";
         if(loginPasswordToggle) loginPasswordToggle.checked=false;
-        showSafetyNotice(result);
+        if(bypassSafetyNotice(result.session)) completeAccess(result);
+        else showSafetyNotice(result);
       }finally{
         loginButton.disabled=false;
         loginButton.textContent=t("loginSubmit");
