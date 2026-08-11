@@ -1,5 +1,5 @@
-const CACHE_NAME="consulta-alergenos-v3";
-const APP_SHELL=["./","./index.html","./manifest.webmanifest","./assets/assistant-avatar.png","./assets/pwa/app-icon-192.png","./assets/pwa/app-icon-512.png","./assets/pwa/app-icon-maskable-512.png","./assets/pwa/apple-touch-icon.png","./assets/lang/ES_espanol_bandera.svg","./assets/lang/EN_ingles_bandera.svg","./assets/lang/PT_portugues_bandera.svg"];
+const CACHE_NAME="consulta-alergenos-v4";
+const APP_SHELL=["./","./index.html","./manifest.webmanifest","./assets/assistant-robot.png","./assets/pwa/app-icon-192.png","./assets/pwa/app-icon-512.png","./assets/pwa/app-icon-maskable-512.png","./assets/pwa/apple-touch-icon.png","./assets/lang/ES_espanol_bandera.svg","./assets/lang/EN_ingles_bandera.svg","./assets/lang/PT_portugues_bandera.svg"];
 
 self.addEventListener("install",event=>{
   event.waitUntil(caches.open(CACHE_NAME).then(cache=>cache.addAll(APP_SHELL)).then(()=>self.skipWaiting()));
