@@ -1,8 +1,8 @@
-const CACHE_NAME="consulta-alergenos-v4";
+const CACHE_NAME="consulta-alergenos-v5";
 const APP_SHELL=["./","./index.html","./manifest.webmanifest","./assets/assistant-robot.png","./assets/pwa/app-icon-192.png","./assets/pwa/app-icon-512.png","./assets/pwa/app-icon-maskable-512.png","./assets/pwa/apple-touch-icon.png","./assets/lang/ES_espanol_bandera.svg","./assets/lang/EN_ingles_bandera.svg","./assets/lang/PT_portugues_bandera.svg"];
 
 self.addEventListener("install",event=>{
-  event.waitUntil(caches.open(CACHE_NAME).then(cache=>cache.addAll(APP_SHELL)).then(()=>self.skipWaiting()));
+  event.waitUntil(caches.open(CACHE_NAME).then(cache=>cache.addAll(APP_SHELL.map(url=>new Request(url,{cache:"reload"})))).then(()=>self.skipWaiting()));
 });
 
 self.addEventListener("activate",event=>{
@@ -15,7 +15,7 @@ self.addEventListener("fetch",event=>{
   const url=new URL(request.url);
   if(url.origin!==self.location.origin) return;
   if(request.mode==="navigate"||url.pathname.endsWith("/index.html")){
-    event.respondWith(fetch(request).then(response=>{const copy=response.clone(); caches.open(CACHE_NAME).then(cache=>cache.put(request,copy)); return response}).catch(()=>caches.match(request).then(response=>response||caches.match("./index.html"))));
+    event.respondWith(fetch(request,{cache:"no-store"}).then(response=>{if(response.ok){const copy=response.clone(); event.waitUntil(caches.open(CACHE_NAME).then(cache=>cache.put(request,copy)))} return response}).catch(()=>caches.open(CACHE_NAME).then(cache=>cache.match(request).then(response=>response||cache.match("./index.html")))));
     return;
   }
   event.respondWith(caches.match(request).then(cached=>cached||fetch(request).then(response=>{const copy=response.clone(); caches.open(CACHE_NAME).then(cache=>cache.put(request,copy)); return response})));
