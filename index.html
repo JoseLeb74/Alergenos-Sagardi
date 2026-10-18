@@ -2060,6 +2060,7 @@
     let liveJsonpRequestId=0;
     let activeRestaurantLoadToken=0;
     let activeRefreshTimer=0;
+    let activeLocalesRefreshPromise=null;
     let lastAutomaticRefreshAt=0;
     let allRestaurants=[];
     let accessProfiles=[];
@@ -2328,6 +2329,43 @@
         console.warn("Could not load pintxos locales.",error);
       }
       allRestaurants=RESTAURANTS.map(restaurant=>({...restaurant}));
+    }
+    function sessionUsesAllRestaurants(){
+      if(!activeAccessSession) return true;
+      if(/^admin-/.test(activeAccessSession.profileId||"")) return true;
+      const profile=accessProfiles.find(item=>item.id===activeAccessSession.profileId);
+      return ["TODOS","TODO","ALL"].includes(normalizeAccessKey(profile&&profile.linked));
+    }
+    function applyLiveRestaurants(restaurants,activeSheetName){
+      const previousRestaurants=new Map(allRestaurants.map(restaurant=>[normalizeRestaurantParam(restaurantSheetName(restaurant)||restaurant.name),restaurant]));
+      allRestaurants=restaurants.map(restaurant=>{
+        const previous=previousRestaurants.get(normalizeRestaurantParam(restaurantSheetName(restaurant)||restaurant.name));
+        return previous?{...previous,...restaurant,hasPintxos:previous.hasPintxos,pintxosSheetName:previous.pintxosSheetName}:restaurant;
+      });
+      const visibleRestaurants=!activeAccessSession||sessionUsesAllRestaurants()?allRestaurants:restaurantsForAllowedNames(activeAccessSession.allowedNames);
+      if(activeAccessSession&&sessionUsesAllRestaurants()){
+        activeAccessSession.allowedNames=allRestaurants.map(restaurant=>restaurantSheetName(restaurant)||restaurant.name);
+        activeAccessSession.allowedKeys=allRestaurants.map(restaurant=>normalizeRestaurantParam(restaurantSheetName(restaurant)||restaurant.name));
+        persistSession(activeAccessSession);
+      }
+      RESTAURANTS.splice(0,RESTAURANTS.length,...visibleRestaurants);
+      populateRestaurants();
+      const active=findRestaurantByAllowedName(activeSheetName,RESTAURANTS);
+      if(active){
+        state.restaurant=active;
+        restaurantSelect.value=restaurantKey(active);
+        updateRestaurantPickerInput();
+      }
+    }
+    function refreshRestaurantsFromLocales(){
+      if(activeLocalesRefreshPromise) return activeLocalesRefreshPromise;
+      const activeSheetName=restaurantSheetName(state.restaurant);
+      activeLocalesRefreshPromise=(async()=>{
+        const payload=await loadLiveRestaurantPayload({gid:LOCALES_SHEET_GID});
+        const restaurants=parseLocalesPayload(payload);
+        if(restaurants.length) applyLiveRestaurants(restaurants,activeSheetName);
+      })().catch(error=>console.warn("Could not refresh live restaurant list.",error)).finally(()=>{activeLocalesRefreshPromise=null});
+      return activeLocalesRefreshPromise;
     }
     function normalizeAccessKey(value){return normalizeText(value).toUpperCase()}
     function isActiveValue(value){
@@ -3340,16 +3378,20 @@
     function queueAutomaticRefresh(){
       stopAutomaticRefresh();
       if(!state.restaurant) return;
-      activeRefreshTimer=window.setInterval(()=>{
+      activeRefreshTimer=window.setInterval(async()=>{
         if(document.hidden||!state.restaurant) return;
+        await refreshRestaurantsFromLocales();
+        if(!state.restaurant) return;
         lastAutomaticRefreshAt=Date.now();
         loadSelectedRestaurant(state.restaurant,{silent:true,preserveState:true});
       },LIVE_REFRESH_INTERVAL_MS);
     }
-    function refreshActiveRestaurantSoon(){
+    async function refreshActiveRestaurantSoon(){
       if(!state.restaurant) return;
       const now=Date.now();
       if(now-lastAutomaticRefreshAt<12000) return;
+      await refreshRestaurantsFromLocales();
+      if(!state.restaurant) return;
       lastAutomaticRefreshAt=now;
       loadSelectedRestaurant(state.restaurant,{silent:true,preserveState:true});
     }
